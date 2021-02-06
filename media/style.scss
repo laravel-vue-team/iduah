@@ -1,0 +1,59 @@
+@font-face{
+  src: url(../fonts/hanimation-regular.ttf);
+  font-family: 'hanimation-regular';
+  font-weight: lighter;
+  font-style: normal;
+}
+html {
+  font-size: 16px;
+  word-spacing: 1px;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  background-color: #fbfbfb;
+  line-height: 1.5;
+  font-family: 'hanimation-regular';
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  outline: none;
+}
+
+.container_hg{
+  min-height: calc(100vh - 60px);
+}
+.container_responsive_wrapper{
+  @media screen and (min-width: 1440px){
+    width: 1440px !important;
+    margin: auto;
+  }
+}
+.flex_item{
+  display: flex;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+}
+.grid_item{
+  display: grid;
+  display: -moz-grid;
+  display: -ms-grid;
+}
+.transition{
+  transition: 0.2s ease-in-out;
+  -webkit-transition: 0.2s ease-in-out;
+  -moz-transition: 0.2s ease-in-out;
+  -ms-transition: 0.2s ease-in-out;
+  -o-transition: 0.2s ease-in-out;
+}
+input , textarea , button , select{
+  font-size: 16px;
+  font-family: 'hanimation-regular';
+}
