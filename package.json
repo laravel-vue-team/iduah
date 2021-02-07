@@ -12,7 +12,8 @@
     "@nuxtjs/axios": "^5.12.5",
     "core-js": "^3.8.3",
     "nuxt": "^2.14.12",
-    "nuxt-fontawesome": "^0.4.0"
+    "vue-quill-editor": "^3.0.6",
+    "vue2-editor": "^2.10.2"
   },
   "devDependencies": {
     "fibers": "^5.0.0",
