@@ -49,19 +49,19 @@
                      <li class="share_li">
                         <a 
                         
-                        :href="'https://www.facebook.com/sharer.php?u=' + encodeURI(loc.origin + '/' + $route.params.id)"
+                        :href="'https://www.facebook.com/sharer.php?u=' + encodeURI(loc.origin + '/articles/' + $route.params.id)"
                          class="social_icon" target="_blank" rel="noopener noreferrer">
                            <i class="fab fa-facebook"></i>
                         </a>
                      </li>
                      <li class="share_li">
-                        <a :href="encodeURI(`https://twitter.com/intent/tweet?url=${loc.origin}/${$route.params.id}&text=${articles[$route.params.id].content}`)" class="social_icon" target="_blank" rel="noopener noreferrer">
+                        <a :href="encodeURI(`https://twitter.com/intent/tweet?url=${loc.origin}/articles/${$route.params.id}&text=${articles[$route.params.id].content}`)" class="social_icon" target="_blank" rel="noopener noreferrer">
                            <i class="fab fa-twitter"></i>
                         </a>
                      </li>
                      <li class="share_li">
                         <a 
-                        :href="encodeURI(`https://wa.me/?text=${articles[$route.params.id].content} ${loc.origin}/${$route.params.id}`)" class="social_icon" target="_blank" rel="noopener noreferrer">
+                        :href="encodeURI(`https://wa.me/?text=${articles[$route.params.id].content} ${loc.origin}/articles/${$route.params.id}`)" class="social_icon" target="_blank" rel="noopener noreferrer">
                            <i class="fab fa-whatsapp"></i>
                         </a>
                      </li>
