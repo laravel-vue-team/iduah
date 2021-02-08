@@ -1,6 +1,7 @@
-import Vue from 'vue';
-import VueEditor from 'vue2-editor';
+import Vue from 'vue'
+import tinymce from 'vue-tinymce-editor'
+
 
 if (process.client || process.browser || process.BROWSER_BUILD) {
-    Vue.use(VueEditor)
+    Vue.component('tinymce', tinymce)
 } 

@@ -11,10 +11,12 @@
   "dependencies": {
     "@nuxtjs/axios": "^5.12.5",
     "@nuxtjs/markdownit": "^2.0.0",
+    "@tinymce/tinymce-vue": "^4.0.0",
     "@tui-nuxt/editor": "^1.0.0-beta.3",
     "core-js": "^3.8.3",
     "nuxt": "^2.14.12",
     "vue-quill-editor": "^3.0.6",
+    "vue-tinymce-editor": "^1.6.2",
     "vue2-editor": "^2.10.2",
     "vueditor": "^0.3.1"
   },

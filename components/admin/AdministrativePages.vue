@@ -27,6 +27,7 @@
             :editorcontentpage="content" 
             :pagepath="CurrentPagePath" 
             :pagename="CurrentPageName"
+            :showfunc="show"
             />
          </client-only>
          
@@ -142,8 +143,5 @@ import TextEditor from '~/components/admin/TextEditor';
 }
 .edit_content{
    padding: 10px;
-   
-   
-   
 }
 </style>

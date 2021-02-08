@@ -59,9 +59,7 @@ input , textarea , button , select{
 }
 .editor_container{
    border-radius: 10px;
-   box-shadow: 0 0 30px #f3f3f3;
    margin: 10px 0;
-   -webkit-box-shadow: 0 0 30px #f3f3f3;
    .tui-editor-defaultUI .te-mode-switch-section {
      height: 37px !important;
    }
@@ -70,6 +68,6 @@ input , textarea , button , select{
    }
    
 }
-   .ql-container{
-      min-height: 150px !important;
-   }
+.ql-container{
+  min-height: 150px !important;
+}
