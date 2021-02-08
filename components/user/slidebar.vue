@@ -1,13 +1,6 @@
 <template>
    <div class="slidebar_box">
-      <!-- <form>
-         <input type="text" name="search" id="_search" placeholder="بحث.." class="transition">
-      </form>
-      <p class="result"> نتائج البحث
-         <span class="result_num">100</span>
-      </p>
-
-      <div class="line"></div> -->
+      <newlight />
 
       <p class="create_content">
       شاركنا الأجر في كتابة مقال ديني
