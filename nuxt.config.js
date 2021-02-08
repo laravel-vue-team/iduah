@@ -20,16 +20,16 @@ export default {
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
     '~/media/style.scss',
-     'quill/dist/quill.snow.css',
-    'quill/dist/quill.bubble.css',
-    'quill/dist/quill.core.css'
   ],
+ 
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-    { src: '~plugins/vue-quill-editor.js', ssr: false}
+    {
+      src: '~/plugins/quill',
+      mode: 'client'
+    }
   ],
-
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
 
@@ -41,14 +41,30 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
+    '@tui-nuxt/editor',
+    '@nuxtjs/markdownit'
   ],
+  tui: {
+    editor: {
+      stylesheet: {
+          editor: 'tui-editor/dist/tui-editor.min.css',
+          contents: 'tui-editor/dist/tui-editor-contents.min.css',
+          codemirror: 'codemirror/lib/codemirror.css',
+          codeHighlight: 'highlight.js/styles/github.css',
+          colorPicker: 'tui-color-picker/dist/tui-color-picker.min.css'
+        }
+    }
+  },
+  markdownit: {
+    runtime: true // Support `$md()`
+  },
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {},
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
-    
+    vendor: ['vue2-editor']
   },
   //Loading before get data
    loading: {
@@ -63,15 +79,15 @@ export default {
     background: 'white',
   },
 
-   router: {
-    extendRoutes(routes, resolve) {
-      routes.push({
-        name: 'error',
-        path: '*',
-        component: resolve(__dirname, 'pages/error.vue')
-      })
-    }
-  },
+  //  router: {
+  //   extendRoutes(routes, resolve) {
+  //     routes.push({
+  //       name: 'error',
+  //       path: '*',
+  //       component: resolve(__dirname, 'pages/error.vue')
+  //     })
+  //   }
+  // },
    
   
 }

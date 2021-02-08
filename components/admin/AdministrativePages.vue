@@ -21,12 +21,15 @@
    </table>
    </div>
    
-      <form class="edit_content" v-show="show" ref="EditContentPage" @sumbit.prevent="SubmitContentPage">
+      <form class="edit_content" ref="EditContentPage" @sumbit.prevent="SubmitContentPage" v-show="show">
          <client-only>
-          <vue-editor v-model="content" />
+            <TextEditor 
+            :editorcontentpage="content" 
+            :pagepath="CurrentPagePath" 
+            :pagename="CurrentPageName"
+            />
          </client-only>
-         <button class="btn_submit" name="submit" type="submit">حفظ</button>
-         <button class="btn_cancel" name="reset" type="reset" @click="show = false">الغاء</button>
+         
       </form>   
 
          
@@ -34,34 +37,34 @@
 </template>
 
 <script>
-
-import { VueEditor } from "vue2-editor";
-
+import TextEditor from '~/components/admin/TextEditor';
    export default {
        data(){
         return {
             content : '',
+            CurrentPageName: '',
+            CurrentPagePath: '',
          pages:[
             {
                name: 'شروط الاستخدام',
                path: 'use-terms',
-               pagecontent: '<h1>محتوى صفحة شروط الاستخدام</h1>',
+               pagecontent: '## شروط الاستخدام',
                id: 0,
             },
             {
                name: 'محتوى الخصوصية',
                path: 'privacy-content',
-               pagecontent: '<h1>محتوى صفحة محتوى الخصوصية</h1>',
+               pagecontent: '## محتوى الخصوصية',
                id: 1,
             }
          ],
          show: false
         };
     },
-    components:{
-       'vue-editor': VueEditor
+    components: {
+       TextEditor,
     },
-  
+    
     watch: {
        content(){
             localStorage.setItem('content' , this.content);
@@ -73,6 +76,8 @@ import { VueEditor } from "vue2-editor";
             EditForm.setAttribute('data-index' , id);
            this.show = true;
            this.content = this.pages[id].pagecontent;
+           this.CurrentPageName = this.pages[id].name;
+           this.CurrentPagePath = this.pages[id].path;
        },
        SavePageContent(){
           return this.show = false;
@@ -138,22 +143,7 @@ import { VueEditor } from "vue2-editor";
 .edit_content{
    padding: 10px;
    
-   button{
-      display: inline-block;
-      padding: 5px 10px;
-      border-radius: 5px;
-      color: #fff;
-      cursor: pointer;
-      border: none;
-      line-height: 1.5;
-      
-   }
-   .btn_submit{
-      background-color: #16c79a;
-   }
-   .btn_cancel{
-      background-color: #e11d74;
-   }
+   
    
 }
 </style>
