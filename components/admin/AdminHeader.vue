@@ -1,6 +1,6 @@
 <template>
    <header class='header_container'>
-      <div class="container_responsive_wrapper header_box flex_item admin_container">
+      <div class="header_box flex_item admin_container">
 
       <div class="admin-info grid_item">
 

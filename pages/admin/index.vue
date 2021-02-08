@@ -1,5 +1,5 @@
 <template>
-  <div class="container_responsive_wrapper container_hg admin_container">
+  <div class=" container_hg admin_container">
     <RightSide />
     <users />
 

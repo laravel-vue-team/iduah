@@ -1,5 +1,5 @@
 <template>
-   <div class="container_responsive_wrapper container_hg loging_container">
+   <div class=" container_hg loging_container">
       <div class="log_box">
          <h3 class="title">تسجيل الدخول</h3>
 

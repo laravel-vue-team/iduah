@@ -1,5 +1,5 @@
 <template>
-  <div class="container_responsive_wrapper container_hg pages_rightside">
+  <div class="pages_rightside">
       <div class="md_screen flex_item">
          <span class="name">
             القائمة
@@ -14,7 +14,7 @@
             </li>
             <li class="links_par settings_par">
             <span class="name"><i class="fa fa-cogs"></i> الاعدادات</span>
-               <nuxt-link to="/admin/administrative_pages">  الصفحات الادارية</nuxt-link>
+               <nuxt-link to="/admin/administrative_pages"><i class="fas fa-tasks"></i>  الصفحات الادارية</nuxt-link>
             </li>
             <li class="links_par">
                <nuxt-link to="/admin/sections"> <i class="fa fa-layer-group"></i> الاقسام</nuxt-link>
@@ -52,7 +52,6 @@
    padding: 10px;
    width: 100%;
    background-color: #1a1a2e;
-   box-shadow: 0 0 40px #f3f3f3;
    z-index: 1;
    display: inline-block;
    height: 100%;
@@ -88,7 +87,7 @@
    }
       .settings_par{
          a{
-            margin: 5px 0;
+            margin: 10px 0;
             padding-right: 20px;
             display: block;
          }
