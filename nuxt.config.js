@@ -13,7 +13,7 @@ export default {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-      {rel: 'stylesheet' , href: 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css'}
+      { rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css' }
     ]
   },
 
@@ -21,10 +21,11 @@ export default {
   css: [
     '~/media/style.scss',
   ],
- 
- 
+
+
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    '~/plugins/axios',
     {
       src: '~/plugins/quill',
       mode: 'client'
@@ -47,12 +48,12 @@ export default {
   tui: {
     editor: {
       stylesheet: {
-          editor: 'tui-editor/dist/tui-editor.min.css',
-          contents: 'tui-editor/dist/tui-editor-contents.min.css',
-          codemirror: 'codemirror/lib/codemirror.css',
-          codeHighlight: 'highlight.js/styles/github.css',
-          colorPicker: 'tui-color-picker/dist/tui-color-picker.min.css'
-        }
+        editor: 'tui-editor/dist/tui-editor.min.css',
+        contents: 'tui-editor/dist/tui-editor-contents.min.css',
+        codemirror: 'codemirror/lib/codemirror.css',
+        codeHighlight: 'highlight.js/styles/github.css',
+        colorPicker: 'tui-color-picker/dist/tui-color-picker.min.css'
+      }
     }
   },
   markdownit: {
@@ -60,17 +61,19 @@ export default {
   },
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
-  axios: {},
+  axios: {
+    baseURL: "http://idauh.com/idauh"
+  },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
   },
   //Loading before get data
-   loading: {
+  loading: {
     color: 'blue',
     height: '5px'
-   },
-  
+  },
+
   //loadingIndicator
   loadingIndicator: {
     name: 'circle',
@@ -87,6 +90,6 @@ export default {
   //     })
   //   }
   // },
-   
-  
+
+
 }
