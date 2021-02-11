@@ -56,7 +56,7 @@
             autocomplete="off"
             spellcheck="off"
             class="transition focus_elem"
-            minlength="8"
+            minlength="6"
           />
         </div>
         <div class="form_group">
