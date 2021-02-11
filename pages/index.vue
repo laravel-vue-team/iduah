@@ -30,16 +30,17 @@ export default {
   },
   methods: {
     addLight(newLight) {
-      console.log(this.articles);
-      const lastId = this.articles[this.articles.length - 1].id;
-      console.log("last id", lastId);
+      const lastId = this.articles[0].id;
+      let username = this.$store.getters["auth/user"]
+        ? this.$store.getters["auth/user"].name
+        : "";
       const customNewLight = {
         ...newLight,
         id: lastId + 1,
         views: [],
         likes: [],
         title: "",
-        user: { name: "user name" }, // edit: add current user name
+        user: { name: username }, // edit: add current user name
         created_at: "منذ لحظات",
       };
       this.articles.unshift(customNewLight);
@@ -47,6 +48,9 @@ export default {
         .post("/api/lights/store", newLight)
         .then((res) => {
           console.log(res.data);
+          // let currentuser = this.$store.getters["auth/user"];
+          // let newLight = { ...res.data.data, user: currentuser };
+          // this.articles.unshift(newLight);
         })
         .catch((err) => {
           console.log(err.response);
