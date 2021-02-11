@@ -83,14 +83,6 @@ export default {
   methods: {
     logout() {
       if (process.client) {
-        console.log(
-          "before clear Token (local storage): ",
-          localStorage.getItem("TOKEN")
-        );
-        console.log(
-          "before clear Token (vuex auth sotre): ",
-          this.$store.getters["auth/token"]
-        );
         localStorage.clear("TOKEN");
         localStorage.clear("USER");
         this.$store.dispatch("auth/setToken", null);
