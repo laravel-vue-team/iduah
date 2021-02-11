@@ -18,7 +18,8 @@
     "vue-quill-editor": "^3.0.6",
     "vue-tinymce-editor": "^1.6.2",
     "vue2-editor": "^2.10.2",
-    "vueditor": "^0.3.1"
+    "vueditor": "^0.3.1",
+    "moment": "2.29.1"
   },
   "devDependencies": {
     "fibers": "^5.0.0",
