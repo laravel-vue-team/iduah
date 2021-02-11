@@ -3,7 +3,7 @@
     <div class="rightside_box">
       <h3 class="welcome_title">
         <span class="welcome_th">{{ welcome }}</span>
-        <span class="name">{{ this.$store.getters["auth/user"] }}</span>
+        <span class="name">{{ username }}</span>
       </h3>
 
       <div class="buttons flex_item">
@@ -32,6 +32,9 @@ export default {
   data() {
     return {
       welcome: "مرحبا",
+      username: this.$store.getters["auth/user"]
+        ? this.$store.getters["auth/user"].name
+        : "",
     };
   },
 };
