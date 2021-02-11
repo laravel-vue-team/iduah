@@ -78,7 +78,7 @@
           |
           <span class="date">
             <i class="far fa-clock"></i>
-            {{ item.created_at }}
+            {{ createTime(item.created_at) }}
           </span>
         </p>
       </div>
@@ -172,12 +172,14 @@
 </template>
 
 <script>
-// import spinner from "../../assets/spinner";
+import moment from "moment";
+moment.locale("ar");
 export default {
   data() {
     return {
       classname: "",
       loc: "",
+      moment: moment,
     };
   },
   props: ["articles"],
@@ -187,6 +189,9 @@ export default {
     }
   },
   methods: {
+    createTime(timeStmp) {
+      return moment(timeStmp).fromNow();
+    },
     Clickme(id) {
       const shareBox = document.querySelector(
         `.article_box[data-index='${id}'] .share_box`
