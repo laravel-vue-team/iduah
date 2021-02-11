@@ -5,7 +5,6 @@
       <p class="error_content transition" v-show="requires">
         رجاءَ قم بملىء البيانات المطلوبة
       </p>
-
       <form class="create-form" @submit.prevent="CreateArticle" ref="create">
         <div class="form_group">
           <label for="title"
@@ -100,12 +99,15 @@ export default {
         description: CurrentSubmitForm["content"].value,
       };
       console.log(data);
-      // date: this.getTimeInterval(Date.now()),
       const jsonData = JSON.stringify(data);
-      // this.$axios.post("/api/posts/1/update")
-      // const oldArticles = this.$store.getters["articles/articles"];
-      // const newArticles = oldArticles.push(data);
-      // this.$store.dispatch("articles/setArticles", newArticles);
+      this.$axios
+        .post("/api/posts/store", jsonData)
+        .then((res) => {
+          console.log(res.data);
+        })
+        .catch((err) => {
+          console.log(err.response);
+        });
       this.$router.push("/articles");
     },
     CheckRequires() {
@@ -122,30 +124,6 @@ export default {
           );
         }
       });
-    },
-
-    getTimeInterval(date) {
-      let seconds = Math.floor((Date.now() - date) / 1000);
-      let unit = "ثواني";
-      if (seconds < 0) {
-        seconds = -seconds;
-      }
-      let value = seconds;
-      if (seconds >= 31536000) {
-        value = Math.floor(seconds / 31536000);
-        unit = "سنوات";
-      } else if (seconds >= 86400) {
-        value = Math.floor(seconds / 86400);
-        unit = "يوم";
-      } else if (seconds >= 3600) {
-        value = Math.floor(seconds / 3600);
-        unit = "ساعة";
-      } else if (seconds >= 60) {
-        value = Math.floor(seconds / 60);
-        unit = "دقيقة";
-      }
-      if (value != 1) unit = unit + "ثانية";
-      return value + " " + unit;
     },
   },
   //seo tags to this page Home page
