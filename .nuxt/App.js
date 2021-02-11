@@ -1,24 +1,30 @@
-import '..\\media\\style.scss'
-import '..\\node_modules\\tui-editor\\dist\\tui-editor.min.css'
-import '..\\node_modules\\tui-editor\\dist\\tui-editor-contents.min.css'
-import '..\\node_modules\\codemirror\\lib\\codemirror.css'
-import '..\\node_modules\\highlight.js\\styles\\github.css'
-import '..\\node_modules\\tui-color-picker\\dist\\tui-color-picker.min.css'
+import Vue from 'vue'
 
-import { getChildrenComponentInstancesUsingFetch, getMatchedComponentsInstances, globalHandleError, promisify, sanitizeComponent, urlJoin } from './utils'
-
-import NuxtBuildIndicator from './components/nuxt-build-indicator'
+import { getMatchedComponentsInstances, getChildrenComponentInstancesUsingFetch, promisify, globalHandleError, urlJoin, sanitizeComponent } from './utils'
 import NuxtError from '..\\layouts\\error.vue'
 import NuxtLoading from './components/nuxt-loading.vue'
-import Vue from 'vue'
-import _00e6bcf3 from '..\\layouts\\profile.vue'
-import _6f6c098b from '..\\layouts\\default.vue'
-import _77068119 from '..\\layouts\\admin.vue'
+import NuxtBuildIndicator from './components/nuxt-build-indicator'
 
-const layouts = { "_admin": sanitizeComponent(_77068119), "_default": sanitizeComponent(_6f6c098b), "_profile": sanitizeComponent(_00e6bcf3) }
+import '..\\media\\style.scss'
+
+import '..\\node_modules\\tui-editor\\dist\\tui-editor.min.css'
+
+import '..\\node_modules\\tui-editor\\dist\\tui-editor-contents.min.css'
+
+import '..\\node_modules\\codemirror\\lib\\codemirror.css'
+
+import '..\\node_modules\\highlight.js\\styles\\github.css'
+
+import '..\\node_modules\\tui-color-picker\\dist\\tui-color-picker.min.css'
+
+import _77068119 from '..\\layouts\\admin.vue'
+import _6f6c098b from '..\\layouts\\default.vue'
+import _00e6bcf3 from '..\\layouts\\profile.vue'
+
+const layouts = { "_admin": sanitizeComponent(_77068119),"_default": sanitizeComponent(_6f6c098b),"_profile": sanitizeComponent(_00e6bcf3) }
 
 export default {
-  render(h, props) {
+  render (h, props) {
     const loadingEl = h('NuxtLoading', { ref: 'loading' })
 
     const layoutEl = h(this.layout || 'nuxt')
@@ -35,7 +41,7 @@ export default {
         mode: 'out-in'
       },
       on: {
-        beforeEnter(el) {
+        beforeEnter (el) {
           // Ensure to trigger scroll event after calling scrollBehavior
           window.$nuxt.$nextTick(() => {
             window.$nuxt.$emit('triggerScroll')
@@ -62,12 +68,12 @@ export default {
     layoutName: '',
 
     nbFetching: 0
-  }),
+    }),
 
-  beforeCreate() {
+  beforeCreate () {
     Vue.util.defineReactive(this, 'nuxt', this.$options.nuxt)
   },
-  created() {
+  created () {
     // Add this.$nuxt in child instances
     this.$root.$options.$nuxt = this
 
@@ -86,12 +92,8 @@ export default {
     this.context = this.$options.context
   },
 
-  async mounted() {
+  async mounted () {
     this.$loading = this.$refs.loading
-    if (process.client) {
-      this.$store.dispatch("auth/setToken", localStorage.getItem("TOKEN"));
-      this.$store.dispatch("auth/setUser", localStorage.getItem("USER"));
-    }
   },
 
   watch: {
@@ -99,17 +101,17 @@ export default {
   },
 
   computed: {
-    isOffline() {
+    isOffline () {
       return !this.isOnline
     },
 
-    isFetching() {
+    isFetching () {
       return this.nbFetching > 0
     },
   },
 
   methods: {
-    refreshOnlineStatus() {
+    refreshOnlineStatus () {
       if (process.client) {
         if (typeof window.navigator.onLine === 'undefined') {
           // If the browser doesn't support connection status reports
@@ -122,7 +124,7 @@ export default {
       }
     },
 
-    async refresh() {
+    async refresh () {
       const pages = getMatchedComponentsInstances(this.$route)
 
       if (!pages.length) {
@@ -168,7 +170,7 @@ export default {
       }
       this.$loading.finish()
     },
-    errorChanged() {
+    errorChanged () {
       if (this.nuxt.err) {
         if (this.$loading) {
           if (this.$loading.fail) {
@@ -189,8 +191,8 @@ export default {
       }
     },
 
-    setLayout(layout) {
-      if (layout && typeof layout !== 'string') {
+    setLayout (layout) {
+      if(layout && typeof layout !== 'string') {
         throw new Error('[nuxt] Avoid using non-string value as layout property.')
       }
 
@@ -201,7 +203,7 @@ export default {
       this.layout = layouts['_' + layout]
       return this.layout
     },
-    loadLayout(layout) {
+    loadLayout (layout) {
       if (!layout || !layouts['_' + layout]) {
         layout = 'default'
       }
