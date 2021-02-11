@@ -96,9 +96,10 @@ export default {
       this.$axios
         .post("/api/login", data)
         .then((res) => {
-          console.log(res.data);
+          console.log(res.data.data);
+
           console.log("is remember: ", this.rememberMe);
-          const { token, name: user } = res.data.data;
+          const { token, user } = res.data.data;
           if (this.rememberMe) {
             localStorage.setItem("USER", user);
             localStorage.setItem("TOKEN", token);
