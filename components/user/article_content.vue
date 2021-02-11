@@ -64,7 +64,7 @@
     </svg>
     <article
       class="article_box"
-      v-for="item in articles"
+      v-for="(item, index) in articles"
       :key="item.id"
       :data-index="item.id"
     >
@@ -86,7 +86,7 @@
           |
           <span class="center">
             <i class="fa fa-layer-group"></i>
-            {{ item.category_id }}
+            {{ item.category.title }}
           </span>
         </p>
       </div>
@@ -101,9 +101,21 @@
 
       <!-- article controls  -->
       <div class="article_controls">
-        <button class="btn_heart transition" @click="HeartIt(item.id)">
+        <button
+          class="btn_heart transition"
+          @click="HeartIt(item.id, index)"
+          v-bind:class="{
+            hearted: item.likes.some((data) => data.id === getUserId()),
+          }"
+        >
           <span class="length">{{ item.likes.length }}</span>
-          <i class="far fa-heart transition"></i>
+          <i
+            class="fa-heart transition"
+            v-bind:class="{
+              fas: item.likes.some((data) => data.id === getUserId()),
+              far: item.likes.every((data) => data.id !== getUserId()),
+            }"
+          ></i>
         </button>
 
         <div class="view">
@@ -169,7 +181,7 @@
 
 <script>
 import moment from "moment";
-moment.locale('ar')
+moment.locale("ar");
 export default {
   data() {
     return {
@@ -185,18 +197,21 @@ export default {
     this.$axios
       .get("/api/posts")
       .then((res) => {
-        let { data } = res.data.data;
-        console.log(res.data.data);
-        console.log(data);
-        this.$store.dispatch("articles/setArticles", data);
-        this.articles = data;
+        let { b } = res.data.data;
+        this.articles = { ...res.data.data.data };
+        this.$store.dispatch("articles/setArticles", { ...b });
       })
       .catch((err) => {
-        console.log(err);
         console.log(err.repsonse);
       });
   },
   methods: {
+    getUserId() {
+      let userId = this.$store.getters["auth/user"]
+        ? this.$store.getters["auth/user"].id
+        : -1;
+      return userId;
+    },
     createTime(timeStmp) {
       return moment(timeStmp).fromNow();
     },
@@ -207,21 +222,26 @@ export default {
 
       shareBox.classList.toggle("share_opened");
     },
-    HeartIt(id) {
+    HeartIt(id, index) {
       const btnHeart = document.querySelector(
         `.article_box[data-index='${id}'] .btn_heart`
       );
       const icon = btnHeart.querySelector(".fa-heart");
-
       btnHeart.classList.toggle("hearted");
-
+      this.$axios
+        .get(`/api/posts/${id}/like`)
+        .then((res) => {
+          console.log(res.data);
+        })
+        .catch((err) => {
+          console.log(err.response);
+        });
       if (btnHeart.classList.contains("hearted")) {
         icon.classList.replace("far", "fas");
-        // this.articles[id].likes += 1;
-        // this.articles[id].likes.push({});
+        this.articles[index].likes.push({});
       } else {
         icon.classList.replace("fas", "far");
-        // this.articles[id].likes.pop({});
+        this.articles[index].likes.pop();
       }
     },
   },
