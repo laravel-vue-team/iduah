@@ -78,7 +78,7 @@
           |
           <span class="date">
             <i class="far fa-clock"></i>
-            {{ createTime(item.created_at) }}
+            {{ timeFromNow(item.created_at) }}
           </span>
         </p>
       </div>
@@ -96,17 +96,16 @@
         <button
           class="btn_heart transition"
           v-bind:class="{
-            hearted: item.likes.some((data) => data.id === 1),
+            hearted: item.likes.some((data) => data.id === getUserId()),
           }"
           @click="HeartIt(item.id)"
         >
-          <!-- edit hearted to be data.id === $store=>currentUserId -->
           <span class="length">{{ item.likes.length }}</span>
           <i
             class="fa-heart transition"
             v-bind:class="{
-              fas: item.likes.some((data) => data.id === 1),
-              far: item.likes.every((data) => data.id !== 1),
+              fas: item.likes.some((data) => data.id === getUserId()),
+              far: item.likes.every((data) => data.id !== getUserId()),
             }"
           ></i>
         </button>
@@ -179,17 +178,22 @@ export default {
     return {
       classname: "",
       loc: "",
-      moment: moment,
     };
   },
   props: ["articles"],
-  created() {
+  mounted() {
     if (process.browser) {
       this.loc = window.location;
     }
   },
   methods: {
-    createTime(timeStmp) {
+    getUserId() {
+      let userId = this.$store.getters["auth/user"]
+        ? this.$store.getters["auth/user"].id
+        : -1;
+      return userId;
+    },
+    timeFromNow(timeStmp) {
       return moment(timeStmp).fromNow();
     },
     Clickme(id) {
@@ -210,14 +214,12 @@ export default {
         icon.classList.replace("far", "fas");
         this.articles.forEach((article) => {
           if (article.id === id) {
-            // edit: push id of current user
             article.likes.push({});
           }
         });
       } else {
         this.articles.forEach((article) => {
           if (article.id === id) {
-            // edit: push id of current user
             article.likes.pop();
           }
         });
@@ -226,7 +228,7 @@ export default {
       this.$axios
         .get(`/api/lights/${id}/like`)
         .then((res) => {
-          console.log(res);
+          console.log(res.data);
         })
         .catch((err) => {
           console.log(err);
