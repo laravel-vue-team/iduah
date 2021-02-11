@@ -1,280 +1,365 @@
 <template>
-   <div class="articles_container flex_item">
-      <article class="article_box" v-for="(item, index) in articles" :key="index" :data-index="index">
+  <div class="articles_container flex_item">
+    <svg
+      v-if="articles.length === 0"
+      xmlns="http://www.w3.org/2000/svg"
+      xmlnsXlink="http://www.w3.org/1999/xlink"
+      style="margin: 20vh auto 0; display: block"
+      width="100px"
+      height="100px"
+      viewBox="0 0 100 100"
+      preserveAspectRatio="xMidYMid"
+    >
+      <g transform="translate(50,50)">
+        <g transform="scale(0.8)">
+          <g transform="translate(-50,-50)">
+            <g>
+              <animateTransform
+                attributeName="transform"
+                type="rotate"
+                repeatCount="indefinite"
+                values="360 50 50;240 50 50;120 50 50;0 50 50"
+                keyTimes="0;0.333;0.667;1"
+                dur="1s"
+                keySplines="0.7 0 0.3 1;0.7 0 0.3 1;0.7 0 0.3 1"
+                calcMode="spline"
+              ></animateTransform>
+              <path
+                fill="#1b5fdf"
+                d="M54.3,28.1h34.2c-4.5-9.3-12.4-16.7-21.9-20.8L45.7,28.1L54.3,28.1L54.3,28.1z"
+              ></path>
+              <path
+                fill="#eb596e"
+                d="M61.7,7.3C51.9,4,41.1,4.2,31.5,8.1v29.5l6.1-6.1L61.7,7.3C61.7,7.3,61.7,7.3,61.7,7.3z"
+              ></path>
+              <path
+                fill="#222831"
+                d="M28.1,11.6c-9.3,4.5-16.7,12.4-20.8,21.9l20.8,20.8v-8.6L28.1,11.6C28.1,11.6,28.1,11.6,28.1,11.6z"
+              ></path>
+              <path
+                fill="#74a2f8"
+                d="M31.5,62.4L7.3,38.3c0,0,0,0,0,0C4,48.1,4.2,58.9,8.1,68.5h29.5L31.5,62.4z"
+              ></path>
+              <path
+                fill="#1b5fdf"
+                d="M45.7,71.9H11.5c0,0,0,0,0,0c4.5,9.3,12.4,16.7,21.9,20.8l20.8-20.8H45.7z"
+              ></path>
+              <path
+                fill="#eb596e"
+                d="M62.4,68.5L38.3,92.6c0,0,0,0,0,0c9.8,3.4,20.6,3.1,30.2-0.8V62.4L62.4,68.5z"
+              ></path>
+              <path
+                fill="#222831"
+                d="M71.9,45.7v8.6v34.2c0,0,0,0,0,0c9.3-4.5,16.7-12.4,20.8-21.9L71.9,45.7z"
+              ></path>
+              <path
+                fill="#74a2f8"
+                d="M91.9,31.5C91.9,31.5,91.9,31.5,91.9,31.5l-29.5,0l0,0l6.1,6.1l24.1,24.1c0,0,0,0,0,0 C96,51.9,95.8,41.1,91.9,31.5z"
+              ></path>
+            </g>
+          </g>
+        </g>
+      </g>
+    </svg>
+    <article
+      v-else
+      class="article_box"
+      v-for="item in articles"
+      :key="item.id"
+      :data-index="item.id"
+    >
       <!-- article header -->
-         <div class="article_header">
-            <p class="header_content">
-               <span class="name">
-                  <i class="far fa-user"></i>
-                  {{ item.user.name }} 
-               </span>
-                |
-               <span class="date">
-                  <i class="far fa-clock"></i>
-                  {{ item.date }}
-               </span>
-            </p>
-         </div>
+      <div class="article_header">
+        <p class="header_content">
+          <span class="name">
+            <i class="far fa-user"></i>
+            {{ item.user.name }}
+          </span>
+          |
+          <span class="date">
+            <i class="far fa-clock"></i>
+            {{ item.created_at }}
+          </span>
+        </p>
+      </div>
 
-         <!-- article content -->
+      <!-- article content -->
 
-         <div class="artcile_content">
-            <p class="content">
-            {{ item.content }}
-            </p>
-         </div>
+      <div class="artcile_content">
+        <p class="content">
+          {{ item.description }}
+        </p>
+      </div>
 
-         <!-- article controls  -->
-         <div class="article_controls">
-            <button class="btn_heart transition" @click="HeartIt(index)">
-               <span class="length">{{ item.likes }}</span>
-               <i class="far fa-heart transition"></i>
-            </button>
+      <!-- article controls  -->
+      <div class="article_controls">
+        <button
+          class="btn_heart transition"
+          v-bind:class="{
+            hearted: item.likes.some((data) => data.id === 1),
+          }"
+          @click="HeartIt(item.id)"
+        >
+          <!-- edit hearted to be data.id === $store=>currentUserId -->
+          <span class="length">{{ item.likes.length }}</span>
+          <i
+            class="fa-heart transition"
+            v-bind:class="{
+              fas: item.likes.some((data) => data.id === 1),
+              far: item.likes.every((data) => data.id !== 1),
+            }"
+          ></i>
+        </button>
 
-            <div class="view">
-               <span class="length">{{ item.viewed }}</span>
-               <i class="far fa-eye"></i>
-            </div>
+        <div class="view">
+          <span class="length">{{ item.views.length }}</span>
+          <i class="far fa-eye"></i>
+        </div>
 
-            <div class="btn_share" @click="Clickme(index)">
-               <i class="fa fa-share"></i>
+        <div class="btn_share" @click="Clickme(item.id)">
+          <i class="fa fa-share"></i>
 
-               <div class="share_box transition">
-                  <ul class="share_socials">
-                     <li class="share_li">
-                        <a 
-                        
-                        :href="'https://www.facebook.com/sharer.php?u=' + encodeURI(loc.origin + '/' + index)"
-                         class="social_icon" target="_blank" rel="noopener noreferrer">
-                           <i class="fab fa-facebook"></i>
-                        </a>
-                     </li>
-                     <li class="share_li">
-                        <a :href="encodeURI(`https://twitter.com/intent/tweet?url=${loc.origin}/${index}&text=${item.content}`)" class="social_icon" target="_blank" rel="noopener noreferrer">
-                           <i class="fab fa-twitter"></i>
-                        </a>
-                     </li>
-                     <li class="share_li">
-                        <a 
-                        :href="encodeURI(`https://wa.me/?text=${item.content} ${loc.origin}/${index}`)" class="social_icon" target="_blank" rel="noopener noreferrer">
-                           <i class="fab fa-whatsapp"></i>
-                        </a>
-                     </li>
-                  </ul>
-               </div>
-            </div>
-
-            <div class="clear"></div>
-         </div>
-
-      </article>
-   </div>
+          <div class="share_box transition">
+            <ul class="share_socials">
+              <li class="share_li">
+                <a
+                  :href="
+                    'https://www.facebook.com/sharer.php?u=' +
+                    encodeURI(loc.origin + '/' + item.id)
+                  "
+                  class="social_icon"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <i class="fab fa-facebook"></i>
+                </a>
+              </li>
+              <li class="share_li">
+                <a
+                  :href="
+                    encodeURI(
+                      `https://twitter.com/intent/tweet?url=${loc.origin}/${item.id}&text=${item.description}`
+                    )
+                  "
+                  class="social_icon"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <i class="fab fa-twitter"></i>
+                </a>
+              </li>
+              <li class="share_li">
+                <a
+                  :href="
+                    encodeURI(
+                      `https://wa.me/?text=${item.description} ${loc.origin}/${item.id}`
+                    )
+                  "
+                  class="social_icon"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <i class="fab fa-whatsapp"></i>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="clear"></div>
+      </div>
+    </article>
+  </div>
 </template>
 
 <script>
-   export default {
-      data() {
-         return {
-            classname: '',
-            articles: [
-               {
-                  content: 'عن أبي هريرة رضي الله عنه أنّه قال: (أنَّ رَسولَ اللَّهِ صَلَّى اللهُ عليه وسلَّمَ ذَكَرَ يَومَ الجُمُعَةِ، فَقالَ: فيه سَاعَةٌ، لا يُوَافِقُهَا عَبْدٌ مُسْلِمٌ، وهو قَائِمٌ يُصَلِّي، يَسْأَلُ اللَّهَ تَعَالَى شيئًا، إلَّا أعْطَاهُ إيَّاهُ وأَشَارَ بيَدِهِ يُقَلِّلُهَا).',
-                  user:{
-                     name: 'محمد ايمن',
-                     id: '59ef0488a4f34c1'
-                  },
-                  date: 'منذ 5 ساعات',
-                  viewed: 140,
-                  likes: 150
-               },
-               {
-                  content: 'في شهر رجب يَفِدُ بعض الناس إلى المدينة النبوية المنورة بزيارتها بزيارة يسمونها الرَّجَبِية ، يرون أنها من السُّنن ، وهذه الزيارة المسماة بالرَّجَبِيةِ ليس لها أصل في كلام أهل العلم ، ولا ريب أن المسجد النبوي تُشَدُّ إليه الرحال في كل وقت وحين ، لكن تخصيصُ شهر معين أو يوم معين لهذا العمل يحتاج إلى دليل خاص ، ولا دليلَ هنا على تخصيصِ رجب بذلك ، وعلى هذا فاتخاذ هذا سنة يُتقَرَّبُ بها إلى الله في هذا الشهر بخصوصه أمر محدث ليس عليه دليل في الشريعة.',
-                  user:{
-                     name: 'محمد ايمن',
-                     id: '59ef0488a4f34c1'
-                  },
-                  date: 'منذ 5 ساعات',
-                  viewed: 140,
-                  likes: 150
-               },
-               {
-                  content: 'حقيقة اتباع النبي صلى الله عليه وسلم هي التمسك بسنته فِعلاً فيما فعل، وتركًا فيما تَرك ؛ فمن زاد عليها أو نقص منها ، فقد نقصَ حظُّه من المتابعة بحسب ذلك ، لكن الزيادة أعظم ؛ لأنها تقدم بين يدي الله ورسوله صلى الله عليه وسلم والله تعالى يقول: ﴿ يَا أَيُّهَا الَّذِينَ آمَنُوا لَا تُقَدِّمُوا بَيْنَ يَدَيِ اللَّهِ وَرَسُولِهِ وَاتَّقُوا اللَّهَ إِنَّ اللَّهَ سَمِيعٌ عَلِيمٌ ﴾ [الحجرات : 1].',
-                  user:{
-                     name: 'محمد ايمن',
-                     id: '59ef0488a4f34c1'
-                  },
-                  date: 'منذ 5 ساعات',
-                  viewed: 140,
-                  likes: 150
-               },
-               
-               
-            
-            ],
-            loc: ''
-         }
-      },
-      created() {
-         if(process.browser){
-            this.loc = window.location;
-         }
+// import spinner from "../../assets/spinner";
+export default {
+  data() {
+    return {
+      classname: "",
+      loc: "",
+    };
+  },
+  props: ["articles"],
+  created() {
+    if (process.browser) {
+      this.loc = window.location;
+    }
+  },
+  methods: {
+    Clickme(id) {
+      const shareBox = document.querySelector(
+        `.article_box[data-index='${id}'] .share_box`
+      );
 
-      },
-      methods: {
-         Clickme(id){
-            const shareBox = document.querySelector(`.article_box[data-index='${id}'] .share_box`);
+      shareBox.classList.toggle("share_opened");
+    },
+    HeartIt(id) {
+      const btnHeart = document.querySelector(
+        `.article_box[data-index='${id}'] .btn_heart`
+      );
+      const icon = btnHeart.querySelector(".fa-heart");
 
-            shareBox.classList.toggle('share_opened');
-         },
-         HeartIt(id){
-            const btnHeart = document.querySelector(`.article_box[data-index='${id}'] .btn_heart`);
-            const icon = btnHeart.querySelector('.fa-heart');
-
-               btnHeart.classList.toggle('hearted');
-
-            if(btnHeart.classList.contains('hearted')){
-               icon.classList.replace('far',  'fas');
-               this.articles[id].likes += 1;
-            }else{
-               icon.classList.replace('fas' , 'far');
-               this.articles[id].likes -= 1;
-
-            }
-         }
-      },
-      name: 'contenthome'
-   }
+      btnHeart.classList.toggle("hearted");
+      if (btnHeart.classList.contains("hearted")) {
+        icon.classList.replace("far", "fas");
+        this.articles.forEach((article) => {
+          if (article.id === id) {
+            // edit: push id of current user
+            article.likes.push({});
+          }
+        });
+      } else {
+        this.articles.forEach((article) => {
+          if (article.id === id) {
+            // edit: push id of current user
+            article.likes.pop();
+          }
+        });
+        icon.classList.replace("fas", "far");
+      }
+      this.$axios
+        .get(`/api/lights/${id}/like`)
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+  },
+  name: "contenthome",
+};
 </script>
 
 <style lang="scss" scoped>
-.articles_container{
-   align-items: flex-start;
-   justify-content: flex-start;
-   flex-direction: column;
-   -ms-flex-direction: column;
-   flex-wrap: nowrap;
-   -ms-flex-wrap: nowrap;
-   width: 100%;
-   height: auto;
-   position: relative;
-   padding: 0 10px;
-   .article_box{
-      width: 100%;
+.articles_container {
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-direction: column;
+  -ms-flex-direction: column;
+  flex-wrap: nowrap;
+  -ms-flex-wrap: nowrap;
+  width: 100%;
+  height: auto;
+  position: relative;
+  padding: 0 10px;
+  .article_box {
+    width: 100%;
+    padding: 10px;
+    background-color: #fff;
+    border-radius: 10px;
+    position: relative;
+    margin: 10px auto;
+    box-shadow: 0 0 30px #f3f3f3;
+    .article_header {
+      padding: 10px 0;
+      margin-bottom: 10px;
+      span {
+        padding: 0 5px;
+        font-size: 14px;
+        position: relative;
+        i {
+          padding-left: 5px;
+        }
+      }
+    }
+    .artcile_content {
       padding: 10px;
-      background-color: #fff;
-      border-radius: 10px;
+      border-radius: 5px;
+      background-color: #fbfbfb;
       position: relative;
-      margin: 10px auto;
-      box-shadow: 0 0 30px #f3f3f3;
-      .article_header{
-         padding: 10px 0;
-         margin-bottom: 10px;
-         span{
-            padding: 0 5px;
-            font-size: 14px;
-            position: relative;
-            i{
-               padding-left: 5px;
-            }
-         }
+      .content {
+        line-height: 1.7;
+        font-size: 18px;
       }
-      .artcile_content{
-         padding: 10px;
-         border-radius: 5px;
-         background-color: #fbfbfb;
-         position: relative;
-         .content{
-            line-height: 1.7;
-            font-size: 18px;
-         }
+    }
+    .article_controls {
+      padding: 10px;
+      position: relative;
+      .btn_heart {
+        padding: 5px 10px;
+        border-radius: 5px;
+        background-color: transparent;
+        border: 1px solid #ddd;
+        cursor: pointer;
+        line-height: 1;
+        i {
+          padding-right: 3px;
+        }
       }
-      .article_controls{
-         padding: 10px;
-         position: relative;
-         .btn_heart{
-            padding: 5px 10px;
-            border-radius: 5px;
-            background-color: transparent;
-            border: 1px solid #ddd;
-            cursor: pointer;
-            line-height: 1;
-            i{
-               padding-right: 3px;
-            }
-         }
-         .hearted{
-            background-color: #eb596e30;
-            border-color: #eb596e40 !important;
-            .fas{
-               color: #eb596e;
-            }
-         }
-         .view{
-            display: inline-block;
-            margin: 0 10px;
-            padding: 5px 10px;
-            i{
-               vertical-align: middle;
-            }
-         }
-         .btn_share{
-            float: left;
-            padding: 5px 10px;
-            font-size: 16px;
-            background-color: #74a2f8;
-            color: #fff;
-            border-radius: 5px;
-            border: none;
-            cursor: pointer;
-            position: relative;
-            .share_opened{
-               bottom: calc(100% + 5px) !important;
-               visibility: visible !important;
-               opacity: 1 !important;
-               pointer-events: all !important;
-            }
-            .share_box{
-               position: absolute;
-               width: 50px;
-               height: auto;
-               padding: 5px;
-               border-radius: 5px;
-               background-color: #fff;
-               box-shadow: 0 0 10px #f3f3f3;
-               left: 0;
-               z-index: 1;
-               bottom: 0;
-               visibility: hidden;
-               opacity: 0;
-               pointer-events: none;
-               
-               li{
-                  list-style: none;
-                  display: block;
-                  margin: 3px auto;
-                  text-align: center;
-                  text-align: -webkit-center;
-               }
-               a{
-                  text-decoration: none;
-                  font-size: 20px;
-                  .fa-facebook{
-                     color: #4267B2;
-                  }
-                  .fa-twitter{
-                     color: #1DA1F2;
-                  }
-                  .fa-whatsapp{
-                     color: #25D366;
-                  }
-               }
-            }
-         }
-         .clear{
-            clear: both;
-         }
+      .hearted {
+        background-color: #eb596e30;
+        border-color: #eb596e40 !important;
+        .fas {
+          color: #eb596e;
+        }
       }
-      
-   }
+      .view {
+        display: inline-block;
+        margin: 0 10px;
+        padding: 5px 10px;
+        i {
+          vertical-align: middle;
+        }
+      }
+      .btn_share {
+        float: left;
+        padding: 5px 10px;
+        font-size: 16px;
+        background-color: #74a2f8;
+        color: #fff;
+        border-radius: 5px;
+        border: none;
+        cursor: pointer;
+        position: relative;
+        .share_opened {
+          bottom: calc(100% + 5px) !important;
+          visibility: visible !important;
+          opacity: 1 !important;
+          pointer-events: all !important;
+        }
+        .share_box {
+          position: absolute;
+          width: 50px;
+          height: auto;
+          padding: 5px;
+          border-radius: 5px;
+          background-color: #fff;
+          box-shadow: 0 0 10px #f3f3f3;
+          left: 0;
+          z-index: 1;
+          bottom: 0;
+          visibility: hidden;
+          opacity: 0;
+          pointer-events: none;
+
+          li {
+            list-style: none;
+            display: block;
+            margin: 3px auto;
+            text-align: center;
+            text-align: -webkit-center;
+          }
+          a {
+            text-decoration: none;
+            font-size: 20px;
+            .fa-facebook {
+              color: #4267b2;
+            }
+            .fa-twitter {
+              color: #1da1f2;
+            }
+            .fa-whatsapp {
+              color: #25d366;
+            }
+          }
+        }
+      }
+      .clear {
+        clear: both;
+      }
+    }
+  }
 }
 </style>
