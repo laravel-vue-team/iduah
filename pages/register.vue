@@ -74,7 +74,7 @@
             spellcheck="off"
             class="transition focus_elem"
             onpaste="return false"
-            minlength="8"
+            minlength="6"
           />
         </div>
 
