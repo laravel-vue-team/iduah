@@ -123,7 +123,7 @@ export default {
         .then((res) => {
           const { token, name: user } = res.data.data;
           localStorage.setItem("TOKEN", token);
-          localStorage.setItem("USER", user);
+          localStorage.setItem("USER", JSON.stringify(user));
           this.$store.dispatch("auth/setUser", user);
           this.$store.dispatch("auth/setToken", token);
           submitButton.innerText = "دخول";

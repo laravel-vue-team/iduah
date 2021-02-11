@@ -101,7 +101,7 @@ export default {
           console.log("is remember: ", this.rememberMe);
           const { token, user } = res.data.data;
           if (this.rememberMe) {
-            localStorage.setItem("USER", user);
+            localStorage.setItem("USER", JSON.stringify(user));
             localStorage.setItem("TOKEN", token);
           }
           this.$store.dispatch("auth/setUser", user);
