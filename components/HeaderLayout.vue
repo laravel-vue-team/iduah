@@ -9,8 +9,7 @@
 
       <nav class="header_navbar_lg">
         <ul class="navber_par">
-          <div class="no-user" v-if="!$store.getters['auth/token']">
-            <!-- <div class="no-user" v-if="!$store.getters['auth/token']"> -->
+          <div class="no-user" v-if="!$store.getters['auth/isAuth']">
             <li class="link_li">
               <nuxt-link to="/register">حساب جديد</nuxt-link>
             </li>
@@ -22,7 +21,12 @@
           </div>
           <div class="user" v-else>
             <li class="link_li">
-              <nuxt-link to="/profile"><i class="far fa-user"></i></nuxt-link>
+              <nuxt-link to="/profile">
+                <span class="user_name">
+                  {{ $store.getters["auth/user"].name }}
+                </span>
+                <i class="far fa-user"></i
+              ></nuxt-link>
             </li>
             <li class="link_li">
               <nuxt-link to="/settings"
@@ -37,14 +41,14 @@
           </div>
         </ul>
       </nav>
-
+      <!-- MD NAV -->
       <button class="btn_nav_md" @click="NavBarActiveIt()" ref="BtnMdNav">
         <span class="menu_icon transition"></span>
       </button>
 
-      <!-- <nav class="navbar_md transition" ref="MdNav">
+      <nav class="navbar_md transition" ref="MdNav">
         <ul class="navber_par">
-          <div class="no-user" v-if="{{ $store.getters["auth/token"] }}">
+          <div class="no-user" v-if="!$store.getters['auth/isAuth']">
             <li class="link_li">
               <nuxt-link to="/register">حساب جديد</nuxt-link>
             </li>
@@ -54,23 +58,28 @@
               >
             </li>
           </div>
-          <div class="user" v-if="!{{ $store.getters["auth/token"] }}">
-            <li class="link_li">
-              <nuxt-link to="/profile"><i class="far fa-user"></i></nuxt-link>
+          <div class="user" v-if="$store.getters['auth/isAuth']">
+            <li class="link_li" @click="closeNavBar">
+              <nuxt-link to="/profile">
+                <span class="user_name">
+                  {{ $store.getters["auth/user"].name }}
+                </span>
+                <i class="far fa-user"></i
+              ></nuxt-link>
             </li>
-            <li class="link_li">
+            <li class="link_li" @click="closeNavBar">
               <nuxt-link to="/settings"
                 ><i class="fa fa-cog"></i>الاعدادت</nuxt-link
               >
             </li>
-            <li class="link_li logout">
+            <li class="link_li logout" @click="closeNavBar">
               <nuxt-link to="/logout"
                 ><i class="fas fa-sign-out-alt"></i>خروج</nuxt-link
               >
             </li>
           </div>
         </ul>
-      </nav> -->
+      </nav>
     </div>
   </header>
 </template>
@@ -97,11 +106,20 @@ export default {
       CurrentBtn.classList.toggle("btn_active");
       CurrentMdNav.classList.toggle("nav_active");
     },
+    closeNavBar() {
+      const CurrentBtn = this.$refs.BtnMdNav;
+      const CurrentMdNav = this.$refs.MdNav;
+      CurrentBtn.classList.toggle("btn_active");
+      CurrentMdNav.classList.toggle("nav_active");
+    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
+.user_name {
+  margin-left: 5px;
+}
 .header_container {
   width: 100%;
   height: 60px;
