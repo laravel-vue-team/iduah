@@ -250,33 +250,30 @@ export default {
     return {
       classname: "",
       loc: "",
-      articles: [],
       isLoading: false,
-      isThereNextPage: false,
-      currentPage: "",
     };
   },
+  computed: {
+    articles() {
+      const isAuth = this.$store.getters["auth/isAuth"];
+      if (process.client && isAuth) {
+        this.addLisenters(this);
+      }
+      return this.$store.getters["articles/articles"];
+    },
+    isThereNextPage() {
+      return this.$store.getters["articles/isThereNextPage"];
+    },
+    currentPage() {
+      return this.$store.getters["articles/currentPage"];
+    },
+  },
   created() {
+    this.$store.dispatch("articles/fetchArticles");
     if (process.browser) {
       this.loc = window.location;
       window.addEventListener("scroll", this.handleScroll);
     }
-    this.$axios
-      .get("/api/posts")
-      .then((res) => {
-        this.articles = [...res.data.data.data];
-        this.currentPage = res.data.data.current_page;
-        this.isThereNextPage = res.data.data.next_page_url ? true : false;
-        setTimeout(() => {
-          let isAuth = this.$store.getters["auth/isAuth"];
-          if (process.client && isAuth) {
-            this.addLisenters(this);
-          }
-        }, 0);
-      })
-      .catch((err) => {
-        console.log(err.repsonse);
-      });
   },
   beforeDestroy() {
     window.removeEventListener("scroll", this.handleScroll);
@@ -313,10 +310,12 @@ export default {
             if (entry.intersectionRatio > 0) {
               const targetId = entry.target.getAttribute("data-id");
               const targetIndex = entry.target.getAttribute("data-arr-index");
+              console.log("in lisenteer");
               _this.$axios
                 .get(`/api/posts/${targetId}/view`)
                 .then((res) => {
                   if (res.data.message !== "view alredy exists") {
+                    console.log(res.data);
                     _this.articles[targetIndex].views.push({});
                   }
                 })
@@ -359,17 +358,18 @@ export default {
         .get(`/api/posts/${id}/like`)
         .then((res) => {
           console.log(res.data);
+          if (btnHeart.classList.contains("hearted")) {
+            icon.classList.replace("far", "fas");
+            this.articles[index].likes.push({});
+          } else {
+            icon.classList.replace("fas", "far");
+            this.articles[index].likes.pop();
+          }
         })
         .catch((err) => {
+          btnHeart.classList.toggle("hearted");
           console.log(err.response);
         });
-      if (btnHeart.classList.contains("hearted")) {
-        icon.classList.replace("far", "fas");
-        this.articles[index].likes.push({});
-      } else {
-        icon.classList.replace("fas", "far");
-        this.articles[index].likes.pop();
-      }
     },
   },
   name: "articlecontent",
