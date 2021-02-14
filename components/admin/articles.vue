@@ -10,14 +10,17 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(item, index) in lights" :key="index">
-          <td>{{ item.ID }}</td>
+        <tr v-for="(item, index) in articles" :key="index">
+          <td>{{ item.id }}</td>
           <td>
             {{ item.title }}
           </td>
-          <td>{{ item.date }} - {{ item.time }}</td>
+          <td>{{ timeFromNow(item.created_at) }}</td>
           <td>
-            <button class="btn_delete transition" @click="DeleteArticle(index)">
+            <button
+              class="btn_delete transition"
+              @click="DeleteArticle({ id: item.id, index })"
+            >
               <i class="far fa-trash-alt"></i>
             </button>
           </td>
@@ -28,46 +31,33 @@
 </template>
 
 <script>
+import moment from "moment";
+moment.locale("ar");
 export default {
   data() {
     return {
-      lights: [
-        {
-          date: "6 فبراير 2021",
-          time: "6:00 مساءًا",
-          ID: 0,
-          title: "حدث شريف",
-        },
-        {
-          date: "6 فبراير 2021",
-          time: "6:00 مساءًا",
-          ID: 1,
-          title: "حدث شريف",
-        },
-        {
-          date: "6 فبراير 2021",
-          time: "6:00 مساءًا",
-          ID: 2,
-          title: "حدث شريف",
-        },
-        {
-          date: "6 فبراير 2021",
-          time: "6:00 مساءًا",
-          ID: 3,
-          title: "حدث شريف",
-        },
-        {
-          date: "6 فبراير 2021",
-          time: "6:00 مساءًا",
-          ID: 4,
-          title: "حدث شريف",
-        },
-      ],
+      // "6 فبراير 2021" -
+      // "6:00 مساءًا"
     };
   },
+  created() {
+    this.$store.dispatch("articles/fetchArticles");
+  },
+  computed: {
+    articles() {
+      return this.$store.getters["articles/articles"];
+    },
+  },
   methods: {
-    DeleteArticle(id) {
-      return this.lights.splice(id, 1);
+    timeFromNow(timeStmp) {
+      return (
+        moment(timeStmp).format(" YYYY/M/Do") +
+        " _ " +
+        moment(timeStmp).format("h:mm a")
+      );
+    },
+    DeleteArticle(obj) {
+      this.$store.dispatch("articles/deleteArticle", obj);
     },
   },
 };
