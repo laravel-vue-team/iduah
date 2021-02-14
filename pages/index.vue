@@ -1,7 +1,9 @@
 <template>
   <div class="container_responsive_wrapper container_hg home_page_container">
-    <slidebar v-on:addLight="addLight" />
-    <contenthome v-bind:articles="articles" />
+    <slidebar />
+    <contenthome />
+    <!-- <slidebar v-on:addLight="addLight" />
+    <contenthome v-bind:articles="articles" /> -->
   </div>
 </template>
 
@@ -11,23 +13,24 @@ export default {
     return {
       title: "اضاءه",
       desc: "شاركنا الأجر في كتابة مقال ديني",
-      articles: [],
     };
   },
   created() {
     if (process.browser) {
       this.loc = window.location;
     }
-    this.$axios
-      .get("/public/api/lights")
-      .then((res) => {
-        this.articles = res.data.data.data;
-      })
-      .catch((err) => {
-        // edit: display (can't load articles)
-        console.log(err.response);
-      });
   },
+  // computed: {
+  //   async getArticles() {
+  //     try {
+  //       let res = await this.$axios.get("/public/api/lights");
+  //       this.articles = res.data.data.data;
+  //       return re.data.data.data;
+  //     } catch (err) {
+  //       console.log(err.response);
+  //     }
+  //   },
+  // },
   methods: {
     addLight(newLight) {
       const lastId = this.articles[0].id;
