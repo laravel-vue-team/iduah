@@ -12,6 +12,7 @@ export default function ({
     }
   })
   $axios.onError(error => {
+    // take a message from back, to actions need authorization, then here display notification
     if (error.response && error.response.status === 500) {
       console.log("redirect to login page");
       redirect('/login')
