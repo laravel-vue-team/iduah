@@ -241,10 +241,7 @@ export default {
     return {
       classname: "",
       loc: "",
-      lights: [],
-      currentPage: "",
-      isThereNextPage: false,
-      isLoading: true,
+      isLoading: false,
     };
   },
   mounted() {
@@ -252,31 +249,28 @@ export default {
       this.loc = window.location;
     }
   },
-
   beforeDestroy() {
     window.removeEventListener("scroll", this.handleScroll);
   },
+  computed: {
+    lights() {
+      const isAuth = this.$store.getters["auth/isAuth"];
+      if (process.client && isAuth) {
+        console.log("adding listent");
+        this.addLisenters(this);
+      }
+      console.log(this.$store.getters["lights/lights"]);
+      return this.$store.getters["lights/lights"];
+    },
+    isThereNextPage() {
+      return this.$store.getters["lights/isThereNextPage"];
+    },
+    currentPage() {
+      return this.$store.getters["lights/currentPage"];
+    },
+  },
   created() {
-    this.isLoading = true;
-    this.$axios
-      .get("/public/api/lights")
-      .then((res) => {
-        this.lights = res.data.data.data;
-        this.$store.dispatch("lights/setLights", [...res.data.data.data]);
-        this.currentPage = res.data.data.current_page;
-        this.isThereNextPage = res.data.data.next_page_url ? true : false;
-        setTimeout(() => {
-          let isAuth = this.$store.getters["auth/isAuth"];
-          if (process.client && isAuth) {
-            this.addLisenters(this);
-          }
-        }, 0);
-        this.isLoading = false;
-      })
-      .catch((err) => {
-        console.log(err.repsonse);
-        _this.isLoading = false;
-      });
+    this.$store.dispatch("lights/fetchLights");
     if (process.client) {
       window.addEventListener("scroll", this.handleScroll);
     }
@@ -288,19 +282,17 @@ export default {
       let percent = scrollValue / (pageHeight - pageHeight * 0.3);
       let enoughScroll =
         pageHeight < 5000 ? percent > 0.6 : pageHeight - scrollValue < 1200;
-
       if (enoughScroll && _this.isThereNextPage && !_this.isLoading) {
         _this.isLoading = true;
         _this.$axios
           .get(`/public/api/lights?page=${_this.currentPage + 1}`)
           .then((res) => {
-            this.lights = [..._this.lights, ...res.data.data.data];
-            this.$store.dispatch("lights/addLights", [...res.data.data.data]);
+            console.log(res.data);
+            this.$store.dispatch("lights/addLights", res.data.data);
             _this.isLoading = false;
-            _this.currentPage = res.data.data.current_page;
-            _this.isThereNextPage = res.data.data.next_page_url ? true : false;
           })
           .catch((err) => {
+            console.log(err);
             console.log(err.response);
             _this.isLoading = false;
           });
@@ -316,8 +308,10 @@ export default {
               _this.$axios
                 .get(`/api/lights/${targetId}/view`)
                 .then((res) => {
+                  console.log(res.data);
                   if (res.data.message !== "view alredy exists") {
-                    _this.lights[targetIndex].views.push({});
+                    console.log("viewing light");
+                    this.$store.commit("lights/viewLight", targetIndex);
                   }
                 })
                 .catch((err) => {
@@ -354,28 +348,21 @@ export default {
       );
       const icon = btnHeart.querySelector(".fa-heart");
       btnHeart.classList.toggle("hearted");
-      if (btnHeart.classList.contains("hearted")) {
-        icon.classList.replace("far", "fas");
-        this.lights.forEach((article) => {
-          if (article.id === id) {
-            article.likes.push({});
-          }
-        });
-      } else {
-        this.lights.forEach((article) => {
-          if (article.id === id) {
-            article.likes.pop();
-          }
-        });
-        icon.classList.replace("fas", "far");
-      }
       this.$axios
         .get(`/api/lights/${id}/like`)
         .then((res) => {
+          if (btnHeart.classList.contains("hearted")) {
+            icon.classList.replace("far", "fas");
+            this.$store.commit("lights/addLike", id);
+          } else {
+            icon.classList.replace("fas", "far");
+            this.$store.commit("lights/removeLike", id);
+          }
           console.log(res.data);
         })
         .catch((err) => {
           console.log(err);
+          btnHeart.classList.toggle("hearted");
         });
     },
   },
