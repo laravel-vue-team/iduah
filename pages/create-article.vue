@@ -104,11 +104,11 @@ export default {
         .post("/api/posts/store", jsonData)
         .then((res) => {
           console.log(res.data);
+          this.$router.push("/articles");
         })
         .catch((err) => {
           console.log(err.response);
         });
-      this.$router.push("/articles");
     },
     CheckRequires() {
       const CurrentForm = this.$refs.create;
@@ -139,6 +139,7 @@ export default {
       ],
     };
   },
+  middleware: "authenticated",
 };
 </script>
 
