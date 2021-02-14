@@ -3,23 +3,39 @@
     <div class="rightside_box">
       <h3 class="welcome_title">
         <span class="welcome_th">{{ welcome }}</span>
-        <span class="name">{{ username }}</span>
+        <span class="name">{{ userName }}</span>
       </h3>
 
       <div class="buttons flex_item">
-        <button class="btn_lights btn_profile">إضاءات</button>
-        <button class="btn_articles btn_profile">مقالات</button>
+        <button
+          class="btn_lights btn_profile"
+          :class="{ active: dataType === 'lights' }"
+          @click="dataTypeToLights"
+        >
+          إضاءات
+        </button>
+        <button
+          class="btn_articles btn_profile"
+          :class="{ active: dataType === 'articles' }"
+          @click="dataTypeToArticles"
+        >
+          مقالات
+        </button>
       </div>
 
       <table class="profile_info">
         <tbody>
           <tr>
             <td>إضاءات:</td>
-            <td>10</td>
+            <td>
+              {{ data.lights.length }}
+            </td>
           </tr>
           <tr>
             <td>مقالات:</td>
-            <td>10</td>
+            <td>
+              {{ data.articles.length }}
+            </td>
           </tr>
         </tbody>
       </table>
@@ -32,15 +48,41 @@ export default {
   data() {
     return {
       welcome: "مرحبا",
-      username: this.$store.getters["auth/user"]
-        ? this.$store.getters["auth/user"].name
-        : "",
     };
+  },
+  created() {
+    this.$store.dispatch("auth/fetchProfileData");
+  },
+  computed: {
+    data() {
+      return this.$store.getters["auth/profileData"];
+    },
+    dataType() {
+      return this.$store.getters["auth/dataType"];
+    },
+    userName() {
+      return this.$store.getters["auth/user"]
+        ? this.$store.getters["auth/user"].name
+        : "";
+    },
+  },
+  methods: {
+    dataTypeToArticles() {
+      this.$store.commit("auth/setDataType", "articles");
+      this.$store.dispatch("auth/fetchProfileData");
+    },
+    dataTypeToLights() {
+      this.$store.commit("auth/setDataType", "lights");
+      this.$store.dispatch("auth/fetchProfileData");
+    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
+.active {
+  background-color: rgb(236, 109, 122);
+}
 .rightside_container {
   width: 100%;
   height: auto;
