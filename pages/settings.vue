@@ -4,7 +4,7 @@
       <h3 class="title">الاعدادات</h3>
 
       <p class="error_content transition" v-show="requires">
-        رجاءً تأكد من صحة البيانات الدخلة
+        {{ errMessage }}
       </p>
 
       <form class="settings-form" @submit.prevent="EditUser" ref="settings">
@@ -80,21 +80,52 @@ export default {
   data() {
     return {
       requires: false,
+      errMessage: "رجاءً تأكد من صحة البيانات الدخلة",
       title: "الاعدادات",
       desc: "تعديل بيانات الملف الشخصي",
     };
   },
+  middleware: "authenticated",
   methods: {
     EditUser() {
       const CurrentSubmitForm = this.$refs.settings;
       const newPass = {
-        password: CurrentSubmitForm["pre_pass"].value,
-        new_password: CurrentSubmitForm["new_pass"].value,
-        confirm_new_password: CurrentSubmitForm["c_new_pass"].value,
+        current_password: CurrentSubmitForm["pre_pass"].value,
+        password: CurrentSubmitForm["new_pass"].value,
+        password_confirmation: CurrentSubmitForm["c_new_pass"].value,
       };
       const newPassJson = JSON.stringify(newPass);
+      this.$axios
+        .post("/api/change_password", newPassJson)
+        .then((res) => {
+          console.log(res);
+          console.log(res.data);
+          if (!res.data.password && !res.data.current_password) {
+            this.$router.push("/profile");
+          } else {
+            const requires = CurrentSubmitForm.querySelectorAll("[required]");
+            console.log(requires);
+            if (res.data.password) {
+              return (
+                (this.errMessage = "تأكد من تطابق تأكيد كلمة المرور الجديدة"),
+                (this.requires = true),
+                requires["new_pass"].classList.add("empty_elem"),
+                requires["c_new_pass"].classList.add("empty_elem")
+              );
+            } else if (res.data.current_password) {
+              return (
+                (this.errMessage = res.data.current_password[0]),
+                (this.requires = true),
+                requires["pre_pass"].classList.add("empty_elem")
+              );
+            }
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          console.log(err.response);
+        });
       console.log(newPass);
-      this.$router.push("/profile");
     },
     CheckRequires() {
       const CurrentForm = this.$refs.settings;
