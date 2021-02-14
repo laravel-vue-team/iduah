@@ -26,6 +26,8 @@
 </template>
 
 <script>
+import moment from "moment";
+moment.locale("ar");
 export default {
   data() {
     return {
@@ -45,14 +47,31 @@ export default {
       }
       this.show = !this.show;
     },
-    addNewLight() {
-      let form = this.$refs.addLight;
-      let newLight = { description: form["light"].value };
-      this.$emit("addLight", newLight);
+    clearForm() {
       const btn = this.$refs.btnlight;
       btn.classList.remove("active_light");
       btn.children[0].classList.replace("fas", "far");
       this.show = !this.show;
+      let form = this.$refs.addLight;
+      form["light"].value = "";
+    },
+    addNewLight() {
+      const isAuth = this.$store.getters["auth/isAuth"];
+      if (isAuth) {
+        let form = this.$refs.addLight;
+        let newLight = { description: form["light"].value };
+        newLight = JSON.stringify(newLight);
+        this.$axios
+          .post("/api/lights/store", newLight)
+          .then((res) => {
+            this.$store.dispatch("lights/fetchLights");
+            this.$router.push("/");
+            this.clearForm();
+          })
+          .catch((err) => {
+            console.log(err.response);
+          });
+      }
     },
   },
 };
