@@ -6,7 +6,6 @@
         <nuxt-link to="/"> اضاءات </nuxt-link>
         <nuxt-link to="/articles"> مقالات </nuxt-link>
       </div>
-
       <nav class="header_navbar_lg">
         <ul class="navber_par">
           <div class="no-user" v-if="!$store.getters['auth/isAuth']">
@@ -34,9 +33,9 @@
               >
             </li>
             <li @click="logout" class="link_li logout">
-              <nuxt-link to="/login"
-                ><i class="fas fa-sign-out-alt"></i>خروج</nuxt-link
-              >
+              <nuxt-link to="/login">
+                <i class="fas fa-sign-out-alt"></i>خروج
+              </nuxt-link>
             </li>
           </div>
         </ul>
@@ -73,9 +72,7 @@
               >
             </li>
             <li class="link_li logout" @click="closeNavBar">
-              <nuxt-link to="/logout"
-                ><i class="fas fa-sign-out-alt"></i>خروج</nuxt-link
-              >
+              <div @click="logout"><i class="fas fa-sign-out-alt"></i>خروج</div>
             </li>
           </div>
         </ul>
@@ -92,13 +89,27 @@ export default {
   methods: {
     logout() {
       if (process.client) {
-        localStorage.clear("TOKEN");
-        localStorage.clear("USER");
-        this.$store.dispatch("auth/setToken", null);
-        this.$store.dispatch("auth/setUser", null);
-        this.$router.push("login");
-        // edit: delete Token token vuex
+        this.$axios
+          .get("/api/logout")
+          .then((res) => {
+            console.log("getting out2222222");
+            console.log(res.data);
+            this.clearUser();
+          })
+          .catch((err) => {
+            console.log(err.response);
+            this.clearUser();
+          });
+        this.$router.push("/login");
       }
+    },
+    clearUser() {
+      localStorage.clear("TOKEN");
+      localStorage.clear("USER");
+      this.$store.dispatch("auth/setToken", null);
+      this.$store.dispatch("auth/setUser", null);
+      this.$store.dispatch("articles/setArticles", []);
+      this.$store.dispatch("lights/setLights", []);
     },
     NavBarActiveIt() {
       const CurrentBtn = this.$refs.BtnMdNav;
