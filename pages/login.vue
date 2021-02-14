@@ -7,7 +7,7 @@
         {{ errorMessage ? errorMessage : "" }}
       </p>
 
-      <form class="log-form" @submit.prevent="" ref="loging">
+      <form class="log-form" @submit.prevent="loginUser" ref="loging">
         <div class="form_group">
           <label for="email">
             البريد الالكتروني <span class="required">*</span></label
@@ -125,23 +125,27 @@ export default {
       const requires = CurrentForm.querySelectorAll("[required]");
       requires.forEach((require) => {
         let val = require.value;
-        // console.log(require.getAttribute("type"));
         if (val === "") {
           this.errorMessage = "تأكد من ادخال جميع البيانات";
           return (this.requires = true), require.classList.add("empty_elem");
-        } else if (
-          require.getAttribute("type") === "email" &&
-          val.indexOf(".") === -1
-        ) {
-          require.classList.add("empty_elem");
-          return (this.errorMessage = "ادخل البيانات بشكل صحيح");
         } else {
-          (this.requires = false), require.classList.remove("empty_elem");
-          return this.errorMessage && this.loginUser();
+          return (
+            // (this.requires = false),
+            require.classList.remove("empty_elem"), !this.errorMessage
+          );
         }
       });
     },
   },
+  // else if (
+  //   require.getAttribute("type") === "email" &&
+  //   val.indexOf(".") === -1
+  // ) {
+  //   this.errorMessage = "ادخل البيانات بشكل صحيح";
+  //   return require.classList.add("empty_elem"), (this.requires = true);
+  // } else if (require.getAttribute("type") === "email") {
+  //   return require.classList.remove("empty_elem");
+  // }
   //seo tags to this page Home page
   head() {
     return {
