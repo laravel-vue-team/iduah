@@ -7,11 +7,7 @@
         {{ errorMessage ? errorMessage : "" }}
       </p>
 
-      <form
-        class="register-form"
-        @submit.prevent="CreateNewAccount"
-        ref="register"
-      >
+      <form class="register-form" @submit.prevent="" ref="register">
         <div class="form_group">
           <label for="name"
             >الاسم ( ثنائي بالعربية ) <span class="required">*</span></label
@@ -148,10 +144,15 @@ export default {
         if (val === "") {
           this.errorMessage = "رجاءً تأكد من ادخال جميع البيانات";
           return (this.requires = true), require.classList.add("empty_elem");
+        } else if (
+          require.getAttribute("type") === "email" &&
+          val.indexOf(".") === -1
+        ) {
+          this.errorMessage = "تأكد من ادخال البيانات بشكل صحيح";
+          return require.classList.add("empty_elem");
         } else {
-          return (
-            (this.requires = false), require.classList.remove("empty_elem")
-          );
+          (this.requires = false), require.classList.remove("empty_elem");
+          return this.errorMessage || this.CreateNewAccount();
         }
       });
     },
