@@ -94,12 +94,11 @@ export default {
           .then((res) => {
             console.log("getting out2222222");
             console.log(res.data);
-            this.clearUser();
           })
           .catch((err) => {
             console.log(err.response);
-            this.clearUser();
           });
+        this.clearUser();
         this.$router.push("/login");
       }
     },
