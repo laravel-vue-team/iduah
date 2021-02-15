@@ -60,9 +60,21 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background-color: rgba(0, 0, 0, 0.5);
+  -webkit-box-shadow: 0 0 1px rgb(255 255 255 / 50%);
+  box-shadow: 0 0 1px rgb(255 255 255 / 50%);
+}
+::-webkit-scrollbar {
+  -webkit-appearance: none;
+  width: 4px;
+}
 .users_content {
-  padding: 0 10px;
+  padding: 0 5px 0 0;
   width: 100%;
+  height: calc(100vh - 50px);
+  overflow-y: auto;
 }
 .users_data {
   position: relative;
