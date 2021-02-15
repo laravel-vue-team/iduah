@@ -16,7 +16,7 @@
           <p class="header_content">
             <span class="name">
               <i class="far fa-user"></i>
-              {{ item.user.name }}
+              {{ item.user && item.user.name }}
             </span>
             |
             <span class="date">
@@ -160,7 +160,6 @@ export default {
 
   computed: {
     data() {
-      this.$store.getters["auth/profileData"].lights;
       return this.$store.getters["auth/profileData"];
     },
     dataType() {
@@ -205,16 +204,13 @@ export default {
               ? this.$store.commit("auth/removeArticleLike", id)
               : this.$store.commit("auth/removeLightLike", id);
           }
-          console.log(res.data);
         })
         .catch((err) => {
-          console.log(err);
+          console.log(err.response);
           btnHeart.classList.toggle("hearted");
         });
     },
     DeleteMe(obj) {
-      // return this.articles.splice(obj, 1);
-      console.log("deleting ...", obj);
       this.$store.dispatch("auth/delete", obj);
     },
   },
