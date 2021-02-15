@@ -66,13 +66,14 @@ input , textarea , button , select{
    .CodeMirror-lines{
      direction: rtl;
    }
-   
+
 }
 .ql-container{
   min-height: 150px !important;
 }
 .admin_container{
   @media screen and(min-width: 1440px){
-      grid-template-columns: 250px 1440px !important;
+    grid-template-columns: 2fr 11fr !important;
+
    }
 }
