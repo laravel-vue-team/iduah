@@ -92,7 +92,7 @@ export default {
     };
   },
   name: "login",
-  middleware: "authenticated",
+  // middleware: "authenticated",
 };
 </script>
 
