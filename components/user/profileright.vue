@@ -81,7 +81,7 @@ export default {
 
 <style lang="scss" scoped>
 .active {
-  background-color: rgb(236, 109, 122);
+  background-color: #eb596e;
 }
 .rightside_container {
   width: 100%;
@@ -111,6 +111,7 @@ export default {
     border-bottom: 1px solid #ddd;
     padding-bottom: 15px;
     .btn_profile {
+      transition: 0.5s;
       width: 48%;
       padding: 5px 10px;
       border-radius: 100px;
