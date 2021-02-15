@@ -5,8 +5,9 @@
       class="new_section"
       @click="
         () => {
-          sectionshow = !sectionshow;
           actionType = 'adding';
+          sectionshow = !sectionshow;
+          sectionname = '';
         }
       "
     >
@@ -17,7 +18,7 @@
       <form
         class="section_form"
         ref="newsection"
-        v-on:submit.prevent="addSection"
+        v-on:submit.prevent="formSubmit"
       >
         <input
           type="text"
@@ -36,7 +37,7 @@
           class="btn_cancel"
           name="cancel"
           type="reset"
-          @click="addSection;"
+          @click="clearSection"
         >
           <!-- sectionshow = false; -->
           الغاء
@@ -52,7 +53,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="item in sections" :key="item.id">
+        <tr v-for="(item, index) in sections" :key="item.id">
           <td>{{ item.title }}</td>
           <td>
             <a href="javascript:void(0)" @click="CopySectionID(item.id)">
@@ -64,7 +65,7 @@
               class="btn_edit transition"
               @click="
                 () => {
-                  editSection(item.id);
+                  currentObj = { index, id: item.id };
                   sectionshow = !sectionshow;
                   actionType = 'editting';
                 }
@@ -74,7 +75,7 @@
             </button>
             <button
               class="btn_delete transition"
-              @click="deleteSection(item.id)"
+              @click="deleteSection({ id: item.id, index })"
             >
               <i class="far fa-trash-alt"></i>
             </button>
@@ -91,21 +92,10 @@ moment.locale("ar");
 export default {
   data() {
     return {
-      // {
-      //   ID: 0,
-      //   name: "القراءن الكريم",
-      // },
-      // {
-      //   ID: 1,
-      //   name: "حديث شريف",
-      // },
-      // {
-      //   ID: 2,
-      //   name: "فقه",
-      // },
       sectionshow: false,
       sectionname: "",
       actionType: "editting",
+      currentObj: {},
     };
   },
   computed: {
@@ -117,11 +107,16 @@ export default {
     this.$store.dispatch("categories/fetchCategories");
   },
   methods: {
+    formSubmit() {
+      console.log(this.actionType);
+      if (this.actionType === "adding") {
+        this.addSection();
+      } else {
+        this.editSection(this.currentObj);
+      }
+    },
     addSection() {
-      // this.sectionshow = true;
-      this.actionType = "adding";
       const form = this.$refs.newsection;
-      console.log(form["section"].value);
       const newSection = {
         title: form["section"].value,
       };
@@ -130,33 +125,38 @@ export default {
         .post("/api/categories/store", json)
         .then((res) => {
           console.log(res.data.data);
+          let lastId = this.sections[this.sections.length - 1].id;
+          this.$store.commit("categories/addCategory", {
+            title: form["section"].value,
+            id: lastId + 1,
+          });
           this.sectionshow = false;
+          this.sectionname = "";
         })
         .catch((err) => {
           console.log(err.response);
         });
     },
-    deleteSection(id) {
-      let config = {
-        method: "delete",
-        url: `http://idauh.com/idauh/api/categories/${id}/delete`,
-      };
-      this.$axios(config)
-        .then((response) => {
-          console.log(response.data);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+    deleteSection(obj) {
+      this.$store.dispatch("categories/deleteCategory", obj);
     },
-    editSection(id) {
+    editSection(obj) {
+      console.log("editting...");
       const form = this.$refs.newsection;
-      console.log(form["section"].value);
+      let title = form["section"].value;
+      obj = { ...obj, title };
+      console.log(obj);
+      this.$store.dispatch("categories/editCategory", obj);
+      this.sectionname = "";
     },
     CopySectionID(id) {
       if (navigator.clipboard) {
         navigator.clipboard.writeText(id);
       }
+    },
+    clearSection() {
+      this.sectionname = "";
+      this.sectionshow = false;
     },
   },
   name: "sections",
@@ -165,7 +165,7 @@ export default {
 
 <style lang="scss" scoped>
 .users_content {
-  padding: 10px;
+  padding: 0 10px;
   width: 100%;
 }
 .users_data {
