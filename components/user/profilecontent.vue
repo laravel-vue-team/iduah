@@ -1,165 +1,183 @@
 <template>
   <div class="articles_container">
-    <div class="articles_box grid_item">
-      <article
-        class="article_box"
-        v-for="(item, index) in dataType === 'articles'
-          ? data.articles
-          : data.lights"
-        :key="item.id"
-        :data-index="item.id"
-      >
-        <p class="article_title" v-if="item.type === 'article'">
-          {{ item.title }}
-        </p>
-        <div class="article_header">
-          <p class="header_content">
-            <span class="name">
-              <i class="far fa-user"></i>
-              {{ item.user && item.user.name }}
-            </span>
-            |
-            <span class="date">
-              <i class="far fa-clock"></i>
-              {{ getTime(item.created_at) }}
-            </span>
-            <span class="line" v-if="item.type === 'article'">|</span>
-            <!-- <span class="center" v-if="item.type === 'article'">
+    <spinner v-if="isLoading" />
+    <div v-else>
+      <div class="articles_box grid_item">
+        <article
+          class="article_box"
+          v-for="(item, index) in dataType === 'articles'
+            ? data.articles
+            : data.lights"
+          :key="item.id"
+          :data-index="item.id"
+        >
+          <p class="article_title" v-if="item.type === 'article'">
+            {{ item.title }}
+          </p>
+          <div class="article_header">
+            <p class="header_content">
+              <span class="name">
+                <i class="far fa-user"></i>
+                {{ item.user && item.user.name }}
+              </span>
+              |
+              <span class="date">
+                <i class="far fa-clock"></i>
+                {{ getTime(item.created_at) }}
+              </span>
+              <span class="line" v-if="item.type === 'article'">|</span>
+              <!-- <span class="center" v-if="item.type === 'article'">
               <i class="fa fa-layer-group"></i>
               {{ item.description }}
             </span> -->
-          </p>
-        </div>
+            </p>
+          </div>
 
-        <!-- article content -->
+          <!-- article content -->
 
-        <div class="artcile_content">
-          <p class="content">
-            {{
-              item.description.length >= 200
-                ? item.description.slice(0, 200) + "..."
-                : item.description
-            }}
-          </p>
-        </div>
+          <div class="artcile_content">
+            <p class="content">
+              {{
+                item.description.length >= 200
+                  ? item.description.slice(0, 200) + "..."
+                  : item.description
+              }}
+            </p>
+          </div>
 
-        <!-- article controls  -->
-        <div class="article_controls">
-          <button
-            class="btn_heart transition"
-            @click="HeartIt(item.id)"
-            v-bind:class="{
-              hearted: item.likes.some((data) => data.id === getUserId()),
-            }"
-          >
-            <span class="length">{{ item.likes.length }}</span>
-            <i
-              class="fa-heart transition"
+          <!-- article controls  -->
+          <div class="article_controls">
+            <button
+              class="btn_heart transition"
+              @click="HeartIt(item.id)"
               v-bind:class="{
-                fas: item.likes.some((data) => data.id === getUserId()),
-                far: item.likes.every((data) => data.id !== getUserId()),
+                hearted: item.likes.some((data) => data.id === getUserId()),
               }"
-            ></i>
-          </button>
+            >
+              <span class="length">{{ item.likes.length }}</span>
+              <i
+                class="fa-heart transition"
+                v-bind:class="{
+                  fas: item.likes.some((data) => data.id === getUserId()),
+                  far: item.likes.every((data) => data.id !== getUserId()),
+                }"
+              ></i>
+            </button>
 
-          <div class="view">
-            <span class="length">{{ item.views.length }}</span>
-            <i class="far fa-eye"></i>
-          </div>
-
-          <div class="btn_share" @click="Clickme(item.id)">
-            <i class="fa fa-share"></i>
-
-            <div class="share_box transition">
-              <ul class="share_socials">
-                <li class="share_li">
-                  <a
-                    :href="
-                      'https://www.facebook.com/sharer.php?u=' +
-                      encodeURI(loc.origin + '/' + item.id)
-                    "
-                    class="social_icon"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <i class="fab fa-facebook"></i>
-                  </a>
-                </li>
-                <li class="share_li">
-                  <a
-                    :href="
-                      encodeURI(
-                        `https://twitter.com/intent/tweet?url=${loc.origin}/${item.id}&text=${item.description}`
-                      )
-                    "
-                    class="social_icon"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <i class="fab fa-twitter"></i>
-                  </a>
-                </li>
-                <li class="share_li">
-                  <a
-                    :href="
-                      encodeURI(
-                        `https://wa.me/?text=${item.description} ${loc.origin}/${item.id}`
-                      )
-                    "
-                    class="social_icon"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <i class="fab fa-whatsapp"></i>
-                  </a>
-                </li>
-              </ul>
+            <div class="view">
+              <span class="length">{{ item.views.length }}</span>
+              <i class="far fa-eye"></i>
             </div>
+
+            <div class="btn_share" @click="Clickme(item.id)">
+              <i class="fa fa-share"></i>
+
+              <div class="share_box transition">
+                <ul class="share_socials">
+                  <li class="share_li">
+                    <a
+                      :href="
+                        'https://www.facebook.com/sharer.php?u=' +
+                        encodeURI(loc.origin + '/' + item.id)
+                      "
+                      class="social_icon"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <i class="fab fa-facebook"></i>
+                    </a>
+                  </li>
+                  <li class="share_li">
+                    <a
+                      :href="
+                        encodeURI(
+                          `https://twitter.com/intent/tweet?url=${loc.origin}/${item.id}&text=${item.description}`
+                        )
+                      "
+                      class="social_icon"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <i class="fab fa-twitter"></i>
+                    </a>
+                  </li>
+                  <li class="share_li">
+                    <a
+                      :href="
+                        encodeURI(
+                          `https://wa.me/?text=${item.description} ${loc.origin}/${item.id}`
+                        )
+                      "
+                      class="social_icon"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <i class="fab fa-whatsapp"></i>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <button
+              class="btn_delete"
+              @click="DeleteMe({ id: item.id, index })"
+            >
+              <i class="far fa-trash-alt"></i>
+            </button>
+
+            <div class="clear"></div>
           </div>
+        </article>
+      </div>
 
-          <button class="btn_delete" @click="DeleteMe({ id: item.id, index })">
-            <i class="far fa-trash-alt"></i>
-          </button>
-
-          <div class="clear"></div>
-        </div>
-      </article>
-    </div>
-
-    <div
-      class="empty"
-      v-if="
-        dataType === 'articles'
-          ? data.articles.length <= 0
-          : data.lights.length <= 0
-      "
-    >
-      <img src="~/assets/img/empty.svg" alt="empty image" />
-      <p class="content">ليس هناك العديد من المقالات او الإضاءات لعرضه</p>
+      <div
+        class="empty"
+        v-show="
+          dataType === 'articles'
+            ? data.articles.length == 0
+            : data.lights.length == 0
+        "
+      >
+        <img src="~/assets/img/empty.svg" alt="empty image" />
+        <p class="content">ليس هناك العديد من المقالات او الإضاءات لعرضه</p>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import moment from "moment";
+import spinner from "./spinner.vue";
 moment.locale("ar");
 export default {
+  components: { spinner },
   data() {
     return {
       classname: "",
       loc: "",
+      isLoading: true,
     };
   },
   created() {
     let isAuth = this.$store.getters["auth/isAuth"];
     if (isAuth) this.$store.dispatch("auth/fetchProfileData");
+    else {
+      // this.isLoading = false;
+    }
     if (process.browser) {
       return (this.loc = window.location);
     }
   },
-
+  mounted() {
+    if (!this.$store.getters["auth/isAuth"]) {
+      this.isLoading = false;
+    }
+  },
   computed: {
     data() {
+      this.isLoading = false;
+      console.log(this.$store.getters["auth/profileData"]);
       return this.$store.getters["auth/profileData"];
     },
     dataType() {
