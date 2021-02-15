@@ -7,7 +7,11 @@
         {{ errorMessage ? errorMessage : "" }}
       </p>
 
-      <form class="register-form" @submit.prevent="" ref="register">
+      <form
+        class="register-form"
+        @submit.prevent="CreateNewAccount"
+        ref="register"
+      >
         <div class="form_group">
           <label for="name"
             >الاسم ( ثنائي بالعربية ) <span class="required">*</span></label
@@ -52,7 +56,7 @@
             autocomplete="off"
             spellcheck="off"
             class="transition focus_elem"
-            minlength="6"
+            minlength="8"
           />
         </div>
         <div class="form_group">
@@ -70,7 +74,7 @@
             spellcheck="off"
             class="transition focus_elem"
             onpaste="return false"
-            minlength="6"
+            minlength="8"
           />
         </div>
 
@@ -110,14 +114,16 @@ export default {
       const userinfo = {
         name: CurrentSubmitForm["name"].value,
         email: CurrentSubmitForm["email"].value,
-        password: +CurrentSubmitForm["pass"].value,
-        c_password: +CurrentSubmitForm["c_pass"].value,
+        password: CurrentSubmitForm["pass"].value,
+        c_password: CurrentSubmitForm["c_pass"].value,
       };
+      console.log(userinfo);
       let data = JSON.stringify(userinfo);
       this.$axios
         .post("/api/signup", data)
         .then((res) => {
-          const { token, name: user } = res.data.data;
+          const { token, user } = res.data.data;
+          console.log(res.data);
           localStorage.setItem("TOKEN", token);
           localStorage.setItem("USER", JSON.stringify(user));
           this.$store.dispatch("auth/setUser", user);
@@ -128,6 +134,7 @@ export default {
         })
         .catch((err) => {
           localStorage.removeItem("TOKEN");
+          localStorage.removeItem("USER");
           submitButton.innerText = "دخول";
           submitButton.disabled = false;
           this.errorMessage = err.response.data.message;
@@ -138,21 +145,15 @@ export default {
     CheckRequires() {
       const CurrentForm = this.$refs.register;
       const requires = CurrentForm.querySelectorAll("[required]");
-
+      this.errorMessage === "";
       requires.forEach((require) => {
         let val = require.value;
         if (val === "") {
           this.errorMessage = "رجاءً تأكد من ادخال جميع البيانات";
           return (this.requires = true), require.classList.add("empty_elem");
-        } else if (
-          require.getAttribute("type") === "email" &&
-          val.indexOf(".") === -1
-        ) {
-          this.errorMessage = "تأكد من ادخال البيانات بشكل صحيح";
-          return require.classList.add("empty_elem");
         } else {
           (this.requires = false), require.classList.remove("empty_elem");
-          return this.errorMessage || this.CreateNewAccount();
+          return (this.errorMessage = "");
         }
       });
     },
