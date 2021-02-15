@@ -56,8 +56,10 @@ export default {
     let id = this.$store.getters["textEditor/id"];
     if (id === -1) {
       this.m = "";
+      this.contentmd = this.$md.render(this.m);
     } else {
       this.m = id === 0 ? t : p;
+      this.contentmd = this.$md.render(this.m);
     }
   },
   watch: {
@@ -65,16 +67,13 @@ export default {
       this.m = "" + this.currnt;
     },
     m() {
-      this.contentmd = this.$md.render(this.m);
-      let res = this.$refs.msgArea.invoke("getHtml");
+      this.contentmd = this.m;
       this.$emit("change", this.contentmd);
     },
   },
   methods: {
     handChange() {
       let html = this.$refs.msgArea.invoke("getHtml");
-      console.log(html);
-      // this.contentmd = this.$md.render(html);
       this.contentmd = html;
       this.$emit("change", html);
     },
@@ -85,9 +84,11 @@ export default {
       let p = this.$store.getters["textEditor/privacy"];
       let id = this.$store.getters["textEditor/id"];
       if (id === -1) {
-        return "";
+        this.m = "";
+        this.contentmd = this.$md.render(this.m);
       } else {
-        return id === 0 ? t : p;
+        this.m = id === 0 ? t : p;
+        this.contentmd = this.$md.render(this.m);
       }
     },
     id() {
