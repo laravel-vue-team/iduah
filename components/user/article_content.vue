@@ -416,7 +416,7 @@ export default {
     box-shadow: 0 0 30px #f3f3f3;
     .article_title {
       padding: 10px;
-      font-size: 17px;
+      font-size: 24px;
       text-overflow: ellipsis;
       -ms-text-overflow: ellipsis;
       -o-text-overflow: ellipsis;
