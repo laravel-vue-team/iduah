@@ -143,10 +143,13 @@ export default {
   width: 136px;
   white-space: nowrap;
   background-color: #1b5fdf;
+  margin: 0 3px;
 }
 .prev {
   background-color: #eb596e;
-  margin-left: 10px;
+}
+.next {
+  margin-right: 11px;
 }
 .users_content {
   padding: 0;
