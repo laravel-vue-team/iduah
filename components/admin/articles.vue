@@ -27,6 +27,22 @@
         </tr>
       </tbody>
     </table>
+    <div class="pagination">
+      <button
+        class="btn next"
+        @click="fetchPage(currentPage + 1)"
+        :disabled="!this.isThereNextPage ? true : false"
+      >
+        {{ !isNextLoading ? "&rarr; الصفحة التالية" : "جاري الانتقال ..." }}
+      </button>
+      <button
+        class="btn prev"
+        @click="fetchPage(currentPage - 1)"
+        :disabled="!this.isTherePrevPage ? true : false"
+      >
+        {{ !isPrevLoading ? "الصفحة السابقة &larr;" : "جاري الانتقال ..." }}
+      </button>
+    </div>
   </div>
 </template>
 
@@ -38,17 +54,63 @@ export default {
     return {
       // "6 فبراير 2021" -
       // "6:00 مساءًا"
+      isNextLoading: true,
+      isPrevLoading: true,
     };
   },
-  created() {
+  async created() {
     this.$store.dispatch("articles/fetchArticles");
+    this.isNextLoading = false;
+    this.isPrevLoading = false;
   },
   computed: {
     articles() {
       return this.$store.getters["articles/articles"];
     },
+    isTherePrevPage() {
+      let isPrevPage = this.$store.getters["articles/isTherePrevPage"];
+      console.log("isPrevPage", isPrevPage);
+      return isPrevPage;
+    },
+    isThereNextPage() {
+      let isNextPage = this.$store.getters["articles/isThereNextPage"];
+      console.log("isNextPage", isNextPage);
+      return isNextPage;
+    },
+    currentPage() {
+      console.log("current page", this.$store.getters["articles/currentPage"]);
+      return this.$store.getters["articles/currentPage"];
+    },
   },
   methods: {
+    fetchPage(pageId) {
+      pageId === this.currentPage + 1
+        ? (this.isNextLoading = true)
+        : (this.isPrevLoading = true);
+      this.$axios
+        .get(`/api/posts?page=${pageId}`)
+        .then((res) => {
+          this.isNextLoading = false;
+          this.isPrevLoading = false;
+          console.log(res.data.data);
+          this.$store.dispatch("articles/setArticles", res.data.data.data);
+          this.$store.commit(
+            "articles/setCurrentPage",
+            res.data.data.current_page
+          );
+          this.$store.commit(
+            "articles/setIsThereNextPage",
+            res.data.data.next_page_url ? true : false
+          );
+          this.$store.commit(
+            "articles/setIsTherePrevPage",
+            res.data.data.prev_page_url ? true : false
+          );
+        })
+        .catch((err) => {
+          console.log(err.response);
+        });
+    },
     timeFromNow(timeStmp) {
       return (
         moment(timeStmp).format(" YYYY/M/Do") +
@@ -64,9 +126,45 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.pagination {
+  position: fixed;
+  bottom: 10px;
+}
+.btn:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+.btn {
+  padding: 7px 15px;
+  border-radius: 5px;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  display: inline;
+  width: 136px;
+  white-space: nowrap;
+  background-color: #1b5fdf;
+}
+.prev {
+  background-color: #eb596e;
+  margin-left: 10px;
+}
 .users_content {
-  padding: 0 10px;
+  padding: 0;
   width: 100%;
+  padding-bottom: 70px;
+  height: calc(100vh - 50px);
+  overflow-y: scroll;
+}
+::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background-color: rgba(0, 0, 0, 0.5);
+  -webkit-box-shadow: 0 0 1px rgb(255 255 255 / 50%);
+  box-shadow: 0 0 1px rgb(255 255 255 / 50%);
+}
+::-webkit-scrollbar {
+  -webkit-appearance: none;
+  width: 4px;
 }
 .users_data {
   position: relative;
