@@ -81,7 +81,7 @@ export default {
 <style lang="scss" scoped>
 .header_container {
   width: 100%;
-  height: 60px;
+  height: 50px;
   background-color: #fff;
 
   position: sticky;
