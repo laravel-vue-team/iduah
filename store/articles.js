@@ -2,11 +2,13 @@
 export const state = () => ({
   articles: [],
   newArticle: null,
+  currentArticle: {},
   currentPage: null,
   isThereNextPage: null,
 });
 export const getters = {
   articles: (state) => state.articles,
+  currentArticle: (state) => state.currentArticle,
 };
 
 export const mutations = {
@@ -17,6 +19,7 @@ export const mutations = {
     state.newArticle = article;
     state.articles = [article, ...state.articles];
   },
+  setCurrentArticle(state, currentArticle) { state.currentArticle = currentArticle },
 };
 export const actions = {
   fetchArticles({ commit }) {
@@ -40,7 +43,6 @@ export const actions = {
   async deleteArticle({ commit, state }, obj) {
     try {
       let res = await this.$axios.delete(`/api/posts/${obj.id}/delete`);
-      console.log(res.data);
       let arr = [...state.articles];
       arr.splice(obj.index, 1);
       commit("setArticles", arr);
