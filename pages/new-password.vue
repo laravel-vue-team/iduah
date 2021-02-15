@@ -70,7 +70,7 @@ export default {
       desc: "استرجاع كلمة السر",
     };
   },
-  middleware: "authenticated",
+  // middleware: "authenticated",
   methods: {
     ForgotPassword() {
       const CurrentSubmitForm = this.$refs.password;
