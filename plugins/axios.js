@@ -10,7 +10,7 @@ export default function ({
         $axios.setHeader("Authorization", mutation.payload ? `Bearer ${mutation.payload}` : null);
         break;
     }
-  })
+  });
   $axios.onError(error => {
     // take a message from back, to actions need authorization, then here display notification
     if (error.response && error.response.status === 500) {
