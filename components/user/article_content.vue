@@ -88,14 +88,17 @@
           |
           <span class="center">
             <i class="fa fa-layer-group"></i>
-            {{ item.category.title }}
+            {{ item.category && item.category.title }}
           </span>
         </p>
       </div>
 
       <!-- article content -->
 
-      <div class="artcile_content">
+      <div
+        class="artcile_content"
+        @click="goToArticlePage({ id: item.id, index })"
+      >
         <p class="content">
           {{ item.description }}
         </p>
@@ -303,6 +306,24 @@ export default {
           });
       }
     },
+    goToArticlePage(obj) {
+      // this.$store.commit(
+      //   "articles/setCurrentArticle",
+      //   this.articles[obj.index]
+      // );
+      this.$router.push("/article_page?id=" + obj.id + "&index=" + obj.index);
+      this.$axios
+        .get(`/api/posts/${obj.id}/view`)
+        .then((res) => {
+          if (res.data.message !== "view alredy exists") {
+            this.articles[targetIndex].views.push({});
+          }
+        })
+        .catch((err) => {
+          console.log(err.response);
+        });
+      console.log(this.article);
+    },
     addLisenters(_this) {
       let observer = new IntersectionObserver(
         function (entries, observer) {
@@ -310,12 +331,10 @@ export default {
             if (entry.intersectionRatio > 0) {
               const targetId = entry.target.getAttribute("data-id");
               const targetIndex = entry.target.getAttribute("data-arr-index");
-              console.log("in lisenteer");
               _this.$axios
                 .get(`/api/posts/${targetId}/view`)
                 .then((res) => {
                   if (res.data.message !== "view alredy exists") {
-                    console.log(res.data);
                     _this.articles[targetIndex].views.push({});
                   }
                 })
@@ -357,7 +376,6 @@ export default {
       this.$axios
         .get(`/api/posts/${id}/like`)
         .then((res) => {
-          console.log(res.data);
           if (btnHeart.classList.contains("hearted")) {
             icon.classList.replace("far", "fas");
             this.articles[index].likes.push({});
@@ -423,6 +441,7 @@ export default {
       }
     }
     .artcile_content {
+      cursor: pointer;
       padding: 10px;
       border-radius: 5px;
       background-color: #fbfbfb;
