@@ -9,7 +9,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(item, index) in users" :key="index">
+        <tr v-for="item in users" :key="item.id">
           <td>{{ item.name }}</td>
           <td>
             <a
@@ -21,8 +21,8 @@
             </a>
           </td>
           <td>
-            <a href="javascript:void(0)" @click="CopyUserId(item.ID)">
-              <i class="far fa-copy"></i> {{ item.ID }}
+            <a href="javascript:void(0)" @click="CopyUserId(item.id)">
+              <i class="far fa-copy"></i> {{ item.id }}
             </a>
           </td>
         </tr>
@@ -34,40 +34,19 @@
 <script>
 export default {
   data() {
-    return {
-      users: [
-        {
-          name: "احمد محمد",
-          email: "ahmed078@gmail.com",
-          ID: "HJKFQHIKDF8U43",
-        },
-        {
-          name: "احمد السيد",
-          email: "ahmed0758@gmail.com",
-          ID: "JKJHFKKAWIIKR5",
-        },
-        {
-          name: "احمد محمد",
-          email: "ahmed078@gmail.com",
-          ID: "HJKFQHIKDF8U43",
-        },
-        {
-          name: "احمد السيد",
-          email: "ahmed0758@gmail.com",
-          ID: "JKJHFKKAWIIKR5",
-        },
-        {
-          name: "احمد محمد",
-          email: "ahmed078@gmail.com",
-          ID: "HJKFQHIKDF8U43",
-        },
-        {
-          name: "احمد السيد",
-          email: "ahmed0758@gmail.com",
-          ID: "JKJHFKKAWIIKR5",
-        },
-      ],
-    };
+    return {};
+  },
+  created() {
+    let isAuth = this.$store.getters["auth/isAuth"];
+    if (isAuth) {
+      this.$store.dispatch("allUsers/fetchAllUsers");
+    }
+  },
+  middleware: "authenticated",
+  computed: {
+    users() {
+      return this.$store.getters["allUsers/allUsers"];
+    },
   },
   methods: {
     CopyUserId(id) {
@@ -82,7 +61,7 @@ export default {
 
 <style lang="scss" scoped>
 .users_content {
-  padding: 10px;
+  padding: 0 10px;
   width: 100%;
 }
 .users_data {
