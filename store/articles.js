@@ -4,17 +4,23 @@ export const state = () => ({
   newArticle: null,
   currentArticle: {},
   currentPage: null,
+  lastPage: null,
   isThereNextPage: null,
+  isTherePrevPage: null,
 });
 export const getters = {
   articles: (state) => state.articles,
   currentArticle: (state) => state.currentArticle,
+  currentPage: (state) => state.currentPage,
+  isThereNextPage: (state) => state.isThereNextPage,
+  isTherePrevPage: (state) => state.isTherePrevPage,
 };
 
 export const mutations = {
   setArticles(state, articles) { state.articles = articles },
   setCurrentPage(state, currentPage) { state.currentPage = currentPage },
   setIsThereNextPage(state, isThereNextPage) { state.isThereNextPage = isThereNextPage },
+  setIsTherePrevPage(state, isTherePrevPage) { state.isTherePrevPage = isTherePrevPage },
   setNewArticle(state, article) {
     state.newArticle = article;
     state.articles = [article, ...state.articles];
@@ -29,6 +35,7 @@ export const actions = {
         commit("setArticles", [...res.data.data.data]);
         commit("setCurrentPage", res.data.data.current_page);
         commit("setIsThereNextPage", res.data.data.next_page_url ? true : false);
+        commit("setIsTherePrevPage", res.data.data.prev_page_url ? true : false);
       })
       .catch((err) => {
         console.log(err.response);
