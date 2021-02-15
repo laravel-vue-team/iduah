@@ -259,7 +259,6 @@ export default {
         console.log("adding listent");
         this.addLisenters(this);
       }
-      console.log(this.$store.getters["lights/lights"]);
       return this.$store.getters["lights/lights"];
     },
     isThereNextPage() {
