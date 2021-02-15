@@ -33,7 +33,6 @@ export const mutations = {
     });
   },
   removeLike(state, lightId) {
-    console.log("like removed");
     state.lights.forEach((light) => {
       if (light.id === lightId) {
         light.likes.pop();
@@ -41,17 +40,14 @@ export const mutations = {
     });
   },
   viewLight(state, lightIndex) {
-    console.log("light viewing");
     state.lights[lightIndex].views.push({});
   }
 };
 export const actions = {
   fetchLights({ commit }) {
-    console.log("fetching");
     this.$axios
       .get("/public/api/lights")
       .then((res) => {
-        console.log(res.data);
         commit("setLights", [...res.data.data.data]);
         commit("setCurrentPage", res.data.data.current_page);
         commit("setIsThereNextPage", res.data.data.next_page_url ? true : false);
@@ -75,7 +71,6 @@ export const actions = {
   async deleteLight({ commit, state }, obj) {
     try {
       let res = await this.$axios.delete(`/api/lights/${obj.id}/delete`);
-      console.log(res.data);
       let arr = [...state.lights];
       arr.splice(obj.index, 1);
       commit("setLights", arr);
