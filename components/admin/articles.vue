@@ -65,7 +65,7 @@ export default {
 
 <style lang="scss" scoped>
 .users_content {
-  padding: 10px;
+  padding: 0 10px;
   width: 100%;
 }
 .users_data {
