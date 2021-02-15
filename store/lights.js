@@ -4,17 +4,20 @@ export const state = () => ({
   newLight: null,
   currentPage: null,
   isThereNextPage: null,
+  isTherePrevPage: null,
 });
 export const getters = {
   lights: (state) => state.lights,
   currentPage: (state) => state.currentPage,
   isThereNextPage: (state) => state.isThereNextPage,
+  isTherePrevPage: (state) => state.isTherePrevPage,
 };
 
 export const mutations = {
   setLights(state, lights) { state.lights = lights },
   setCurrentPage(state, currentPage) { state.currentPage = currentPage },
   setIsThereNextPage(state, isThereNextPage) { state.isThereNextPage = isThereNextPage },
+  setIsTherePrevPage(state, isTherePrevPage) { state.isTherePrevPage = isTherePrevPage },
   addLight(state, light) {
     state.newLight = light;
     state.lights = [light, ...state.lights];
@@ -50,8 +53,9 @@ export const actions = {
       .then((res) => {
         console.log(res.data);
         commit("setLights", [...res.data.data.data]);
-        commit("setCurrentPage", res.data.data.data.current_page);
-        commit("setIsThereNextPage", res.data.data.data.next_page_url ? true : false);
+        commit("setCurrentPage", res.data.data.current_page);
+        commit("setIsThereNextPage", res.data.data.next_page_url ? true : false);
+        commit("setIsTherePrevPage", res.data.data.prev_page_url ? true : false);
       })
       .catch((err) => {
         console.log(err.response);
