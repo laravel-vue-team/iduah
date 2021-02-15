@@ -48,10 +48,10 @@
       <nav class="navbar_md transition" ref="MdNav">
         <ul class="navber_par">
           <div class="no-user" v-if="!$store.getters['auth/isAuth']">
-            <li class="link_li">
+            <li class="link_li" @click="NavBarActiveIt">
               <nuxt-link to="/register">حساب جديد</nuxt-link>
             </li>
-            <li class="link_li log_in">
+            <li class="link_li log_in" @click="NavBarActiveIt">
               <nuxt-link to="/login" class="transition"
                 ><i class="far fa-user"></i> تسجيل الدخول</nuxt-link
               >
@@ -66,12 +66,16 @@
                 <i class="far fa-user"></i
               ></nuxt-link>
             </li>
-            <li class="link_li" @click="closeNavBar">
+            <li class="link_li" @click="NavBarActiveIt">
               <nuxt-link to="/settings"
                 ><i class="fa fa-cog"></i>الاعدادت</nuxt-link
               >
             </li>
-            <li class="link_li logout" @click="closeNavBar">
+            <li
+              class="link_li logout"
+              style="color: #eb596e"
+              @click="NavBarActiveIt"
+            >
               <div @click="logout"><i class="fas fa-sign-out-alt"></i>خروج</div>
             </li>
           </div>
