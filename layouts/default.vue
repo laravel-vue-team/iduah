@@ -11,7 +11,11 @@ export default {
     if (process.client) {
       this.$store.commit("auth/setIsLoading", false);
       this.$store.dispatch("auth/setToken", localStorage.getItem("TOKEN"));
-      if (!this.$store.getters["auth/isAuth"]) {
+      if (
+        !this.$store.getters["auth/isAuth"] &&
+        this.$router.history._startLocation !== "/" &&
+        this.$router.history._startLocation !== "/articles"
+      ) {
         return this.$router.push("/login");
       }
       this.$store.dispatch(
