@@ -2,6 +2,7 @@
 export const state = () => ({
   token: null,
   user: null,
+  isLoading: true,
   profileData: {
     lights: [],
     articles: []
@@ -12,6 +13,7 @@ export const state = () => ({
 });
 export const getters = {
   isAuth: (state) => state.token !== null,
+  isLoading: (state) => state.isLoading,
   token: (state) => state.token,
   profileData: (state) => state.profileData,
   dataType: (state) => state.dataType,
@@ -22,6 +24,7 @@ export const getters = {
 
 export const mutations = {
   setToken(state, token) { state.token = token },
+  setIsLoading(state, isLoading) { state.isLoading = isLoading },
   setUser(state, user) { state.user = user },
   setProfileData(state, profileData) { state.profileData = profileData },
   setArticles(state, articles) { state.profileData = { ...state.profileData, articles } },
