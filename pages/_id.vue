@@ -2,7 +2,7 @@
   <div class="articles_container container_responsive_wrapper container_hg">
     <article
       class="article_box"
-      :data-index="$route.params.id"
+      :data-index="article.user_id"
       ref="single_article"
     >
       <!-- article header -->
@@ -10,12 +10,12 @@
         <p class="header_content">
           <span class="name">
             <i class="far fa-user"></i>
-            {{ articles[$route.params.id].user.name }}
+            {{ article.user && article.user.name }}
           </span>
           |
           <span class="date">
             <i class="far fa-clock"></i>
-            {{ articles[$route.params.id].date }}
+            {{ createTime(article.created_at) }}
           </span>
         </p>
       </div>
@@ -24,23 +24,27 @@
 
       <div class="artcile_content">
         <p class="content" ref="content">
-          {{ articles[$route.params.id].content }}
+          {{ article.description }}
         </p>
       </div>
 
       <!-- article controls  -->
       <div class="article_controls">
-        <button class="btn_heart transition" @click="HeartIt($route.params.id)">
-          <span class="length">{{ articles[$route.params.id].likes }}</span>
+        <button class="btn_heart transition" @click="HeartIt(article.id)">
+          <span class="length">{{
+            article.likes && article.likes.length
+          }}</span>
           <i class="far fa-heart transition"></i>
         </button>
 
         <div class="view">
-          <span class="length">{{ articles[$route.params.id].viewed }}</span>
+          <span class="length">{{
+            article.views && article.views.length
+          }}</span>
           <i class="far fa-eye"></i>
         </div>
 
-        <div class="btn_share" @click="Clickme($route.params.id)">
+        <div class="btn_share" @click="Clickme(article.user_id)">
           <i class="fa fa-share"></i>
 
           <div class="share_box transition">
@@ -49,7 +53,7 @@
                 <a
                   :href="
                     'https://www.facebook.com/sharer.php?u=' +
-                    encodeURI(loc.origin + '/' + $route.params.id)
+                    encodeURI(loc.origin + '/' + article.id)
                   "
                   class="social_icon"
                   target="_blank"
@@ -62,9 +66,7 @@
                 <a
                   :href="
                     encodeURI(
-                      `https://twitter.com/intent/tweet?url=${loc.origin}/${
-                        $route.params.id
-                      }&text=${articles[$route.params.id].content}`
+                      `https://twitter.com/intent/tweet?url=${loc.origin}/${article.id}&text=${article.description}`
                     )
                   "
                   class="social_icon"
@@ -78,9 +80,7 @@
                 <a
                   :href="
                     encodeURI(
-                      `https://wa.me/?text=${
-                        articles[$route.params.id].content
-                      } ${loc.origin}/${$route.params.id}`
+                      `https://wa.me/?text=${article.description} ${loc.origin}/${article.id}`
                     )
                   "
                   class="social_icon"
@@ -101,45 +101,12 @@
 </template>
 
 <script>
+import moment from "moment";
+moment.locale("ar");
 export default {
   data() {
     return {
       classname: "",
-      articles: [
-        {
-          content:
-            "عن أبي هريرة رضي الله عنه أنّه قال: (أنَّ رَسولَ اللَّهِ صَلَّى اللهُ عليه وسلَّمَ ذَكَرَ يَومَ الجُمُعَةِ، فَقالَ: فيه سَاعَةٌ، لا يُوَافِقُهَا عَبْدٌ مُسْلِمٌ، وهو قَائِمٌ يُصَلِّي، يَسْأَلُ اللَّهَ تَعَالَى شيئًا، إلَّا أعْطَاهُ إيَّاهُ وأَشَارَ بيَدِهِ يُقَلِّلُهَا).",
-          user: {
-            name: "محمد ايمن",
-            id: "59ef0488a4f34c1",
-          },
-          date: "منذ 5 ساعات",
-          viewed: 140,
-          likes: 150,
-        },
-        {
-          content:
-            "في شهر رجب يَفِدُ بعض الناس إلى المدينة النبوية المنورة بزيارتها بزيارة يسمونها الرَّجَبِية ، يرون أنها من السُّنن ، وهذه الزيارة المسماة بالرَّجَبِيةِ ليس لها أصل في كلام أهل العلم ، ولا ريب أن المسجد النبوي تُشَدُّ إليه الرحال في كل وقت وحين ، لكن تخصيصُ شهر معين أو يوم معين لهذا العمل يحتاج إلى دليل خاص ، ولا دليلَ هنا على تخصيصِ رجب بذلك ، وعلى هذا فاتخاذ هذا سنة يُتقَرَّبُ بها إلى الله في هذا الشهر بخصوصه أمر محدث ليس عليه دليل في الشريعة.",
-          user: {
-            name: "محمد ايمن",
-            id: "59ef0488a4f34c1",
-          },
-          date: "منذ 5 ساعات",
-          viewed: 140,
-          likes: 150,
-        },
-        {
-          content:
-            "حقيقة اتباع النبي صلى الله عليه وسلم هي التمسك بسنته فِعلاً فيما فعل، وتركًا فيما تَرك ؛ فمن زاد عليها أو نقص منها ، فقد نقصَ حظُّه من المتابعة بحسب ذلك ، لكن الزيادة أعظم ؛ لأنها تقدم بين يدي الله ورسوله صلى الله عليه وسلم والله تعالى يقول: ﴿ يَا أَيُّهَا الَّذِينَ آمَنُوا لَا تُقَدِّمُوا بَيْنَ يَدَيِ اللَّهِ وَرَسُولِهِ وَاتَّقُوا اللَّهَ إِنَّ اللَّهَ سَمِيعٌ عَلِيمٌ ﴾ [الحجرات : 1].",
-          user: {
-            name: "محمد ايمن",
-            id: "59ef0488a4f34c1",
-          },
-          date: "منذ 5 ساعات",
-          viewed: 140,
-          likes: 150,
-        },
-      ],
       loc: "",
       id: "",
     };
@@ -148,45 +115,77 @@ export default {
     if (process.browser) {
       this.loc = window.location;
     }
-    let i = this.$route.params.id;
-    return (this.id = i);
+    let oldArticles = this.$store.getters["articles/articles"];
+    let q = this.$router.history.current.query;
+    console.log(q);
+    this.$store.commit("articles/setCurrentArticle", oldArticles[q.index]);
+    console.log("id", q.id);
+    console.log("oldArticles", oldArticles);
+    return (this.id = this.article && this.article.id);
   },
 
+  computed: {
+    articleId() {
+      return this.$router.history.current.query.page;
+    },
+    article() {
+      console.log(this.$store.getters["articles/currentArticle"]);
+      return this.$store.getters["articles/currentArticle"];
+    },
+  },
   methods: {
+    createTime(timeStmp) {
+      return moment(timeStmp).fromNow();
+    },
     Clickme(id) {
       const shareBox = document.querySelector(
         `.article_box[data-index='${id}'] .share_box`
       );
-
       shareBox.classList.toggle("share_opened");
     },
+    // HeartIt(id) {
+    //   const btnHeart = document.querySelector(
+    //     `.article_box[data-index='${id}'] .btn_heart`
+    //   );
+    //   const icon = btnHeart.querySelector(".fa-heart");
+
+    //   btnHeart.classList.toggle("hearted");
+
+    //   if (btnHeart.classList.contains("hearted")) {
+    //     icon.classList.replace("far", "fas");
+    //   } else {
+    //     icon.classList.replace("fas", "far");
+    //   }
+    // },
     HeartIt(id) {
-      const btnHeart = document.querySelector(
-        `.article_box[data-index='${id}'] .btn_heart`
-      );
+      const btnHeart = document.querySelector(`.btn_heart`);
+      console.log(btnHeart);
       const icon = btnHeart.querySelector(".fa-heart");
-
       btnHeart.classList.toggle("hearted");
-
-      if (btnHeart.classList.contains("hearted")) {
-        icon.classList.replace("far", "fas");
-        this.articles[id].likes += 1;
-      } else {
-        icon.classList.replace("fas", "far");
-        this.articles[id].likes -= 1;
-      }
+      this.$axios
+        .get(`/api/posts/${id}/like`)
+        .then((res) => {
+          if (btnHeart.classList.contains("hearted")) {
+            icon.classList.replace("far", "fas");
+            this.article.likes.push({});
+          } else {
+            icon.classList.replace("fas", "far");
+            this.article.likes.pop();
+          }
+        })
+        .catch((err) => {
+          btnHeart.classList.toggle("hearted");
+          console.log(err.response);
+        });
     },
   },
-
-  //seo tags to this page article
   head() {
     return {
-      title: this.articles[this.id].user.name + " - " + this.id,
+      title: "",
       meta: [
         {
           hid: "description",
           name: "description",
-          content: this.articles[this.id].content,
         },
       ],
     };
