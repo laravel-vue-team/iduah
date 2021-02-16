@@ -169,12 +169,22 @@ export default {
       return (this.loc = window.location);
     }
   },
+  watch: {
+    isUser() {
+      if (this.isUser) {
+        this.isLoading = false;
+      }
+    },
+  },
   mounted() {
-    if (!this.$store.getters["auth/isAuth"]) {
+    if (this.isUser) {
       this.isLoading = false;
     }
   },
   computed: {
+    isUser() {
+      return this.$store.getters["auth/isAuth"];
+    },
     data() {
       this.isLoading = false;
       console.log(this.$store.getters["auth/profileData"]);
