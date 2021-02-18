@@ -89,7 +89,7 @@
                 <a
                   :href="
                     encodeURI(
-                      `https://twitter.com/intent/tweet?url=${loc.origin}/article_page/${article.id}&text=${article.title}`
+                      `https://twitter.com/intent/tweet?url=${loc.origin}/article_page/${article.id}&text=${article.description}`
                     )
                   "
                   class="social_icon"
@@ -103,7 +103,7 @@
                 <a
                   :href="
                     encodeURI(
-                      `https://wa.me/?text=${article.description} ${loc.origin}/article_page/${article.id}&text=${article.title}, ${loc.origin}/article_page/${article.id}`
+                      `https://wa.me/?text=${article.description} ${loc.origin}/article_page/${article.id}&text=${article.description}, ${loc.origin}/article_page/${article.id}`
                     )
                   "
                   class="social_icon"
@@ -136,7 +136,6 @@ export default {
   },
   created() {
     if (process.browser) this.loc = window.location;
-    // let oldArticles = this.$store.getters["articles/articles"];
     let q = this.$router.history.current.params;
     this.$axios
       .get(`/api/posts/${q.id}/show`)
