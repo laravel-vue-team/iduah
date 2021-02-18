@@ -141,7 +141,6 @@ export default {
     this.$axios
       .get(`/api/posts/${q.id}/show`)
       .then((res) => {
-        console.log(res.data);
         this.$store.commit("articles/setCurrentArticle", res.data); // edit 0 to be article index
       })
       .catch((err) => {
@@ -155,7 +154,6 @@ export default {
       return this.$router.history.current.query.page;
     },
     article() {
-      console.log(this.$store.getters["articles/currentArticle"]);
       return this.$store.getters["articles/currentArticle"];
     },
   },
@@ -171,7 +169,6 @@ export default {
     },
     HeartIt(id) {
       const btnHeart = document.querySelector(`.btn_heart`);
-      console.log(btnHeart);
       const icon = btnHeart.querySelector(".fa-heart");
       btnHeart.classList.toggle("hearted");
       this.$axios
