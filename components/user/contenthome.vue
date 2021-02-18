@@ -1,13 +1,13 @@
 <template>
   <div class="articles_container flex_item">
-    <div id="fb-root"></div>
+    <!-- <div id="fb-root"></div>
     <script
       async
       defer
       crossorigin="anonymous"
       src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v9.0"
       nonce="TO1sdJNB"
-    ></script>
+    ></script> -->
     <svg
       v-if="lights.length === 0"
       xmlns="http://www.w3.org/2000/svg"

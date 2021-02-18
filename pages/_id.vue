@@ -1,13 +1,13 @@
 <template>
   <div class="articles_container container_responsive_wrapper container_hg">
-    <div id="fb-root"></div>
+    <!-- <div id="fb-root"></div>
     <script
       async
       defer
       crossorigin="anonymous"
       src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v9.0"
       nonce="TO1sdJNB"
-    ></script>
+    ></script> -->
     <article
       class="article_box"
       :data-index="article.user_id"
