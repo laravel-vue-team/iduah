@@ -1,5 +1,13 @@
 <template>
   <div class="articles_container container_responsive_wrapper container_hg">
+    <div id="fb-root"></div>
+    <script
+      async
+      defer
+      crossorigin="anonymous"
+      src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v9.0"
+      nonce="TO1sdJNB"
+    ></script>
     <article
       class="article_box"
       :data-index="article.user_id"
@@ -49,24 +57,39 @@
 
           <div class="share_box transition">
             <ul class="share_socials">
-              <li class="share_li">
-                <a
-                  :href="
-                    'https://www.facebook.com/sharer.php?u=' +
-                    encodeURI(loc.origin + '/' + article.id)
+              <li
+                class="share_li"
+                :data-href="
+                  encodeURI(loc.origin + '/article_page/' + article.id)
+                "
+              >
+                <div
+                  class="fb-share-button"
+                  :data-href="
+                    encodeURI(loc.origin + '/article_page/' + article.id)
                   "
-                  class="social_icon"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  data-layout="button"
+                  data-size="small"
                 >
-                  <i class="fab fa-facebook"></i>
-                </a>
+                  <a
+                    :href="
+                      'https://www.facebook.com/sharer/sharer.php?u=' +
+                      encodeURI(loc.origin + '/article_page/' + article.id) +
+                      '%2F&amp;src=sdkpreparse'
+                    "
+                    class="social_icon"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <i class="fab fa-facebook"></i>
+                  </a>
+                </div>
               </li>
               <li class="share_li">
                 <a
                   :href="
                     encodeURI(
-                      `https://twitter.com/intent/tweet?url=${loc.origin}/${article.id}&text=${article.description}`
+                      `https://twitter.com/intent/tweet?url=${loc.origin}/article_page/${article.id}&text=${article.title}`
                     )
                   "
                   class="social_icon"
@@ -80,7 +103,7 @@
                 <a
                   :href="
                     encodeURI(
-                      `https://wa.me/?text=${article.description} ${loc.origin}/${article.id}`
+                      `https://wa.me/?text=${article.description} ${loc.origin}/article_page/${article.id}&text=${article.title}, ${loc.origin}/article_page/${article.id}`
                     )
                   "
                   class="social_icon"
@@ -112,15 +135,18 @@ export default {
     };
   },
   created() {
-    if (process.browser) {
-      this.loc = window.location;
-    }
-    let oldArticles = this.$store.getters["articles/articles"];
-    let q = this.$router.history.current.query;
-    console.log(q);
-    this.$store.commit("articles/setCurrentArticle", oldArticles[q.index]);
-    console.log("id", q.id);
-    console.log("oldArticles", oldArticles);
+    if (process.browser) this.loc = window.location;
+    // let oldArticles = this.$store.getters["articles/articles"];
+    let q = this.$router.history.current.params;
+    this.$axios
+      .get(`/api/posts/${q.id}/show`)
+      .then((res) => {
+        console.log(res.data);
+        this.$store.commit("articles/setCurrentArticle", res.data); // edit 0 to be article index
+      })
+      .catch((err) => {
+        console.log(err.response);
+      });
     return (this.id = this.article && this.article.id);
   },
 
@@ -143,20 +169,6 @@ export default {
       );
       shareBox.classList.toggle("share_opened");
     },
-    // HeartIt(id) {
-    //   const btnHeart = document.querySelector(
-    //     `.article_box[data-index='${id}'] .btn_heart`
-    //   );
-    //   const icon = btnHeart.querySelector(".fa-heart");
-
-    //   btnHeart.classList.toggle("hearted");
-
-    //   if (btnHeart.classList.contains("hearted")) {
-    //     icon.classList.replace("far", "fas");
-    //   } else {
-    //     icon.classList.replace("fas", "far");
-    //   }
-    // },
     HeartIt(id) {
       const btnHeart = document.querySelector(`.btn_heart`);
       console.log(btnHeart);
