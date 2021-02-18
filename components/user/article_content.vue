@@ -70,7 +70,10 @@
       :data-arr-index="index"
       :data-id="item.id"
     >
-      <p class="article_title" @click="goToArticlePage({ id: item.id, index })">
+      <p
+        class="article_title"
+        @click="goToArticlePage({ id: item.id, index, title: item.title })"
+      >
         {{ item.title }}
       </p>
       <!-- article header -->
@@ -134,7 +137,7 @@
                 <a
                   :href="
                     'https://www.facebook.com/sharer.php?u=' +
-                    encodeURI(loc.origin + '/' + item.id)
+                    encodeURI(loc.origin + '/article_page/' + item.id)
                   "
                   class="social_icon"
                   target="_blank"
@@ -147,7 +150,7 @@
                 <a
                   :href="
                     encodeURI(
-                      `https://twitter.com/intent/tweet?url=${loc.origin}/${item.id}&text=${item.content}`
+                      `https://twitter.com/intent/tweet?url=${loc.origin}/article_page/${item.id}&text=${item.title}`
                     )
                   "
                   class="social_icon"
@@ -161,7 +164,7 @@
                 <a
                   :href="
                     encodeURI(
-                      `https://wa.me/?text=${item.content} ${loc.origin}/${item.id}`
+                      `https://wa.me/?text=${item.content} ${loc.origin}/article_page/${item.id}`
                     )
                   "
                   class="social_icon"
@@ -304,11 +307,11 @@ export default {
       }
     },
     goToArticlePage(obj) {
-      // this.$store.commit(
-      //   "articles/setCurrentArticle",
-      //   this.articles[obj.index]
-      // );
-      this.$router.push("/article_page?id=" + obj.id + "&index=" + obj.index);
+      this.$store.commit(
+        "articles/setCurrentArticle",
+        this.articles[obj.index]
+      );
+      this.$router.push("/article_page/" + obj.id + "/" + obj.title);
       this.$axios
         .get(`/api/posts/${obj.id}/view`)
         .then((res) => {
@@ -319,7 +322,6 @@ export default {
         .catch((err) => {
           console.log(err.response);
         });
-      console.log(this.article);
     },
     addLisenters(_this) {
       let observer = new IntersectionObserver(
