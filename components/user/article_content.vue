@@ -70,7 +70,7 @@
       :data-arr-index="index"
       :data-id="item.id"
     >
-      <p class="article_title">
+      <p class="article_title" @click="goToArticlePage({ id: item.id, index })">
         {{ item.title }}
       </p>
       <!-- article header -->
@@ -95,10 +95,7 @@
 
       <!-- article content -->
 
-      <div
-        class="artcile_content"
-        @click="goToArticlePage({ id: item.id, index })"
-      >
+      <div class="artcile_content">
         <p class="content">
           {{ item.description }}
         </p>
@@ -415,6 +412,7 @@ export default {
     margin: 10px auto;
     box-shadow: 0 0 30px #f3f3f3;
     .article_title {
+      cursor: pointer;
       padding: 10px;
       font-size: 24px;
       text-overflow: ellipsis;
@@ -441,7 +439,6 @@ export default {
       }
     }
     .artcile_content {
-      cursor: pointer;
       padding: 10px;
       border-radius: 5px;
       background-color: #fbfbfb;
