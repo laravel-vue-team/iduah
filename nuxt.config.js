@@ -81,15 +81,15 @@ export default {
     background: 'white',
   },
 
-  //  router: {
-  //   extendRoutes(routes, resolve) {
-  //     routes.push({
-  //       name: 'error',
-  //       path: '*',
-  //       component: resolve(__dirname, 'pages/error.vue')
-  //     })
-  //   }
-  // },
+  router: {
+    extendRoutes(routes, resolve) {
+      routes.push({
+        name: 'article',
+        path: '/article_page/:id/:title?',
+        component: resolve(__dirname, 'pages/_id.vue')
+      })
+    }
+  },
 
 
 }
