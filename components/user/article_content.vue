@@ -1,6 +1,13 @@
 <template>
   <div class="articles_container flex_item">
-    <!-- $store.getters['articles/articles'] -->
+    <div id="fb-root"></div>
+    <script
+      async
+      defer
+      crossorigin="anonymous"
+      src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v9.0"
+      nonce="TO1sdJNB"
+    ></script>
     <svg
       v-if="articles.length === 0"
       xmlns="http://www.w3.org/2000/svg"
@@ -134,23 +141,33 @@
           <div class="share_box transition">
             <ul class="share_socials">
               <li class="share_li">
-                <a
-                  :href="
-                    'https://www.facebook.com/sharer.php?u=' +
+                <div
+                  class="fb-share-button"
+                  :data-href="
                     encodeURI(loc.origin + '/article_page/' + item.id)
                   "
-                  class="social_icon"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  data-layout="button"
+                  data-size="small"
                 >
-                  <i class="fab fa-facebook"></i>
-                </a>
+                  <a
+                    :href="
+                      'https://www.facebook.com/sharer.php?u=' +
+                      encodeURI(loc.origin + '/article_page/' + item.id) +
+                      '%2F&amp;src=sdkpreparse'
+                    "
+                    class="social_icon"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <i class="fab fa-facebook"></i>
+                  </a>
+                </div>
               </li>
               <li class="share_li">
                 <a
                   :href="
                     encodeURI(
-                      `https://twitter.com/intent/tweet?url=${loc.origin}/article_page/${item.id}&text=${item.title}`
+                      `https://twitter.com/intent/tweet?url=${loc.origin}/article_page/${item.id}&text=${item.description}`
                     )
                   "
                   class="social_icon"
@@ -164,7 +181,7 @@
                 <a
                   :href="
                     encodeURI(
-                      `https://wa.me/?text=${item.content} ${loc.origin}/article_page/${item.id}`
+                      `https://wa.me/?text=${item.description} ${loc.origin}/article_page/${item.id}&text=${item.description}, ${loc.origin}/article_page/${item.id}`
                     )
                   "
                   class="social_icon"
