@@ -99,6 +99,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.preview {
+  margin-right: 18px;
+}
 .editor_container {
   margin: 10px auto;
   .buttons {
