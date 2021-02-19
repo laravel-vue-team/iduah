@@ -328,7 +328,7 @@ export default {
         "articles/setCurrentArticle",
         this.articles[obj.index]
       );
-      this.$router.push("/article_page/" + obj.id + "/" + obj.title);
+      this.$router.push("/articles/" + obj.id + "/" + obj.title);
     },
     addLisenters(_this) {
       let observer = new IntersectionObserver(
