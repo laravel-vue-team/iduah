@@ -62,16 +62,13 @@ export default {
     },
     isTherePrevPage() {
       let isPrevPage = this.$store.getters["lights/isTherePrevPage"];
-      console.log("isPrevPage", isPrevPage);
       return isPrevPage;
     },
     isThereNextPage() {
       let isNextPage = this.$store.getters["lights/isThereNextPage"];
-      console.log("isNextPage", isNextPage);
       return isNextPage;
     },
     currentPage() {
-      console.log("current page", this.$store.getters["lights/currentPage"]);
       return this.$store.getters["lights/currentPage"];
     },
   },
@@ -90,7 +87,6 @@ export default {
         .then((res) => {
           this.isNextLoading = false;
           this.isPrevLoading = false;
-          console.log(res.data.data);
           this.$store.dispatch("lights/setLights", res.data.data.data);
           this.$store.commit(
             "lights/setCurrentPage",
@@ -105,9 +101,7 @@ export default {
             res.data.data.prev_page_url ? true : false
           );
         })
-        .catch((err) => {
-          console.log(err.response);
-        });
+        .catch((err) => {});
     },
     Deletelight(obj) {
       this.$store.dispatch("lights/deleteLight", obj);
