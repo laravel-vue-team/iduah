@@ -329,16 +329,6 @@ export default {
         this.articles[obj.index]
       );
       this.$router.push("/article_page/" + obj.id + "/" + obj.title);
-      this.$axios
-        .get(`/api/posts/${obj.id}/view`)
-        .then((res) => {
-          if (res.data.message !== "view alredy exists") {
-            this.articles[targetIndex].views.push({});
-          }
-        })
-        .catch((err) => {
-          console.log(err.response);
-        });
     },
     addLisenters(_this) {
       let observer = new IntersectionObserver(
