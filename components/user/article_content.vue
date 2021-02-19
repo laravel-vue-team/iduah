@@ -143,17 +143,15 @@
               <li class="share_li">
                 <div
                   class="fb-share-button"
-                  :data-href="
-                    encodeURI(loc.origin + '/article_page/' + item.id)
-                  "
+                  :data-href="encodeURI(loc.origin + '/article?id=' + item.id)"
                   data-layout="button"
                   data-size="small"
                 >
                   <a
                     :href="
                       'https://www.facebook.com/sharer.php?u=' +
-                      encodeURI(loc.origin + '/article_page/' + item.id) +
-                      '%2F&amp;src=sdkpreparse'
+                      encodeURI(loc.origin + '/article?id=' + item.id) +
+                      '&amp;src=sdkpreparse'
                     "
                     class="social_icon"
                     target="_blank"
@@ -167,7 +165,7 @@
                 <a
                   :href="
                     encodeURI(
-                      `https://twitter.com/intent/tweet?url=${loc.origin}/article_page/${item.id}&text=${item.description}`
+                      `https://twitter.com/intent/tweet?url=${loc.origin}/article?id=${item.id}&text=${item.title}`
                     )
                   "
                   class="social_icon"
@@ -181,7 +179,7 @@
                 <a
                   :href="
                     encodeURI(
-                      `https://wa.me/?text=${item.description} ${loc.origin}/article_page/${item.id}&text=${item.description}, ${loc.origin}/article_page/${item.id}`
+                      `https://wa.me/?text=${item.title} ${loc.origin}/article?id=${item.id}&text=${item.title}, ${loc.origin}/article?id=${item.id}`
                     )
                   "
                   class="social_icon"
@@ -270,7 +268,6 @@ export default {
     return {
       classname: "",
       loc: "",
-      isLoading: false,
     };
   },
   computed: {
@@ -280,6 +277,9 @@ export default {
         this.addLisenters(this);
       }
       return this.$store.getters["articles/articles"];
+    },
+    isLoading() {
+      return this.$store.getters["articles/isLoading"];
     },
     isThereNextPage() {
       return this.$store.getters["articles/isThereNextPage"];
@@ -306,20 +306,15 @@ export default {
       let enoughScroll =
         pageHeight < 5000 ? percent > 0.6 : pageHeight - scrollValue < 1200;
       if (enoughScroll && _this.isThereNextPage && !_this.isLoading) {
-        _this.isLoading = true;
+        this.$store.commit("articles/setIsLoading", true);
         _this.$axios
           .get(`/api/posts?page=${_this.currentPage + 1}`)
           .then((res) => {
-            let newArticles = [..._this.articles, ...res.data.data.data];
-            _this.articles = [...newArticles];
-            _this.$store.dispatch("articles/setArticles", newArticles);
-            _this.isLoading = false;
-            _this.currentPage = res.data.data.current_page;
-            _this.isThereNextPage = res.data.data.next_page_url ? true : false;
+            _this.$store.dispatch("articles/addArticles", res.data.data);
+            this.$store.commit("articles/setIsLoading", false);
           })
           .catch((err) => {
-            console.log(err.response);
-            _this.isLoading = false;
+            this.$store.commit("articles/setIsLoading", false);
           });
       }
     },
@@ -328,7 +323,7 @@ export default {
         "articles/setCurrentArticle",
         this.articles[obj.index]
       );
-      this.$router.push("/articles/" + obj.id + "/" + obj.title);
+      this.$router.push("/article?id=" + obj.id);
     },
     addLisenters(_this) {
       let observer = new IntersectionObserver(
@@ -338,15 +333,13 @@ export default {
               const targetId = entry.target.getAttribute("data-id");
               const targetIndex = entry.target.getAttribute("data-arr-index");
               _this.$axios
-                .get(`/api/posts/${targetId}/view`)
+                .get(`/api/posts/${targetId}/view`, { progress: false })
                 .then((res) => {
                   if (res.data.message !== "view alredy exists") {
                     _this.articles[targetIndex].views.push({});
                   }
                 })
-                .catch((err) => {
-                  console.log(err.response);
-                });
+                .catch((err) => {});
               observer.unobserve(entry.target);
             }
           });
@@ -392,7 +385,6 @@ export default {
         })
         .catch((err) => {
           btnHeart.classList.toggle("hearted");
-          console.log(err.response);
         });
     },
   },
