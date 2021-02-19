@@ -16,9 +16,6 @@ export default {
         localStorage.getItem("USER") || sessionStorage.getItem("USER");
       this.$store.dispatch("auth/setUser", JSON.parse(userData));
     }
-    if (!this.$store.getters["auth/isAuth"]) {
-      return this.$router.push("/login");
-    }
   },
 };
 </script>
