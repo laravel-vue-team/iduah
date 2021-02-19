@@ -50,7 +50,6 @@ export default {
   },
   methods: {
     CopyUserId(id) {
-      console.log(id);
       if (navigator.clipboard) {
         navigator.clipboard.writeText(id);
       }
