@@ -82,9 +82,7 @@ export default {
             this.$router.push("/");
             this.clearForm();
           })
-          .catch((err) => {
-            console.log(err.response);
-          });
+          .catch((err) => {});
       }
     },
   },
