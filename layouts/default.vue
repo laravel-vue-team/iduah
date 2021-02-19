@@ -16,15 +16,25 @@ export default {
       if (
         !this.$store.getters["auth/isAuth"] &&
         (this.$router.history._startLocation === "/profile" ||
-          this.$router.history._startLocation === "/admin" ||
-          this.$router.history._startLocation === "/admin/users" ||
-          this.$router.history._startLocation ===
-            "/admin/administrative_pages" ||
-          this.$router.history._startLocation === "/admin/sections" ||
-          this.$router.history._startLocation === "/admin/lights" ||
-          this.$router.history._startLocation === "/admin/articles" ||
+          // this.$router.history._startLocation === "/admin" ||
+          // this.$router.history._startLocation === "/admin/users" ||
+          // this.$router.history._startLocation ===
+          //   "/admin/administrative_pages" ||
+          // this.$router.history._startLocation === "/admin/sections" ||
+          // this.$router.history._startLocation === "/admin/lights" ||
+          // this.$router.history._startLocation === "/admin/articles" ||
           this.$router.history._startLocation === "/create-article" ||
-          this.$router.history._startLocation === "/settings")
+          this.$router.history._startLocation === "/settings" ||
+          this.$router.history._startLocation === "/profile/" ||
+          // this.$router.history._startLocation === "/admin/" ||
+          // this.$router.history._startLocation === "/admin/users/" ||
+          // this.$router.history._startLocation ===
+          //   "/admin/administrative_pages/" ||
+          // this.$router.history._startLocation === "/admin/sections/" ||
+          // this.$router.history._startLocation === "/admin/lights/" ||
+          // this.$router.history._startLocation === "/admin/articles/" ||
+          this.$router.history._startLocation === "/create-article/" ||
+          this.$router.history._startLocation === "/settings/")
       ) {
         return this.$router.push("/login");
       }
