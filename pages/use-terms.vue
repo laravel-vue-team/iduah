@@ -16,7 +16,6 @@ export default {
   },
   computed: {
     terms() {
-      console.log(this.$store.getters["textEditor/terms"]);
       return this.$store.getters["textEditor/terms"];
     },
   },
