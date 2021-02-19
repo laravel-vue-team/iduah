@@ -15,7 +15,6 @@ export default {
   },
   computed: {
     privacy() {
-      console.log(this.$store.getters["textEditor/privacy"]);
       return this.$store.getters["textEditor/privacy"];
     },
   },
