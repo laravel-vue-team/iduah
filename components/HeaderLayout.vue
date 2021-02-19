@@ -10,7 +10,7 @@
         <ul class="navber_par">
           <div
             class="no-user"
-            v-if="
+            v-show="
               !$store.getters['auth/isAuth'] &&
               !$store.getters['auth/isLoading']
             "
@@ -26,14 +26,17 @@
           </div>
           <div
             class="user"
-            v-if="
+            v-show="
               $store.getters['auth/isAuth'] && !$store.getters['auth/isLoading']
             "
           >
             <li class="link_li">
               <nuxt-link to="/profile">
                 <span class="user_name">
-                  {{ $store.getters["auth/user"].name }}
+                  {{
+                    $store.getters["auth/user"] &&
+                    $store.getters["auth/user"].name
+                  }}
                 </span>
                 <i class="far fa-user"></i
               ></nuxt-link>
@@ -72,7 +75,10 @@
             <li class="link_li" @click="closeNavBar">
               <nuxt-link to="/profile">
                 <span class="user_name">
-                  {{ $store.getters["auth/user"].name }}
+                  {{
+                    $store.getters["auth/user"] &&
+                    $store.getters["auth/user"].name
+                  }}
                 </span>
                 <i class="far fa-user"></i
               ></nuxt-link>
@@ -106,13 +112,8 @@ export default {
       if (process.client) {
         this.$axios
           .get("/api/logout")
-          .then((res) => {
-            console.log("getting out2222222");
-            console.log(res.data);
-          })
-          .catch((err) => {
-            console.log(err.response);
-          });
+          .then((res) => {})
+          .catch((err) => {});
         this.clearUser();
         this.$router.push("/login");
       }
