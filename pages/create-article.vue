@@ -82,12 +82,9 @@ export default {
       .get("/api/categories")
       .then((res) => {
         let { data: categories } = res.data;
-        console.log(categories);
         this.center = [...categories];
       })
-      .catch((err) => {
-        console.log(err.response);
-      });
+      .catch((err) => {});
   },
   methods: {
     CreateArticle() {
@@ -98,17 +95,13 @@ export default {
         category_id: CurrentSubmitForm["center"].value,
         description: CurrentSubmitForm["content"].value,
       };
-      console.log(data);
       const jsonData = JSON.stringify(data);
       this.$axios
         .post("/api/posts/store", jsonData)
         .then((res) => {
-          console.log(res.data);
           this.$router.push("/articles");
         })
-        .catch((err) => {
-          console.log(err.response);
-        });
+        .catch((err) => {});
     },
     CheckRequires() {
       const CurrentForm = this.$refs.create;
