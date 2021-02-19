@@ -85,8 +85,8 @@ export default {
     extendRoutes(routes, resolve) {
       routes.push({
         name: 'article',
-        path: '/article_page/:id/:title?',
-        component: resolve(__dirname, 'pages/_id.vue')
+        path: '/articles/:id/:title?',
+        component: resolve(__dirname, 'pages/articles/_id.vue')
       })
     }
   },
