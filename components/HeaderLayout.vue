@@ -8,7 +8,13 @@
       </div>
       <nav class="header_navbar_lg">
         <ul class="navber_par">
-          <div class="no-user" v-if="!$store.getters['auth/isAuth']">
+          <div
+            class="no-user"
+            v-if="
+              !$store.getters['auth/isAuth'] &&
+              !$store.getters['auth/isLoading']
+            "
+          >
             <li class="link_li">
               <nuxt-link to="/register">حساب جديد</nuxt-link>
             </li>
@@ -18,7 +24,12 @@
               >
             </li>
           </div>
-          <div class="user" v-else>
+          <div
+            class="user"
+            v-if="
+              $store.getters['auth/isAuth'] && !$store.getters['auth/isLoading']
+            "
+          >
             <li class="link_li">
               <nuxt-link to="/profile">
                 <span class="user_name">
@@ -113,6 +124,7 @@ export default {
       this.$store.dispatch("auth/setUser", null);
       this.$store.dispatch("articles/setArticles", []);
       this.$store.dispatch("lights/setLights", []);
+      sessionStorage.clear();
     },
     NavBarActiveIt() {
       const CurrentBtn = this.$refs.BtnMdNav;
