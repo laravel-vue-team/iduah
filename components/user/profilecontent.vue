@@ -86,7 +86,7 @@
                     <div
                       class="fb-share-button"
                       :data-href="
-                        encodeURI(loc.origin + '/article_page/' + item.id)
+                        encodeURI(loc.origin + '/article?id=' + item.id)
                       "
                       data-layout="button"
                       data-size="small"
@@ -94,8 +94,8 @@
                       <a
                         :href="
                           'https://www.facebook.com/sharer/sharer.php?u=' +
-                          encodeURI(loc.origin + '/article_page/' + item.id) +
-                          '%2F&amp;src=sdkpreparse'
+                          encodeURI(loc.origin + '/article?id=' + item.id) +
+                          '&amp;src=sdkpreparse'
                         "
                         class="social_icon"
                         target="_blank"
@@ -109,7 +109,7 @@
                     <a
                       :href="
                         encodeURI(
-                          `https://twitter.com/intent/tweet?url=${loc.origin}/article_page/${item.id}&text=${item.description}`
+                          `https://twitter.com/intent/tweet?url=${loc.origin}/article?id=${item.id}&text=${item.title}`
                         )
                       "
                       class="social_icon"
@@ -123,7 +123,7 @@
                     <a
                       :href="
                         encodeURI(
-                          `https://wa.me/?text=${item.description} ${loc.origin}/article_page/${item.id}&text=${item.description}, ${loc.origin}/article_page/${item.id}`
+                          `https://wa.me/?text=${item.title} ${loc.origin}/article?id=${item.id}&text=${item.title}, ${loc.origin}/article?id=${item.id}`
                         )
                       "
                       class="social_icon"
@@ -202,7 +202,6 @@ export default {
     },
     data() {
       this.isLoading = false;
-      console.log(this.$store.getters["auth/profileData"]);
       return this.$store.getters["auth/profileData"];
     },
     dataType() {
@@ -249,7 +248,6 @@ export default {
           }
         })
         .catch((err) => {
-          console.log(err.response);
           btnHeart.classList.toggle("hearted");
         });
     },
