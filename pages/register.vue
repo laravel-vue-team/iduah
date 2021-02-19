@@ -117,13 +117,11 @@ export default {
         password: CurrentSubmitForm["pass"].value,
         c_password: CurrentSubmitForm["c_pass"].value,
       };
-      console.log(userinfo);
       let data = JSON.stringify(userinfo);
       this.$axios
         .post("/api/signup", data)
         .then((res) => {
           const { token, user } = res.data.data;
-          console.log(res.data);
           localStorage.setItem("TOKEN", token);
           localStorage.setItem("USER", JSON.stringify(user));
           sessionStorage.setItem("TOKEN", token);
@@ -141,7 +139,6 @@ export default {
           submitButton.disabled = false;
           this.errorMessage = err.response.data.message;
           this.requires = true;
-          console.log(err.response);
         });
     },
     CheckRequires() {
