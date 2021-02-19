@@ -9,18 +9,28 @@
       @submit.prevent="addNewLight"
       v-show="show"
     >
-      <p class="content">شاركنا الاجر في اضافة إضاءة جديدة</p>
-      <textarea
-        name="light"
-        id="new_light"
-        placeholder="بسم الله"
-        required
-        autocomplete="off"
-        spellcheck="off"
-        autocorrect="off"
-        class="focus_elem transition"
-      ></textarea>
-      <button class="btn_submit" type="submit">أنشر الان</button>
+      <div v-if="!isAuth" class="unregister-container">
+        <h2>
+          قم بتسجيل الدخول للتتمكن من اضافة اضاءة جديدة
+          <h5>
+            <nuxt-link class="link" to="login">تسجيل الدخول</nuxt-link>
+          </h5>
+        </h2>
+      </div>
+      <div v-else>
+        <p class="content">شاركنا الاجر في اضافة إضاءة جديدة</p>
+        <textarea
+          name="light"
+          id="new_light"
+          placeholder="بسم الله"
+          required
+          autocomplete="off"
+          spellcheck="off"
+          autocorrect="off"
+          class="focus_elem transition"
+        ></textarea>
+        <button class="btn_submit" type="submit">أنشر الان</button>
+      </div>
     </form>
   </div>
 </template>
@@ -34,10 +44,14 @@ export default {
       show: false,
     };
   },
+  computed: {
+    isAuth() {
+      return this.$store.getters["auth/isAuth"];
+    },
+  },
   methods: {
     OpenLightForm() {
       const btn = this.$refs.btnlight;
-
       if (btn.classList.contains("active_light")) {
         btn.classList.remove("active_light");
         btn.children[0].classList.replace("fas", "far");
@@ -56,8 +70,8 @@ export default {
       form["light"].value = "";
     },
     addNewLight() {
-      const isAuth = this.$store.getters["auth/isAuth"];
-      if (isAuth) {
+      // const isAuth = this.$store.getters["auth/isAuth"];
+      if (this.isAuth) {
         let form = this.$refs.addLight;
         let newLight = { description: form["light"].value };
         newLight = JSON.stringify(newLight);
@@ -78,6 +92,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.link {
+  color: #1b5fdf;
+}
+.unregister-container {
+  margin-bottom: 20px;
+  letter-spacing: 0.6px;
+}
 .new_light_container {
   width: 100%;
   height: auto;
