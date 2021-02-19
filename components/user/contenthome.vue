@@ -133,17 +133,15 @@
               <li class="share_li">
                 <div
                   class="fb-share-button"
-                  :data-href="
-                    encodeURI(loc.origin + '/article_page/' + item.id)
-                  "
+                  :data-href="encodeURI(loc.origin + '/article?id=' + item.id)"
                   data-layout="button"
                   data-size="small"
                 >
                   <a
                     :href="
                       'https://www.facebook.com/sharer/sharer.php?u=' +
-                      encodeURI(loc.origin + '/article_page/' + item.id) +
-                      '%2F&amp;src=sdkpreparse'
+                      encodeURI(loc.origin + '/article?id=' + item.id) +
+                      '&amp;src=sdkpreparse'
                     "
                     class="social_icon"
                     target="_blank"
@@ -157,7 +155,7 @@
                 <a
                   :href="
                     encodeURI(
-                      `https://twitter.com/intent/tweet?url=${loc.origin}/article_page/${item.id}&text=${item.description}`
+                      `https://twitter.com/intent/tweet?url=${loc.origin}/article?id=${item.id}&text=${item.title}`
                     )
                   "
                   class="social_icon"
@@ -171,7 +169,7 @@
                 <a
                   :href="
                     encodeURI(
-                      `https://wa.me/?text=${item.description} ${loc.origin}/article_page/${item.id}&text=${item.description}, ${loc.origin}/article_page/${item.id}`
+                      `https://wa.me/?text=${item.title} ${loc.origin}/article?id=${item.id}&text=${item.title}, ${loc.origin}/article?id=${item.id}`
                     )
                   "
                   class="social_icon"
@@ -259,7 +257,7 @@ export default {
     return {
       classname: "",
       loc: "",
-      isLoading: false,
+      // isLoading: false,
     };
   },
   mounted() {
@@ -274,7 +272,6 @@ export default {
     lights() {
       const isAuth = this.$store.getters["auth/isAuth"];
       if (process.client && isAuth) {
-        console.log("adding listent");
         this.addLisenters(this);
       }
       return this.$store.getters["lights/lights"];
@@ -284,6 +281,9 @@ export default {
     },
     currentPage() {
       return this.$store.getters["lights/currentPage"];
+    },
+    isLoading() {
+      return this.$store.getters["lights/isLoading"];
     },
   },
   created() {
@@ -300,18 +300,15 @@ export default {
       let enoughScroll =
         pageHeight < 5000 ? percent > 0.6 : pageHeight - scrollValue < 1200;
       if (enoughScroll && _this.isThereNextPage && !_this.isLoading) {
-        _this.isLoading = true;
+        this.$store.commit("lights/setIsLoading", true);
         _this.$axios
           .get(`/public/api/lights?page=${_this.currentPage + 1}`)
           .then((res) => {
-            console.log(res.data);
+            this.$store.commit("lights/setIsLoading", false);
             this.$store.dispatch("lights/addLights", res.data.data);
-            _this.isLoading = false;
           })
           .catch((err) => {
-            console.log(err);
-            console.log(err.response);
-            _this.isLoading = false;
+            this.$store.commit("lights/setIsLoading", false);
           });
       }
     },
@@ -325,15 +322,11 @@ export default {
               _this.$axios
                 .get(`/api/lights/${targetId}/view`)
                 .then((res) => {
-                  console.log(res.data);
                   if (res.data.message !== "view alredy exists") {
-                    console.log("viewing light");
                     this.$store.commit("lights/viewLight", targetIndex);
                   }
                 })
-                .catch((err) => {
-                  console.log(err.response);
-                });
+                .catch((err) => {});
               observer.unobserve(entry.target);
             }
           });
@@ -375,10 +368,8 @@ export default {
             icon.classList.replace("fas", "far");
             this.$store.commit("lights/removeLike", id);
           }
-          console.log(res.data);
         })
         .catch((err) => {
-          console.log(err);
           btnHeart.classList.toggle("hearted");
         });
     },
