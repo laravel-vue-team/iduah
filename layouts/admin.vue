@@ -9,11 +9,12 @@ export default {
   middleware: "authenticated",
   created() {
     if (process.client) {
-      this.$store.dispatch("auth/setToken", localStorage.getItem("TOKEN"));
-      this.$store.dispatch(
-        "auth/setUser",
-        JSON.parse(localStorage.getItem("USER"))
-      );
+      let token =
+        localStorage.getItem("TOKEN") || sessionStorage.getItem("TOKEN");
+      this.$store.dispatch("auth/setToken", token);
+      let userData =
+        localStorage.getItem("USER") || sessionStorage.getItem("USER");
+      this.$store.dispatch("auth/setUser", JSON.parse(userData));
     }
     if (!this.$store.getters["auth/isAuth"]) {
       return this.$router.push("/login");
