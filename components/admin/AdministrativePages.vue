@@ -82,11 +82,9 @@ export default {
       return this.$store.getters["textEditor/data"];
     },
     terms() {
-      console.log(this.$store.getters["textEditor/terms"]);
       return this.$store.getters["textEditor/terms"];
     },
     privacy() {
-      console.log(this.$store.getters["textEditor/privacy"]);
       return this.$store.getters["textEditor/privacy"];
     },
   },
@@ -117,7 +115,6 @@ export default {
         itid === 0
           ? { ...oldData, terms: "" + this.currentHtml }
           : { ...oldData, privacy: "" + this.currentHtml };
-      console.log(newData);
       itid === 0
         ? this.$store.dispatch("textEditor/editTerms", newData)
         : this.$store.dispatch("textEditor/editPrivacy", newData);
