@@ -108,7 +108,6 @@ export default {
   },
   methods: {
     formSubmit() {
-      console.log(this.actionType);
       if (this.actionType === "adding") {
         this.addSection();
       } else {
@@ -124,7 +123,6 @@ export default {
       this.$axios
         .post("/api/categories/store", json)
         .then((res) => {
-          console.log(res.data.data);
           let lastId = this.sections[this.sections.length - 1].id;
           this.$store.commit("categories/addCategory", {
             title: form["section"].value,
@@ -133,19 +131,15 @@ export default {
           this.sectionshow = false;
           this.sectionname = "";
         })
-        .catch((err) => {
-          console.log(err.response);
-        });
+        .catch((err) => {});
     },
     deleteSection(obj) {
       this.$store.dispatch("categories/deleteCategory", obj);
     },
     editSection(obj) {
-      console.log("editting...");
       const form = this.$refs.newsection;
       let title = form["section"].value;
       obj = { ...obj, title };
-      console.log(obj);
       this.$store.dispatch("categories/editCategory", obj);
       this.sectionname = "";
     },
