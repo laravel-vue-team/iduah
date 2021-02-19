@@ -62,7 +62,7 @@ export default {
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
-    baseURL: "http://idauh.com/idauh"
+    baseURL: "https://idauh.com/idauh"
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
@@ -81,15 +81,15 @@ export default {
     background: 'white',
   },
 
-  router: {
-    extendRoutes(routes, resolve) {
-      routes.push({
-        name: 'article',
-        path: '/articles/:id/:title?',
-        component: resolve(__dirname, 'pages/articles/_id.vue')
-      })
-    }
-  },
+  // router: {
+  //   extendRoutes(routes, resolve) {
+  //     routes.push({
+  //       name: 'article',
+  //       path: '/articles/:id',
+  //       component: resolve(__dirname, 'pages/articles/_article.vue')
+  //     })
+  //   }
+  // },
 
 
 }
