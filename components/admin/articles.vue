@@ -69,16 +69,13 @@ export default {
     },
     isTherePrevPage() {
       let isPrevPage = this.$store.getters["articles/isTherePrevPage"];
-      console.log("isPrevPage", isPrevPage);
       return isPrevPage;
     },
     isThereNextPage() {
       let isNextPage = this.$store.getters["articles/isThereNextPage"];
-      console.log("isNextPage", isNextPage);
       return isNextPage;
     },
     currentPage() {
-      console.log("current page", this.$store.getters["articles/currentPage"]);
       return this.$store.getters["articles/currentPage"];
     },
   },
@@ -92,7 +89,6 @@ export default {
         .then((res) => {
           this.isNextLoading = false;
           this.isPrevLoading = false;
-          console.log(res.data.data);
           this.$store.dispatch("articles/setArticles", res.data.data.data);
           this.$store.commit(
             "articles/setCurrentPage",
@@ -107,9 +103,7 @@ export default {
             res.data.data.prev_page_url ? true : false
           );
         })
-        .catch((err) => {
-          console.log(err.response);
-        });
+        .catch((err) => {});
     },
     timeFromNow(timeStmp) {
       return (
