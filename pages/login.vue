@@ -96,9 +96,6 @@ export default {
       this.$axios
         .post("/api/login", data)
         .then((res) => {
-          console.log(res.data.data);
-
-          console.log("is remember: ", this.rememberMe);
           const { token, user } = res.data.data;
           let userData = JSON.stringify(user);
           if (this.rememberMe) {
@@ -115,8 +112,6 @@ export default {
           submitButton.disabled = false;
         })
         .catch((err) => {
-          console.log(err);
-          console.log(err.response.data.message);
           this.errorMessage = err.response.data.message;
           this.requires = true;
           localStorage.removeItem("TOKEN");
