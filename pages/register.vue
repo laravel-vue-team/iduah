@@ -126,6 +126,8 @@ export default {
           console.log(res.data);
           localStorage.setItem("TOKEN", token);
           localStorage.setItem("USER", JSON.stringify(user));
+          sessionStorage.setItem("TOKEN", token);
+          sessionStorage.setItem("USER", JSON.stringify(user));
           this.$store.dispatch("auth/setUser", user);
           this.$store.dispatch("auth/setToken", token);
           submitButton.innerText = "دخول";
