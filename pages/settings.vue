@@ -98,13 +98,10 @@ export default {
       this.$axios
         .post("/api/change_password", newPassJson)
         .then((res) => {
-          console.log(res);
-          console.log(res.data);
           if (!res.data.password && !res.data.current_password) {
             this.$router.push("/profile");
           } else {
             const requires = CurrentSubmitForm.querySelectorAll("[required]");
-            console.log(requires);
             if (res.data.password) {
               return (
                 (this.errMessage = "تأكد من تطابق تأكيد كلمة المرور الجديدة"),
@@ -121,11 +118,7 @@ export default {
             }
           }
         })
-        .catch((err) => {
-          console.log(err);
-          console.log(err.response);
-        });
-      console.log(newPass);
+        .catch((err) => {});
     },
     CheckRequires() {
       const CurrentForm = this.$refs.settings;
