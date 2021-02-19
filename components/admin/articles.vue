@@ -147,7 +147,9 @@ export default {
 }
 .prev {
   background-color: #eb596e;
-  margin-left: 10px;
+}
+.next {
+  margin: 0 10px 0 8px;
 }
 .users_content {
   padding: 0;
