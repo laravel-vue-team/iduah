@@ -10,8 +10,9 @@ export default {
   mounted() {
     if (process.client) {
       this.$store.commit("auth/setIsLoading", false);
-      this.$store.dispatch("auth/setToken", localStorage.getItem("TOKEN"));
-      console.log(this.$router.history._startLocation);
+      let token =
+        localStorage.getItem("TOKEN") || sessionStorage.getItem("TOKEN");
+      this.$store.dispatch("auth/setToken", token);
       if (
         !this.$store.getters["auth/isAuth"] &&
         (this.$router.history._startLocation === "/profile" ||
@@ -22,14 +23,14 @@ export default {
           this.$router.history._startLocation === "/admin/sections" ||
           this.$router.history._startLocation === "/admin/lights" ||
           this.$router.history._startLocation === "/admin/articles" ||
+          this.$router.history._startLocation === "/create-article" ||
           this.$router.history._startLocation === "/settings")
       ) {
         return this.$router.push("/login");
       }
-      this.$store.dispatch(
-        "auth/setUser",
-        JSON.parse(localStorage.getItem("USER"))
-      );
+      let userData =
+        localStorage.getItem("USER") || sessionStorage.getItem("USER");
+      this.$store.dispatch("auth/setUser", JSON.parse(userData));
     }
   },
 };
