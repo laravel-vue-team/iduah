@@ -2,12 +2,16 @@
   <footer class="footer_container">
     <div class="container_responsive_wrapper footer_box flex_item">
       <div class="links">
-        <nuxt-link class="terms" to="/use-terms"> شروط الاستخدام </nuxt-link>
-        <nuxt-link to="/privacy-content"> محتوى الخصوصية </nuxt-link>
+        <nav class="right">
+          <nuxt-link class="terms" to="/use-terms"> شروط الاستخدام </nuxt-link>
+          <nuxt-link to="/privacy-content"> محتوى الخصوصية </nuxt-link>
+        </nav>
+        <nav class="left">
+          <span class="footer_content">
+            جميع الحقوق © محوظة لدى <nuxt-link to="/">اضاءة</nuxt-link>
+          </span>
+        </nav>
       </div>
-      <p class="footer_content">
-        جميع الحقوق © محوظة لدى <nuxt-link to="/">اضاءة</nuxt-link>
-      </p>
     </div>
   </footer>
 </template>
@@ -22,13 +26,14 @@ export default {};
 }
 .footer_container {
   height: auto;
-  position: relative;
+  position: fixed;
+  bottom: 0;
   background-color: #222831;
   width: 100%;
   .footer_box {
     width: 100%;
     height: auto;
-    padding: 10px;
+    padding: 9px;
     align-items: center;
     justify-content: space-between;
     color: #fff;
@@ -36,13 +41,23 @@ export default {};
       text-decoration: none;
     }
     .links {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      @media only screen and (max-width: 575px) {
+        flex-direction: column;
+        .right {
+          margin-bottom: 2px;
+        }
+      }
       a {
         color: #ddd;
         text-decoration: none;
       }
+      /* .left */
     }
     .footer_content {
-      a {
+      margin-left: a {
         color: #eb596e;
         padding: 0 5px;
       }
