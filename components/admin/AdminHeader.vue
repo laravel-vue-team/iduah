@@ -33,9 +33,14 @@
       </div>
 
       <div class="welcome_box">
-        <span class="welcome">{{ GetWelcomeMsg }}</span
-        >,
-        <span class="name">{{ username }}</span>
+        <span class="welcome">{{ GetWelcomeMsg }}</span>
+        <span v-if="username && !isLoading" class="name">,{{ username }}</span>
+        <!-- <nuxt-link v-else to="/login">تسجيل الدخول</nuxt-link> -->
+        <span v-else-if="!username && !isLoading" class="link_li log_in">
+          <nuxt-link to="/login" class="transition"
+            ><i class="far fa-user"></i> تسجيل الدخول</nuxt-link
+          >
+        </span>
       </div>
     </div>
   </header>
@@ -73,12 +78,33 @@ export default {
         ? this.$store.getters["auth/user"].name
         : "";
     },
+    isLoading() {
+      return this.$store.getters["auth/isLoading"];
+    },
   },
   methods: {},
 };
 </script>
 
 <style lang="scss" scoped>
+.log_in {
+  a {
+    text-decoration: none;
+    margin-right: 13px;
+    background-color: #1b5fdf;
+    border-radius: 10px;
+    padding: 8px 13px;
+    display: block;
+    color: #fff;
+    font-weight: 500;
+    font-size: 15px;
+    transition: 0.2s;
+    &:hover {
+      box-shadow: 0 0 0 3px #bad2fd;
+      -webkit-box-shadow: 0 0 0 3px #bad2fd;
+    }
+  }
+}
 .header_container {
   width: 100%;
   height: 50px;
@@ -125,6 +151,8 @@ export default {
     .welcome_box {
       padding: 10px 15px;
       font-size: 16px;
+      display: flex;
+      align-items: center;
     }
     .notifications_container {
       position: absolute;
