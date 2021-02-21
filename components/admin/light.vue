@@ -127,6 +127,10 @@ export default {
   cursor: default;
 }
 .btn {
+  outline: 0;
+  &:focus {
+    outline: 0;
+  }
   padding: 7px 15px;
   transition: 0.7s opacity;
   border-radius: 5px;
