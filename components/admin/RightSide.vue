@@ -55,14 +55,14 @@ export default {
 .pages_rightside {
   position: sticky;
   position: -webkit-sticky;
-  top: 60px;
+  top: 50px;
   right: 0;
   padding: 10px;
   width: 100%;
   background-color: #1a1a2e;
   z-index: 1;
   display: inline-block;
-  height: 100%;
+  height: calc(100vh - 50px);
   @media screen and(max-width: 768px) {
     position: relative;
     min-height: auto;
