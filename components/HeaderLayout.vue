@@ -3,8 +3,8 @@
     <div class="container_responsive_wrapper header_box flex_item">
       <div class="main_links">
         <nuxt-link to="/" class="logo_icon"> اضاءة </nuxt-link>
-        <nuxt-link to="/"> اضاءات </nuxt-link>
-        <nuxt-link to="/articles"> مقالات </nuxt-link>
+        <nuxt-link class="lights" to="/"> اضاءات </nuxt-link>
+        <nuxt-link class="articles" to="/articles"> مقالات </nuxt-link>
       </div>
       <nav class="header_navbar_lg">
         <ul class="navber_par">
@@ -182,14 +182,26 @@ export default {
         }
       }
     }
+    .lights {
+      margin: 0 6px 0 5px;
+    }
     .logo_icon {
       margin-right: 10px;
       font-size: 18px;
       font-weight: 500;
+      /* background-color: rgb(27, 95, 223, 0.9);
+      border-radius: 20px;
+      padding: 5px 12px !important;
+      margin-left: 10px;
+        filter: saturate(0.6);
+      &:hover{
+        filter: saturate(0.9);
+      }
+      color: white; */
     }
     .main_links {
       a {
-        padding: 10px;
+        padding: 6px;
       }
     }
     .header_navbar_lg {
