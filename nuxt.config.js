@@ -13,7 +13,14 @@ export default {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-      { rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css' }
+      { rel: 'stylesheet', href: "https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" },
+      { rel: 'stylesheet', href: "https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" },
+      { rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css' },
+    ],
+    script: [
+      { src: "https://code.jquery.com/jquery-3.5.1.min.js" },
+      { src: "https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" },
+      { src: "https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js" },
     ]
   },
 
@@ -26,10 +33,10 @@ export default {
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     '~/plugins/axios',
-    {
-      src: '~/plugins/quill',
-      mode: 'client'
-    }
+    // {
+    //   src: '~/plugins/quill',
+    //   mode: 'client'
+    // }
   ],
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -42,20 +49,20 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
-    '@tui-nuxt/editor',
+    // '@tui-nuxt/editor',
     '@nuxtjs/markdownit'
   ],
-  tui: {
-    editor: {
-      stylesheet: {
-        editor: 'tui-editor/dist/tui-editor.min.css',
-        contents: 'tui-editor/dist/tui-editor-contents.min.css',
-        codemirror: 'codemirror/lib/codemirror.css',
-        codeHighlight: 'highlight.js/styles/github.css',
-        colorPicker: 'tui-color-picker/dist/tui-color-picker.min.css'
-      }
-    }
-  },
+  // tui: {
+  //   editor: {
+  //     stylesheet: {
+  //       editor: 'tui-editor/dist/tui-editor.min.css',
+  //       contents: 'tui-editor/dist/tui-editor-contents.min.css',
+  //       codemirror: 'codemirror/lib/codemirror.css',
+  //       codeHighlight: 'highlight.js/styles/github.css',
+  //       colorPicker: 'tui-color-picker/dist/tui-color-picker.min.css'
+  //     }
+  //   }
+  // },
   markdownit: {
     runtime: true // Support `$md()`
   },
