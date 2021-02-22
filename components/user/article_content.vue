@@ -11,8 +11,8 @@
     <div
       v-show="articles.length === 0"
       class="spinner"
-      style="position: absolute"
     >
+      <!-- style="position: absolute" -->
       <spinner />
     </div>
     <article
