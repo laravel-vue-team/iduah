@@ -86,7 +86,11 @@
                     <div
                       class="fb-share-button"
                       :data-href="
-                        encodeURI(loc.origin + '/article?id=' + item.id)
+                        encodeURI(
+                          dataType === 'articles'
+                            ? loc.origin + '/article?id=' + item.id
+                            : loc.origin + '/light?id=' + item.id
+                        )
                       "
                       data-layout="button"
                       data-size="small"
@@ -94,7 +98,11 @@
                       <a
                         :href="
                           'https://www.facebook.com/sharer/sharer.php?u=' +
-                          encodeURI(loc.origin + '/article?id=' + item.id) +
+                          encodeURI(
+                            dataType === 'articles'
+                              ? loc.origin + '/article?id=' + item.id
+                              : loc.origin + '/light?id=' + item.id
+                          ) +
                           '&amp;src=sdkpreparse'
                         "
                         class="social_icon"
@@ -109,7 +117,9 @@
                     <a
                       :href="
                         encodeURI(
-                          `https://twitter.com/intent/tweet?url=${loc.origin}/article?id=${item.id}&text=${item.title}`
+                          dataType === 'articles'
+                            ? `https://twitter.com/intent/tweet?url=${loc.origin}/article?id=${item.id}&text=${item.title}`
+                            : `https://twitter.com/intent/tweet?url=${loc.origin}/light?id=${item.id}&text=${item.description}`
                         )
                       "
                       class="social_icon"
@@ -123,7 +133,9 @@
                     <a
                       :href="
                         encodeURI(
-                          `https://wa.me/?text=${item.title} ${loc.origin}/article?id=${item.id}&text=${item.title}, ${loc.origin}/article?id=${item.id}`
+                          dataType === 'articles'
+                            ? `https://wa.me/?text=${item.title} ${loc.origin}/article?id=${item.id}&text=${item.title}, ${loc.origin}/article?id=${item.id}`
+                            : `https://wa.me/?text=${item.description} ${loc.origin}/light?id=${item.id}&text=${item.description}, ${loc.origin}/light?id=${item.id}`
                         )
                       "
                       class="social_icon"
