@@ -9,15 +9,11 @@
       @submit.prevent="addNewLight"
       v-show="show"
     >
-      <div v-if="!isAuth" class="unregister-container">
-        <h2>
-          قم بتسجيل الدخول للتتمكن من اضافة اضاءة جديدة
-          <h5>
-            <nuxt-link class="link" to="login">تسجيل الدخول</nuxt-link>
-          </h5>
-        </h2>
+      <div v-show="!isAuth" class="unregister-container">
+        <h2>قم بتسجيل الدخول للتتمكن من اضافة اضاءة جديدة</h2>
+        <nuxt-link class="link" to="login"> تسجيل الدخول </nuxt-link>
       </div>
-      <div v-else>
+      <div v-show="isAuth">
         <p class="content">شاركنا الاجر في اضافة إضاءة جديدة</p>
         <textarea
           name="light"
@@ -99,6 +95,12 @@ export default {
 <style lang="scss" scoped>
 .link {
   color: #1b5fdf;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 0.1;
+  &:hover {
+    text-decoration: none;
+  }
 }
 .unregister-container {
   margin-bottom: 20px;
