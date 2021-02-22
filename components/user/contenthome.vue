@@ -358,6 +358,7 @@ export default {
   position: relative;
   padding: 0 10px;
   .article_box {
+    cursor: pointer;
     width: 100%;
     padding: 10px;
     background-color: #fff;
