@@ -40,7 +40,6 @@ export const mutations = {
     });
   },
   removeLightLike(state, lightId) {
-    console.log("like removed");
     state.profileData.lights.forEach((light) => {
       if (light.id === lightId) {
         light.likes.pop();
@@ -72,8 +71,6 @@ export const actions = {
         commit("setArticles", res.data.posts);
       })
       .catch((err) => {
-        console.log(err);
-        console.log(err.response);
       });
   },
   setToken({ commit }, token) {
@@ -89,7 +86,6 @@ export const actions = {
       arr.splice(obj.index, 1);
       commit(`set${state.dataType === "articles" ? "Articles" : "Lights"}`, arr);
     } catch (e) {
-      console.log(e.response);
     }
   }
 
