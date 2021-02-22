@@ -9,6 +9,7 @@
       nonce="TO1sdJNB"
     ></script> -->
     <article
+      v-if="article.id"
       class="article_box"
       :data-index="article.user_id"
       ref="single_article"
@@ -59,14 +60,12 @@
             <ul class="share_socials">
               <li
                 class="share_li"
-                :data-href="
-                  encodeURI(loc.origin + '/article_page/' + article.id)
-                "
+                :data-href="encodeURI(loc.origin + '/article?id=' + article.id)"
               >
                 <div
                   class="fb-share-button"
                   :data-href="
-                    encodeURI(loc.origin + '/article_page/' + article.id)
+                    encodeURI(loc.origin + '/article?id=' + article.id)
                   "
                   data-layout="button"
                   data-size="small"
@@ -74,7 +73,7 @@
                   <a
                     :href="
                       'https://www.facebook.com/sharer/sharer.php?u=' +
-                      encodeURI(loc.origin + '/article_page/' + article.id) +
+                      encodeURI(loc.origin + '/article?id=' + article.id) +
                       '&amp;src=sdkpreparse'
                     "
                     class="social_icon"
@@ -89,7 +88,7 @@
                 <a
                   :href="
                     encodeURI(
-                      `https://twitter.com/intent/tweet?url=${loc.origin}/article_page/${article.id}&text=${article.title}`
+                      `https://twitter.com/intent/tweet?url=${loc.origin}/article?id=${article.id}&text=${article.title}`
                     )
                   "
                   class="social_icon"
@@ -103,7 +102,7 @@
                 <a
                   :href="
                     encodeURI(
-                      `https://wa.me/?text=${article.title} ${loc.origin}/article_page/${article.id}&text=${article.title}, ${loc.origin}/article_page/${article.id}`
+                      `https://wa.me/?text=${article.title} ${loc.origin}/article?id=${article.id}&text=${article.title}, ${loc.origin}/article?id=${article.id}`
                     )
                   "
                   class="social_icon"
@@ -131,28 +130,25 @@ export default {
     return {
       classname: "",
       loc: "",
-      id: "",
     };
   },
   created() {
     if (process.browser) this.loc = window.location;
-    let q = this.$route.query;
+    let articleId = this.$route.query.id;
     this.$axios
-      .get(`/api/posts/${q.id}/show`)
+      .get(`/api/posts/${articleId || 1}/show`)
       .then((res) => {
         this.$store.commit("articles/setCurrentArticle", res.data);
       })
       .catch((err) => {});
-    this.$axios
-      .get(`/api/posts/${q.id}/view`)
-      .then((res) => {})
-      .catch((err) => {});
-    return (this.id = this.article && this.article.id);
+    const isAuth = this.$store.getters["auth/isAuth"];
+    isAuth &&
+      this.$axios
+        .get(`/api/posts/${articleId || 1}/view`)
+        .then((res) => {})
+        .catch((err) => {});
   },
   computed: {
-    articleId() {
-      return this.$router.history.current.query.page;
-    },
     article() {
       return this.$store.getters["articles/currentArticle"];
     },
@@ -172,7 +168,7 @@ export default {
       const icon = btnHeart.querySelector(".fa-heart");
       btnHeart.classList.toggle("hearted");
       this.$axios
-        .get(`/api/posts/${id}/like`)
+        .get(`/api/posts/${id || 1}/like`)
         .then((res) => {
           if (btnHeart.classList.contains("hearted")) {
             icon.classList.replace("far", "fas");
@@ -232,6 +228,7 @@ export default {
     }
     .artcile_content {
       padding: 10px;
+      min-height: 50px;
       border-radius: 5px;
       background-color: #fbfbfb;
       position: relative;
@@ -270,6 +267,11 @@ export default {
         }
       }
       .btn_share {
+        &:hover {
+          box-shadow: 0 0 0 3px #bad2fd;
+          background-color: rgb(27, 95, 223, 0.9);
+        }
+        transition: 0.2s;
         float: left;
         padding: 5px 10px;
         font-size: 16px;
@@ -286,14 +288,15 @@ export default {
           pointer-events: all !important;
         }
         .share_box {
+          width: 36px;
+          left: 0px;
+          border: 1px solid #e1e1e1;
           position: absolute;
-          width: 50px;
           height: auto;
           padding: 5px;
           border-radius: 5px;
           background-color: #fff;
           box-shadow: 0 0 10px #f3f3f3;
-          left: 0;
           z-index: 1;
           bottom: 0;
           visibility: hidden;
