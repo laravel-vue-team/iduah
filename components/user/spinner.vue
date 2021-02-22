@@ -13,17 +13,17 @@ export default {
 </script>
 <style scoped>
 .container {
-  background-color: rgba(245, 245, 245, 0.65);
-  backdrop-filter: blur(5px);
+  /* background-color: rgba(245, 245, 245, 0.25); */
+  backdrop-filter: blur(1px);
   z-index: 9999;
+  border-radius: 10px;
+  width: 100%;
 }
 .lds-ripple {
   display: block;
   position: relative;
   width: 80px;
   height: 80px;
-  margin: 50% 0;
-  /* transform: translate(-50%, -50%); */
   margin: 0 auto;
 }
 .lds-ripple div {
