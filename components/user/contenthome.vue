@@ -8,67 +8,9 @@
       src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v9.0"
       nonce="TO1sdJNB"
     ></script> -->
-    <svg
-      v-if="lights.length === 0"
-      xmlns="http://www.w3.org/2000/svg"
-      xmlnsXlink="http://www.w3.org/1999/xlink"
-      style="margin: 20vh auto 0; display: block"
-      width="100px"
-      height="100px"
-      viewBox="0 0 100 100"
-      preserveAspectRatio="xMidYMid"
-    >
-      <g transform="translate(50,50)">
-        <g transform="scale(0.8)">
-          <g transform="translate(-50,-50)">
-            <g>
-              <animateTransform
-                attributeName="transform"
-                type="rotate"
-                repeatCount="indefinite"
-                values="360 50 50;240 50 50;120 50 50;0 50 50"
-                keyTimes="0;0.333;0.667;1"
-                dur="1s"
-                keySplines="0.7 0 0.3 1;0.7 0 0.3 1;0.7 0 0.3 1"
-                calcMode="spline"
-              ></animateTransform>
-              <path
-                fill="#1b5fdf"
-                d="M54.3,28.1h34.2c-4.5-9.3-12.4-16.7-21.9-20.8L45.7,28.1L54.3,28.1L54.3,28.1z"
-              ></path>
-              <path
-                fill="#eb596e"
-                d="M61.7,7.3C51.9,4,41.1,4.2,31.5,8.1v29.5l6.1-6.1L61.7,7.3C61.7,7.3,61.7,7.3,61.7,7.3z"
-              ></path>
-              <path
-                fill="#222831"
-                d="M28.1,11.6c-9.3,4.5-16.7,12.4-20.8,21.9l20.8,20.8v-8.6L28.1,11.6C28.1,11.6,28.1,11.6,28.1,11.6z"
-              ></path>
-              <path
-                fill="#74a2f8"
-                d="M31.5,62.4L7.3,38.3c0,0,0,0,0,0C4,48.1,4.2,58.9,8.1,68.5h29.5L31.5,62.4z"
-              ></path>
-              <path
-                fill="#1b5fdf"
-                d="M45.7,71.9H11.5c0,0,0,0,0,0c4.5,9.3,12.4,16.7,21.9,20.8l20.8-20.8H45.7z"
-              ></path>
-              <path
-                fill="#eb596e"
-                d="M62.4,68.5L38.3,92.6c0,0,0,0,0,0c9.8,3.4,20.6,3.1,30.2-0.8V62.4L62.4,68.5z"
-              ></path>
-              <path
-                fill="#222831"
-                d="M71.9,45.7v8.6v34.2c0,0,0,0,0,0c9.3-4.5,16.7-12.4,20.8-21.9L71.9,45.7z"
-              ></path>
-              <path
-                fill="#74a2f8"
-                d="M91.9,31.5C91.9,31.5,91.9,31.5,91.9,31.5l-29.5,0l0,0l6.1,6.1l24.1,24.1c0,0,0,0,0,0 C96,51.9,95.8,41.1,91.9,31.5z"
-              ></path>
-            </g>
-          </g>
-        </g>
-      </g>
-    </svg>
+    <div v-if="lights.length === 0" class="spinner" style="position: absolute">
+      <spinner v-if="lights.length === 0" />
+    </div>
     <article
       v-else
       class="article_box"
@@ -155,7 +97,7 @@
                 <a
                   :href="
                     encodeURI(
-                      `https://twitter.com/intent/tweet?url=${loc.origin}/article?id=${item.id}&text=${item.title}`
+                      `https://twitter.com/intent/tweet?url=${loc.origin}/article?id=${item.id}&text=${item.description}`
                     )
                   "
                   class="social_icon"
@@ -169,7 +111,7 @@
                 <a
                   :href="
                     encodeURI(
-                      `https://wa.me/?text=${item.title} ${loc.origin}/article?id=${item.id}&text=${item.title}, ${loc.origin}/article?id=${item.id}`
+                      `https://wa.me/?text=${item.description} ${loc.origin}/article?id=${item.id}&text=${item.description}, ${loc.origin}/article?id=${item.id}`
                     )
                   "
                   class="social_icon"
@@ -185,67 +127,23 @@
         <div class="clear"></div>
       </div>
     </article>
-    <svg
-      v-if="isLoading && lights.length !== 0"
-      xmlns="http://www.w3.org/2000/svg"
-      xmlnsXlink="http://www.w3.org/1999/xlink"
-      style="margin: 7vh auto; display: block"
-      width="100px"
-      height="100px"
-      viewBox="0 0 100 100"
-      preserveAspectRatio="xMidYMid"
+    <!-- <button
+      v-if="lights.length !== 0"
+      class="add-lights-btn"
+      @click="addLights"
+      :disabled="isLoading || !isThereNextPage"
     >
-      <g transform="translate(50,50)">
-        <g transform="scale(0.8)">
-          <g transform="translate(-50,-50)">
-            <g>
-              <animateTransform
-                attributeName="transform"
-                type="rotate"
-                repeatCount="indefinite"
-                values="360 50 50;240 50 50;120 50 50;0 50 50"
-                keyTimes="0;0.333;0.667;1"
-                dur="1s"
-                keySplines="0.7 0 0.3 1;0.7 0 0.3 1;0.7 0 0.3 1"
-                calcMode="spline"
-              ></animateTransform>
-              <path
-                fill="#1b5fdf"
-                d="M54.3,28.1h34.2c-4.5-9.3-12.4-16.7-21.9-20.8L45.7,28.1L54.3,28.1L54.3,28.1z"
-              ></path>
-              <path
-                fill="#eb596e"
-                d="M61.7,7.3C51.9,4,41.1,4.2,31.5,8.1v29.5l6.1-6.1L61.7,7.3C61.7,7.3,61.7,7.3,61.7,7.3z"
-              ></path>
-              <path
-                fill="#222831"
-                d="M28.1,11.6c-9.3,4.5-16.7,12.4-20.8,21.9l20.8,20.8v-8.6L28.1,11.6C28.1,11.6,28.1,11.6,28.1,11.6z"
-              ></path>
-              <path
-                fill="#74a2f8"
-                d="M31.5,62.4L7.3,38.3c0,0,0,0,0,0C4,48.1,4.2,58.9,8.1,68.5h29.5L31.5,62.4z"
-              ></path>
-              <path
-                fill="#1b5fdf"
-                d="M45.7,71.9H11.5c0,0,0,0,0,0c4.5,9.3,12.4,16.7,21.9,20.8l20.8-20.8H45.7z"
-              ></path>
-              <path
-                fill="#eb596e"
-                d="M62.4,68.5L38.3,92.6c0,0,0,0,0,0c9.8,3.4,20.6,3.1,30.2-0.8V62.4L62.4,68.5z"
-              ></path>
-              <path
-                fill="#222831"
-                d="M71.9,45.7v8.6v34.2c0,0,0,0,0,0c9.3-4.5,16.7-12.4,20.8-21.9L71.9,45.7z"
-              ></path>
-              <path
-                fill="#74a2f8"
-                d="M91.9,31.5C91.9,31.5,91.9,31.5,91.9,31.5l-29.5,0l0,0l6.1,6.1l24.1,24.1c0,0,0,0,0,0 C96,51.9,95.8,41.1,91.9,31.5z"
-              ></path>
-            </g>
-          </g>
-        </g>
-      </g>
-    </svg>
+      {{
+        isLoading
+          ? "جاري التحميل..."
+          : !isThereNextPage
+          ? "انتهت الاضاءات"
+          : "المزيد من الاضاءات"
+      }}
+    </button> -->
+    <div v-if="isLoading && lights.length !== 0" class="spinner">
+      <spinner />
+    </div>
   </div>
 </template>
 
@@ -257,7 +155,6 @@ export default {
     return {
       classname: "",
       loc: "",
-      // isLoading: false,
     };
   },
   mounted() {
@@ -266,7 +163,7 @@ export default {
     }
   },
   beforeDestroy() {
-    window.removeEventListener("scroll", this.handleScroll);
+    window.removeEventListener("scroll", this.handleScroll); // edit: 2
   },
   computed: {
     lights() {
@@ -285,20 +182,38 @@ export default {
     isLoading() {
       return this.$store.getters["lights/isLoading"];
     },
+    isPageLoading() {
+      return this.$store.getters["auth/isLoading"];
+    },
   },
   created() {
     this.$store.dispatch("lights/fetchLights");
     if (process.client) {
-      window.addEventListener("scroll", this.handleScroll);
+      window.addEventListener("scroll", this.handleScroll); // edit: 1
     }
   },
   methods: {
+    // addLights() {
+    //   if (this.isThereNextPage && !this.isLoading) {
+    //     this.$store.commit("lights/setIsLoading", true);
+    //     this.$axios
+    //       .get(`/public/api/lights?page=${this.currentPage + 1}`)
+    //       .then((res) => {
+    //         this.$store.commit("lights/setIsLoading", false);
+    //         this.$store.dispatch("lights/addLights", res.data.data);
+    //       })
+    //       .catch((err) => {
+    //         this.$store.commit("lights/setIsLoading", false);
+    //       });
+    //   }
+    // },
     handleScroll(e, _this = this) {
       const pageHeight = document.body.offsetHeight;
       const scrollValue = window.scrollY;
-      let percent = scrollValue / (pageHeight - pageHeight * 0.3);
-      let enoughScroll =
-        pageHeight < 5000 ? percent > 0.6 : pageHeight - scrollValue < 1200;
+      // let percent = scrollValue / (pageHeight - pageHeight * 0.3);
+      // let enoughScroll =
+      //   pageHeight < 5000 ? percent > 0.6 : pageHeight - scrollValue < 1200;
+      let enoughScroll = pageHeight - scrollValue < 1100;
       if (enoughScroll && _this.isThereNextPage && !_this.isLoading) {
         this.$store.commit("lights/setIsLoading", true);
         _this.$axios
@@ -319,14 +234,21 @@ export default {
             if (entry.intersectionRatio > 0) {
               const targetId = entry.target.getAttribute("data-id");
               const targetIndex = entry.target.getAttribute("data-arr-index");
-              _this.$axios
-                .get(`/api/lights/${targetId}/view`)
-                .then((res) => {
-                  if (res.data.message !== "view alredy exists") {
-                    this.$store.commit("lights/viewLight", targetIndex);
-                  }
-                })
-                .catch((err) => {});
+              let lights = _this.$store.getters["lights/lights"];
+              let user = _this.$store.getters["auth/user"];
+              let isUserViewed = lights[targetIndex].views.some(
+                (view) => view.id === user.id
+              );
+              if (!isUserViewed) {
+                _this.$axios
+                  .get(`/api/lights/${targetId}/view`, { progress: false })
+                  .then((res) => {
+                    if (res.data.message !== "view alredy exists") {
+                      this.$store.commit("lights/viewLight", targetIndex);
+                    }
+                  })
+                  .catch((err) => {});
+              }
               observer.unobserve(entry.target);
             }
           });
@@ -350,7 +272,14 @@ export default {
       const shareBox = document.querySelector(
         `.article_box[data-index='${id}'] .share_box`
       );
+      const shareBoxes = document.querySelectorAll(".share_box");
+      shareBoxes.forEach(
+        (box) => box !== shareBox && box.classList.remove("share_opened")
+      );
       shareBox.classList.toggle("share_opened");
+    },
+    focused() {
+      console.log("focused");
     },
     HeartIt(id) {
       const btnHeart = document.querySelector(
@@ -379,7 +308,39 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.spinner {
+  width: 100%;
+  margin: 10vh 0;
+}
+.add-lights-btn {
+  padding: 4px 15px;
+  border-radius: 5px;
+  width: 100%;
+  max-width: 340px;
+  border: none;
+  color: #fff;
+  background-color: #eb596e;
+  display: block;
+  text-align: center;
+  cursor: pointer;
+  margin: 40px auto 20px;
+  letter-spacing: 0.6px;
+  font-size: 18px;
+  transition: 0.2s;
+  &:hover {
+    box-shadow: 0 0 0 3px rgb(235 89 110 / 40%);
+  }
+  &:disabled {
+    opacity: 0.5;
+    cursor: auto;
+    box-shadow: none;
+    &:hover {
+      box-shadow: none;
+    }
+  }
+}
 .articles_container {
+  margin-bottom: 50px;
   align-items: flex-start;
   justify-content: flex-start;
   flex-direction: column;
@@ -450,6 +411,11 @@ export default {
         }
       }
       .btn_share {
+        &:hover {
+          box-shadow: 0 0 0 3px #bad2fd;
+          background-color: rgb(27, 95, 223, 0.9);
+        }
+        transition: 0.2s;
         float: left;
         padding: 5px 10px;
         font-size: 16px;
@@ -466,14 +432,15 @@ export default {
           pointer-events: all !important;
         }
         .share_box {
+          width: 36px;
+          left: 0px;
+          border: 1px solid #e1e1e1;
           position: absolute;
-          width: 50px;
           height: auto;
           padding: 5px;
           border-radius: 5px;
           background-color: #fff;
           box-shadow: 0 0 10px #f3f3f3;
-          left: 0;
           z-index: 1;
           bottom: 0;
           visibility: hidden;
