@@ -34,9 +34,11 @@
 
       <div class="welcome_box">
         <span class="welcome">{{ GetWelcomeMsg }}</span>
-        <span v-if="username && !isLoading" class="name">,{{ username }}</span>
+        <span v-show="username && !isLoading" class="name"
+          >,{{ username }}</span
+        >
         <!-- <nuxt-link v-else to="/login">تسجيل الدخول</nuxt-link> -->
-        <span v-else-if="!username && !isLoading" class="link_li log_in">
+        <span v-show="!username && !isLoading" class="link_li log_in">
           <nuxt-link to="/login" class="transition"
             ><i class="far fa-user"></i> تسجيل الدخول</nuxt-link
           >
