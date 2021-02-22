@@ -7,16 +7,6 @@ import NuxtBuildIndicator from './components/nuxt-build-indicator'
 
 import '..\\media\\style.scss'
 
-import '..\\node_modules\\tui-editor\\dist\\tui-editor.min.css'
-
-import '..\\node_modules\\tui-editor\\dist\\tui-editor-contents.min.css'
-
-import '..\\node_modules\\codemirror\\lib\\codemirror.css'
-
-import '..\\node_modules\\highlight.js\\styles\\github.css'
-
-import '..\\node_modules\\tui-color-picker\\dist\\tui-color-picker.min.css'
-
 import _77068119 from '..\\layouts\\admin.vue'
 import _6f6c098b from '..\\layouts\\default.vue'
 import _00e6bcf3 from '..\\layouts\\profile.vue'

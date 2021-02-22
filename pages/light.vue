@@ -136,7 +136,6 @@ export default {
     this.$axios
       .get(`/api/lights/${lightId || 1}/show`)
       .then((res) => {
-        console.log(res.data);
         this.$store.commit("lights/setCurrentLight", res.data.data);
       })
       .catch((err) => {});
@@ -149,7 +148,6 @@ export default {
   },
   computed: {
     article() {
-      console.log("current", this.$store.getters["lights/currentLight"]);
       return this.$store.getters["lights/currentLight"];
     },
   },
