@@ -8,67 +8,13 @@
       src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v9.0"
       nonce="TO1sdJNB"
     ></script> -->
-    <svg
+    <div
       v-if="articles.length === 0"
-      xmlns="http://www.w3.org/2000/svg"
-      xmlnsXlink="http://www.w3.org/1999/xlink"
-      style="margin: 20vh auto 0; display: block"
-      width="100px"
-      height="100px"
-      viewBox="0 0 100 100"
-      preserveAspectRatio="xMidYMid"
+      class="spinner"
+      style="position: absolute"
     >
-      <g transform="translate(50,50)">
-        <g transform="scale(0.8)">
-          <g transform="translate(-50,-50)">
-            <g>
-              <animateTransform
-                attributeName="transform"
-                type="rotate"
-                repeatCount="indefinite"
-                values="360 50 50;240 50 50;120 50 50;0 50 50"
-                keyTimes="0;0.333;0.667;1"
-                dur="1s"
-                keySplines="0.7 0 0.3 1;0.7 0 0.3 1;0.7 0 0.3 1"
-                calcMode="spline"
-              ></animateTransform>
-              <path
-                fill="#1b5fdf"
-                d="M54.3,28.1h34.2c-4.5-9.3-12.4-16.7-21.9-20.8L45.7,28.1L54.3,28.1L54.3,28.1z"
-              ></path>
-              <path
-                fill="#eb596e"
-                d="M61.7,7.3C51.9,4,41.1,4.2,31.5,8.1v29.5l6.1-6.1L61.7,7.3C61.7,7.3,61.7,7.3,61.7,7.3z"
-              ></path>
-              <path
-                fill="#222831"
-                d="M28.1,11.6c-9.3,4.5-16.7,12.4-20.8,21.9l20.8,20.8v-8.6L28.1,11.6C28.1,11.6,28.1,11.6,28.1,11.6z"
-              ></path>
-              <path
-                fill="#74a2f8"
-                d="M31.5,62.4L7.3,38.3c0,0,0,0,0,0C4,48.1,4.2,58.9,8.1,68.5h29.5L31.5,62.4z"
-              ></path>
-              <path
-                fill="#1b5fdf"
-                d="M45.7,71.9H11.5c0,0,0,0,0,0c4.5,9.3,12.4,16.7,21.9,20.8l20.8-20.8H45.7z"
-              ></path>
-              <path
-                fill="#eb596e"
-                d="M62.4,68.5L38.3,92.6c0,0,0,0,0,0c9.8,3.4,20.6,3.1,30.2-0.8V62.4L62.4,68.5z"
-              ></path>
-              <path
-                fill="#222831"
-                d="M71.9,45.7v8.6v34.2c0,0,0,0,0,0c9.3-4.5,16.7-12.4,20.8-21.9L71.9,45.7z"
-              ></path>
-              <path
-                fill="#74a2f8"
-                d="M91.9,31.5C91.9,31.5,91.9,31.5,91.9,31.5l-29.5,0l0,0l6.1,6.1l24.1,24.1c0,0,0,0,0,0 C96,51.9,95.8,41.1,91.9,31.5z"
-              ></path>
-            </g>
-          </g>
-        </g>
-      </g>
-    </svg>
+      <spinner />
+    </div>
     <article
       class="article_box"
       v-for="(item, index) in articles"
@@ -135,7 +81,7 @@
           <i class="far fa-eye"></i>
         </div>
 
-        <div class="btn_share" @click="Clickme(item.id)">
+        <div class="btn_share" tabindex="-1" @click="Clickme(item.id)">
           <i class="fa fa-share"></i>
 
           <div class="share_box transition">
@@ -196,74 +142,18 @@
         <div class="clear"></div>
       </div>
     </article>
-    <svg
-      v-if="isLoading && articles.length !== 0"
-      xmlns="http://www.w3.org/2000/svg"
-      xmlnsXlink="http://www.w3.org/1999/xlink"
-      style="margin: 7vh auto; display: block"
-      width="100px"
-      height="100px"
-      viewBox="0 0 100 100"
-      preserveAspectRatio="xMidYMid"
-    >
-      <g transform="translate(50,50)">
-        <g transform="scale(0.8)">
-          <g transform="translate(-50,-50)">
-            <g>
-              <animateTransform
-                attributeName="transform"
-                type="rotate"
-                repeatCount="indefinite"
-                values="360 50 50;240 50 50;120 50 50;0 50 50"
-                keyTimes="0;0.333;0.667;1"
-                dur="1s"
-                keySplines="0.7 0 0.3 1;0.7 0 0.3 1;0.7 0 0.3 1"
-                calcMode="spline"
-              ></animateTransform>
-              <path
-                fill="#1b5fdf"
-                d="M54.3,28.1h34.2c-4.5-9.3-12.4-16.7-21.9-20.8L45.7,28.1L54.3,28.1L54.3,28.1z"
-              ></path>
-              <path
-                fill="#eb596e"
-                d="M61.7,7.3C51.9,4,41.1,4.2,31.5,8.1v29.5l6.1-6.1L61.7,7.3C61.7,7.3,61.7,7.3,61.7,7.3z"
-              ></path>
-              <path
-                fill="#222831"
-                d="M28.1,11.6c-9.3,4.5-16.7,12.4-20.8,21.9l20.8,20.8v-8.6L28.1,11.6C28.1,11.6,28.1,11.6,28.1,11.6z"
-              ></path>
-              <path
-                fill="#74a2f8"
-                d="M31.5,62.4L7.3,38.3c0,0,0,0,0,0C4,48.1,4.2,58.9,8.1,68.5h29.5L31.5,62.4z"
-              ></path>
-              <path
-                fill="#1b5fdf"
-                d="M45.7,71.9H11.5c0,0,0,0,0,0c4.5,9.3,12.4,16.7,21.9,20.8l20.8-20.8H45.7z"
-              ></path>
-              <path
-                fill="#eb596e"
-                d="M62.4,68.5L38.3,92.6c0,0,0,0,0,0c9.8,3.4,20.6,3.1,30.2-0.8V62.4L62.4,68.5z"
-              ></path>
-              <path
-                fill="#222831"
-                d="M71.9,45.7v8.6v34.2c0,0,0,0,0,0c9.3-4.5,16.7-12.4,20.8-21.9L71.9,45.7z"
-              ></path>
-              <path
-                fill="#74a2f8"
-                d="M91.9,31.5C91.9,31.5,91.9,31.5,91.9,31.5l-29.5,0l0,0l6.1,6.1l24.1,24.1c0,0,0,0,0,0 C96,51.9,95.8,41.1,91.9,31.5z"
-              ></path>
-            </g>
-          </g>
-        </g>
-      </g>
-    </svg>
+    <div v-if="isLoading && articles.length !== 0" class="spinner">
+      <spinner />
+    </div>
   </div>
 </template>
 
 <script>
 import moment from "moment";
+import spinner from "./spinner.vue";
 moment.locale("ar");
 export default {
+  components: { spinner },
   data() {
     return {
       classname: "",
@@ -302,9 +192,10 @@ export default {
     handleScroll(e, _this = this) {
       const pageHeight = document.body.offsetHeight;
       const scrollValue = window.scrollY;
-      let percent = scrollValue / (pageHeight - pageHeight * 0.3);
-      let enoughScroll =
-        pageHeight < 5000 ? percent > 0.6 : pageHeight - scrollValue < 1200;
+      // let percent = scrollValue / (pageHeight - pageHeight * 0.3);
+      // let enoughScroll =
+      //   pageHeight < 5000 ? percent > 0.6 : pageHeight - scrollValue < 1200;
+      let enoughScroll = pageHeight - scrollValue < 1100;
       if (enoughScroll && _this.isThereNextPage && !_this.isLoading) {
         this.$store.commit("articles/setIsLoading", true);
         _this.$axios
@@ -363,8 +254,14 @@ export default {
       const shareBox = document.querySelector(
         `.article_box[data-index='${id}'] .share_box`
       );
-
+      const shareBoxes = document.querySelectorAll(".share_box");
+      shareBoxes.forEach(
+        (box) => box !== shareBox && box.classList.remove("share_opened")
+      );
       shareBox.classList.toggle("share_opened");
+    },
+    beforeDestroy() {
+      document.removeEventListener("click", this.closeBox);
     },
     HeartIt(id, index) {
       const btnHeart = document.querySelector(
@@ -382,6 +279,7 @@ export default {
             icon.classList.replace("fas", "far");
             this.articles[index].likes.pop();
           }
+          //     box-shadow: 0 0 0 3px #bad2fd;
         })
         .catch((err) => {
           btnHeart.classList.toggle("hearted");
@@ -393,7 +291,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.spinner {
+  width: 100%;
+  margin: 10vh 0;
+}
 .articles_container {
+  margin-bottom: 50px;
   align-items: flex-start;
   justify-content: flex-start;
   flex-direction: column;
@@ -479,6 +382,11 @@ export default {
         }
       }
       .btn_share {
+        &:hover {
+          box-shadow: 0 0 0 3px #bad2fd;
+          background-color: rgb(27, 95, 223, 0.9);
+        }
+        transition: 0.2s;
         float: left;
         padding: 5px 10px;
         font-size: 16px;
@@ -495,14 +403,15 @@ export default {
           pointer-events: all !important;
         }
         .share_box {
+          width: 36px;
+          left: 0px;
+          border: 1px solid #e1e1e1;
           position: absolute;
-          width: 50px;
           height: auto;
           padding: 5px;
           border-radius: 5px;
           background-color: #fff;
           box-shadow: 0 0 10px #f3f3f3;
-          left: 0;
           z-index: 1;
           bottom: 0;
           visibility: hidden;
