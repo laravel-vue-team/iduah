@@ -68,6 +68,10 @@ export default {
     text-align: center;
     text-align: -webkit-center;
     text-decoration: none;
+    transition: 0.2s;
+    &:hover {
+      box-shadow: 0 0 0 3px rgb(235 89 110 / 40%);
+    }
   }
 }
 </style>
