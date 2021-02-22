@@ -8,17 +8,22 @@
       src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v9.0"
       nonce="TO1sdJNB"
     ></script> -->
-    <div v-if="lights.length === 0" class="spinner" style="position: absolute">
-      <spinner v-if="lights.length === 0" />
+    <div
+      v-show="lights.length === 0"
+      class="spinner"
+      style="position: absolute"
+    >
+      <spinner />
     </div>
     <article
-      v-else
+      v-show="lights.length !== 0"
       class="article_box"
       v-for="(item, index) in lights"
       :key="item.id"
       :data-index="item.id"
       :data-id="item.id"
       :data-arr-index="index"
+      @click="goToLightPage({ id: item.id, index, title: item.title })"
     >
       <!-- article header -->
       <div class="article_header">
@@ -75,14 +80,14 @@
               <li class="share_li">
                 <div
                   class="fb-share-button"
-                  :data-href="encodeURI(loc.origin + '/article?id=' + item.id)"
+                  :data-href="encodeURI(loc.origin + '/light?id=' + item.id)"
                   data-layout="button"
                   data-size="small"
                 >
                   <a
                     :href="
                       'https://www.facebook.com/sharer/sharer.php?u=' +
-                      encodeURI(loc.origin + '/article?id=' + item.id) +
+                      encodeURI(loc.origin + '/light?id=' + item.id) +
                       '&amp;src=sdkpreparse'
                     "
                     class="social_icon"
@@ -97,7 +102,7 @@
                 <a
                   :href="
                     encodeURI(
-                      `https://twitter.com/intent/tweet?url=${loc.origin}/article?id=${item.id}&text=${item.description}`
+                      `https://twitter.com/intent/tweet?url=${loc.origin}/light?id=${item.id}&text=${item.description}`
                     )
                   "
                   class="social_icon"
@@ -111,7 +116,7 @@
                 <a
                   :href="
                     encodeURI(
-                      `https://wa.me/?text=${item.description} ${loc.origin}/article?id=${item.id}&text=${item.description}, ${loc.origin}/article?id=${item.id}`
+                      `https://wa.me/?text=${item.description} ${loc.origin}/light?id=${item.id}&text=${item.description}, ${loc.origin}/light?id=${item.id}`
                     )
                   "
                   class="social_icon"
@@ -141,7 +146,7 @@
           : "المزيد من الاضاءات"
       }}
     </button> -->
-    <div v-if="isLoading && lights.length !== 0" class="spinner">
+    <div v-show="isLoading && lights.length !== 0" class="spinner">
       <spinner />
     </div>
   </div>
@@ -207,6 +212,10 @@ export default {
     //       });
     //   }
     // },
+    goToLightPage(obj) {
+      this.$store.commit("lights/setCurrentLight", this.lights[obj.index]);
+      this.$router.push("/light?id=" + obj.id);
+    },
     handleScroll(e, _this = this) {
       const pageHeight = document.body.offsetHeight;
       const scrollValue = window.scrollY;
