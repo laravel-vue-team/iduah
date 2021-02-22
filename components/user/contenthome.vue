@@ -8,12 +8,12 @@
       src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v9.0"
       nonce="TO1sdJNB"
     ></script> -->
-    <div v-show="true || lights.length === 0" class="spinner">
+    <div v-show="lights.length === 0" class="spinner">
       <!-- style="position: absolute" -->
       <spinner />
     </div>
     <article
-      v-show="false && lights.length !== 0"
+      v-show="lights.length !== 0"
       class="article_box"
       v-for="(item, index) in lights"
       :key="item.id"
