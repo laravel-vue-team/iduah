@@ -1,30 +1,32 @@
 <template>
   <div class="container_page">
     <div class="users_content">
-      <table class="users_data" width="100%">
+      <div class="users_data2">
         <div v-show="isLoading" class="spinner">
           <spinner />
         </div>
-        <thead>
-          <tr>
-            <th>إسم الصفحة</th>
-            <th>الاجراء</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(item, index) in pages" :key="index">
-            <td>{{ item.name }}</td>
-            <td>
-              <button
-                class="btn_edit transition"
-                @click="EditPageContent(index)"
-              >
-                <i class="far fa-edit"></i>
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+        <table class="users_data" width="100%">
+          <thead>
+            <tr>
+              <th>إسم الصفحة</th>
+              <th>الاجراء</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(item, index) in pages" :key="index">
+              <td>{{ item.name }}</td>
+              <td>
+                <button
+                  class="btn_edit transition"
+                  @click="EditPageContent(index)"
+                >
+                  <i class="far fa-edit"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
 
     <form
@@ -48,7 +50,6 @@
 </template>
 
 <script>
-import TextEditor from "~/components/admin/TextEditor";
 import Spinner from "../user/spinner.vue";
 export default {
   data() {
@@ -76,7 +77,6 @@ export default {
     };
   },
   components: {
-    TextEditor,
     Spinner,
   },
   created() {
@@ -141,6 +141,9 @@ export default {
   margin: 2vh auto;
   width: 100%;
   z-index: 9999;
+  & > div {
+    height: 137px;
+  }
 }
 .container_page {
   /* height: 100vh; */
@@ -159,11 +162,14 @@ export default {
   padding: 0 5px 0 0;
   width: 100%;
 }
-.users_data {
+.users_data2 {
   position: relative;
-  display: table;
   height: auto;
   background-color: #fff;
+}
+.users_data {
+  background-color: #fff;
+  display: table;
   border-collapse: collapse;
   border-spacing: 0;
   th {
