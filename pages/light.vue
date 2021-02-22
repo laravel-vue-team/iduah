@@ -9,7 +9,7 @@
       nonce="TO1sdJNB"
     ></script> -->
     <article
-      v-if="article.id"
+      v-show="article.id"
       class="article_box"
       :data-index="article.user_id"
       ref="single_article"
@@ -60,20 +60,18 @@
             <ul class="share_socials">
               <li
                 class="share_li"
-                :data-href="encodeURI(loc.origin + '/article?id=' + article.id)"
+                :data-href="encodeURI(loc.origin + '/light?id=' + article.id)"
               >
                 <div
                   class="fb-share-button"
-                  :data-href="
-                    encodeURI(loc.origin + '/article?id=' + article.id)
-                  "
+                  :data-href="encodeURI(loc.origin + '/light?id=' + article.id)"
                   data-layout="button"
                   data-size="small"
                 >
                   <a
                     :href="
                       'https://www.facebook.com/sharer/sharer.php?u=' +
-                      encodeURI(loc.origin + '/article?id=' + article.id) +
+                      encodeURI(loc.origin + '/light?id=' + article.id) +
                       '&amp;src=sdkpreparse'
                     "
                     class="social_icon"
@@ -88,7 +86,7 @@
                 <a
                   :href="
                     encodeURI(
-                      `https://twitter.com/intent/tweet?url=${loc.origin}/article?id=${article.id}&text=${article.description}`
+                      `https://twitter.com/intent/tweet?url=${loc.origin}/light?id=${article.id}&text=${article.description}`
                     )
                   "
                   class="social_icon"
@@ -102,7 +100,7 @@
                 <a
                   :href="
                     encodeURI(
-                      `https://wa.me/?text=${article.description} ${loc.origin}/article?id=${article.id}&text=${article.description}, ${loc.origin}/article?id=${article.id}`
+                      `https://wa.me/?text=${article.description} ${loc.origin}/light?id=${article.id}&text=${article.description}, ${loc.origin}/light?id=${article.id}`
                     )
                   "
                   class="social_icon"
@@ -138,7 +136,8 @@ export default {
     this.$axios
       .get(`/api/lights/${lightId || 1}/show`)
       .then((res) => {
-        this.$store.commit("lights/setCurrentLight", res.data);
+        console.log(res.data);
+        this.$store.commit("lights/setCurrentLight", res.data.data);
       })
       .catch((err) => {});
     const isAuth = this.$store.getters["auth/isAuth"];
@@ -150,6 +149,7 @@ export default {
   },
   computed: {
     article() {
+      console.log("current", this.$store.getters["lights/currentLight"]);
       return this.$store.getters["lights/currentLight"];
     },
   },
