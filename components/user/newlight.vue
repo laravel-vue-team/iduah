@@ -29,7 +29,9 @@
           autocorrect="off"
           class="focus_elem transition"
         ></textarea>
-        <button class="btn_submit" type="submit">أنشر الان</button>
+        <button class="btn_submit" :disabled="isLoading" type="submit">
+          {{ isLoading ? "جاري النشر..." : "أنشر الان" }}
+        </button>
       </div>
     </form>
   </div>
@@ -42,6 +44,7 @@ export default {
   data() {
     return {
       show: false,
+      isLoading: false,
     };
   },
   computed: {
@@ -75,14 +78,18 @@ export default {
         let form = this.$refs.addLight;
         let newLight = { description: form["light"].value };
         newLight = JSON.stringify(newLight);
+        this.isLoading = true;
         this.$axios
           .post("/api/lights/store", newLight)
           .then((res) => {
+            this.isLoading = false;
             this.$store.dispatch("lights/fetchLights");
             this.$router.push("/");
             this.clearForm();
           })
-          .catch((err) => {});
+          .catch((err) => {
+            this.isLoading = false;
+          });
       }
     },
   },
@@ -96,6 +103,9 @@ export default {
 .unregister-container {
   margin-bottom: 20px;
   letter-spacing: 0.6px;
+  h2 {
+    font-size: 20px;
+  }
 }
 .new_light_container {
   width: 100%;
@@ -126,6 +136,13 @@ export default {
       text-align: -webkit-center;
       line-height: 1.5;
       margin: 10px auto;
+      transition: 0.2s;
+      &:disabled {
+        opacity: 0.5;
+      }
+      &:hover {
+        box-shadow: 0 0 0 3px rgb(116 162 248 / 40%);
+      }
     }
   }
   .btn_light {
