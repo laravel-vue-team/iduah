@@ -9,7 +9,7 @@
       nonce="TO1sdJNB"
     ></script> -->
     <div
-      v-if="articles.length === 0"
+      v-show="articles.length === 0"
       class="spinner"
       style="position: absolute"
     >
@@ -142,7 +142,7 @@
         <div class="clear"></div>
       </div>
     </article>
-    <div v-if="isLoading && articles.length !== 0" class="spinner">
+    <div v-show="isLoading && articles.length !== 0" class="spinner">
       <spinner />
     </div>
   </div>
