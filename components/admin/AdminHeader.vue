@@ -38,11 +38,14 @@
           >,{{ username }}</span
         >
         <!-- <nuxt-link v-else to="/login">تسجيل الدخول</nuxt-link> -->
-        <span v-show="!username && !isLoading" class="link_li log_in">
-          <nuxt-link to="/login" class="transition"
-            ><i class="far fa-user"></i> تسجيل الدخول</nuxt-link
-          >
-        </span>
+        <!-- <span  class="link_li log_in"> -->
+        <nuxt-link
+          v-show="!username && !isLoading"
+          to="/login"
+          class="link_li log_in transition"
+          ><i class="far fa-user"></i> تسجيل الدخول</nuxt-link
+        >
+        <!-- </span> -->
       </div>
     </div>
   </header>
