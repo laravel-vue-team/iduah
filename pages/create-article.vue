@@ -58,8 +58,9 @@
             name="submit"
             type="submit"
             @click="CheckRequires"
+            :disabled="isLoading"
           >
-            أنشر الآن
+            {{ isLoading ? "جاري النشر..." : "أنشر الآن" }}
           </button>
         </div>
       </form>
@@ -75,6 +76,7 @@ export default {
       title: "إنشاء مقالة",
       desc: "شاركنا الأجر في كتابة مقال ديني",
       center: [],
+      isLoading: false,
     };
   },
   created() {
@@ -88,6 +90,7 @@ export default {
   },
   methods: {
     CreateArticle() {
+      this.isLoading = true;
       const CurrentSubmitForm = this.$refs.create;
 
       const data = {
@@ -99,6 +102,7 @@ export default {
       this.$axios
         .post("/api/posts/store", jsonData)
         .then((res) => {
+          this.isLoading = false;
           this.$router.push("/articles");
         })
         .catch((err) => {});
