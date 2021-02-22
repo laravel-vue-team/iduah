@@ -9,6 +9,7 @@ export default {
   middleware: "authenticated",
   created() {
     if (process.client) {
+      this.$store.commit("auth/setIsLoading", false);
       let token =
         localStorage.getItem("TOKEN") || sessionStorage.getItem("TOKEN");
       this.$store.dispatch("auth/setToken", token);
