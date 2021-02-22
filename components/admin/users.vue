@@ -1,8 +1,5 @@
 <template>
   <div class="users_content">
-    <!-- <div v-show="true || isLoading" class="spinner">
-      <spinner />
-    </div> -->
     <table class="users_data" width="100%">
       <thead>
         <tr>
