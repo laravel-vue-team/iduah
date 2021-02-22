@@ -222,6 +222,10 @@ export default {
       const shareBox = document.querySelector(
         `.article_box[data-index='${id}'] .share_box`
       );
+      const shareBoxes = document.querySelectorAll(".share_box");
+      shareBoxes.forEach(
+        (box) => box !== shareBox && box.classList.remove("share_opened")
+      );
       shareBox.classList.toggle("share_opened");
     },
     HeartIt(id) {
@@ -262,9 +266,10 @@ export default {
 <style lang="scss" scoped>
 .articles_container {
   padding: 0 10px;
-
+  width: 100%;
   .articles_box {
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    margin-bottom: 50px;
     gap: 15px;
     grid-auto-rows: auto;
     width: 100%;
@@ -358,6 +363,11 @@ export default {
         line-height: 1.7;
       }
       .btn_share {
+        &:hover {
+          box-shadow: 0 0 0 3px #bad2fd;
+          background-color: rgb(27, 95, 223, 0.9);
+        }
+        transition: 0.2s;
         float: left;
         padding: 5px 10px;
         font-size: 16px;
@@ -374,14 +384,15 @@ export default {
           pointer-events: all !important;
         }
         .share_box {
+          width: 36px;
+          left: 0px;
+          border: 1px solid #e1e1e1;
           position: absolute;
-          width: 50px;
           height: auto;
           padding: 5px;
           border-radius: 5px;
           background-color: #fff;
           box-shadow: 0 0 10px #f3f3f3;
-          left: 0;
           z-index: 1;
           bottom: 0;
           visibility: hidden;
