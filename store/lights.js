@@ -3,27 +3,41 @@ export const state = () => ({
   lights: [],
   newLight: null,
   currentPage: null,
+  currentLight: {
+    // user_id: 2,
+    // user: { name: "abdallah" },
+    // created_at: 642423423,
+    // description: "description here",
+    // likes: [1, 2, 3],
+    // id: 2,
+    // views: [1, 2, 3]
+  },
+  isLoading: false,
   isThereNextPage: null,
   isTherePrevPage: null,
 });
 export const getters = {
   lights: (state) => state.lights,
   currentPage: (state) => state.currentPage,
+  currentLight: (state) => state.currentLight,
+  isLoading: (state) => state.isLoading,
   isThereNextPage: (state) => state.isThereNextPage,
   isTherePrevPage: (state) => state.isTherePrevPage,
 };
 
 export const mutations = {
   setLights(state, lights) { state.lights = lights },
+  setIsLoading(state, isLoading) { state.isLoading = isLoading },
   setCurrentPage(state, currentPage) { state.currentPage = currentPage },
   setIsThereNextPage(state, isThereNextPage) { state.isThereNextPage = isThereNextPage },
   setIsTherePrevPage(state, isTherePrevPage) { state.isTherePrevPage = isTherePrevPage },
+  setCurrentLight(state, currentLight) { state.currentLight = currentLight },
   addLight(state, light) {
     state.newLight = light;
     state.lights = [light, ...state.lights];
   },
   addLights(state, lights) {
-    state.lights = [...lights, ...state.lights];
+    state.lights = [...state.lights, ...lights];
   },
   addLike(state, lightId) {
     state.lights.forEach((light) => {
@@ -54,7 +68,6 @@ export const actions = {
         commit("setIsTherePrevPage", res.data.data.prev_page_url ? true : false);
       })
       .catch((err) => {
-        console.log(err.response);
       });
   },
   setLights({ commit }, lights) {
@@ -75,7 +88,6 @@ export const actions = {
       arr.splice(obj.index, 1);
       commit("setLights", arr);
     } catch (e) {
-      console.log(e.response);
     }
 
   }
