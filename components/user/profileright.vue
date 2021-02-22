@@ -82,6 +82,9 @@ export default {
 <style lang="scss" scoped>
 .active {
   background-color: #eb596e;
+  &:hover {
+    box-shadow: 0 0 0 3px rgb(235 89 110 / 40%) !important;
+  }
 }
 .rightside_container {
   width: 100%;
@@ -111,6 +114,7 @@ export default {
     border-bottom: 1px solid #ddd;
     padding-bottom: 15px;
     .btn_profile {
+      /* rgb(239, 239, 239) */
       transition: 0.5s;
       width: 48%;
       padding: 5px 10px;
@@ -118,6 +122,10 @@ export default {
       border: none;
       line-height: 1.5;
       cursor: pointer;
+      &:hover {
+        box-shadow: 0 0 0 3px rgb(239 239 239 / 72%);
+        transition: 0.2s;
+      }
     }
   }
   .profile_info {
