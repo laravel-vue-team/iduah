@@ -6,7 +6,6 @@
 </template>
 <script>
 export default {
-  middleware: "authenticated",
   created() {
     if (process.client) {
       this.$store.commit("auth/setIsLoading", false);
