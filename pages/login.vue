@@ -96,6 +96,7 @@ export default {
       this.$axios
         .post("/api/login", data)
         .then((res) => {
+          this.$router.push("/profile");
           const { token, user } = res.data.data;
           let userData = JSON.stringify(user);
           if (this.rememberMe) {
@@ -107,7 +108,6 @@ export default {
           }
           this.$store.dispatch("auth/setUser", user);
           this.$store.dispatch("auth/setToken", token);
-          this.$router.push("/profile");
           submitButton.innerText = "دخول";
           submitButton.disabled = false;
         })
