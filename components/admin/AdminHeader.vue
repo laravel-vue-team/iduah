@@ -159,6 +159,9 @@ export default {
       display: flex;
       align-items: center;
     }
+    .welcome {
+      margin-left: 10px;
+    }
     .notifications_container {
       position: absolute;
       top: 100%;
