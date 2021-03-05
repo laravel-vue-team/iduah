@@ -13,7 +13,7 @@ html {
   -webkit-font-smoothing: antialiased;
   background-color: #fbfbfb;
   line-height: 1.5;
-  font-family: 'hanimation-regular';
+  font-family: "hanimation-regular" !important;
 }
 
 *,
@@ -26,9 +26,12 @@ html {
   padding: 0;
   outline: none;
 }
+*:not(i){
+  font-family: "hanimation-regular" !important;
+}
 
 .container_hg{
-  min-height: calc(100vh - 50px);
+  // min-height: calc(100vh - 50px);
 }
 .container_responsive_wrapper{
   @media screen and (min-width: 1440px){
