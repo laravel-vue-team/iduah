@@ -8,10 +8,7 @@
       src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v9.0"
       nonce="TO1sdJNB"
     ></script> -->
-    <div
-      v-show="articles.length === 0"
-      class="spinner"
-    >
+    <div v-show="articles.length === 0" class="spinner">
       <!-- style="position: absolute" -->
       <spinner />
     </div>
@@ -350,6 +347,7 @@ export default {
       .content {
         line-height: 1.7;
         font-size: 18px;
+        word-break: break-word;
       }
     }
     .article_controls {
