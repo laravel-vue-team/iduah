@@ -61,7 +61,6 @@ export default {
     this.isNextLoading = false;
     this.isPrevLoading = false;
   },
-  middleware: "authenticated",
   computed: {
     users() {
       this.isLoading = true;
