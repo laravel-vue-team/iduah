@@ -20,7 +20,6 @@
       :data-index="item.id"
       :data-id="item.id"
       :data-arr-index="index"
-      @click="goToLightPage({ id: item.id, index, title: item.title })"
     >
       <!-- article header -->
       <div class="article_header">
@@ -39,7 +38,10 @@
 
       <!-- article content -->
 
-      <div class="artcile_content">
+      <div
+        class="artcile_content"
+        @click="goToLightPage({ id: item.id, index, title: item.title })"
+      >
         <p class="content">
           {{ item.description }}
         </p>
@@ -318,7 +320,7 @@ export default {
   width: 100%;
   margin: 10vh 0;
 }
-.add-lights-btn {
+/* .add-lights-btn {
   padding: 4px 15px;
   border-radius: 5px;
   width: 100%;
@@ -344,7 +346,7 @@ export default {
       box-shadow: none;
     }
   }
-}
+} */
 .articles_container {
   margin-bottom: 50px;
   align-items: flex-start;
@@ -358,7 +360,6 @@ export default {
   position: relative;
   padding: 0 10px;
   .article_box {
-    cursor: pointer;
     width: 100%;
     padding: 10px;
     background-color: #fff;
@@ -379,6 +380,7 @@ export default {
       }
     }
     .artcile_content {
+      cursor: pointer;
       padding: 10px;
       border-radius: 5px;
       background-color: #fbfbfb;
@@ -386,6 +388,7 @@ export default {
       .content {
         line-height: 1.7;
         font-size: 18px;
+        word-break: break-word;
       }
     }
     .article_controls {
