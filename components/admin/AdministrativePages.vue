@@ -138,11 +138,12 @@ export default {
 <style lang="scss" scoped>
 .spinner {
   position: absolute;
-  margin: 2vh auto;
+  margin: auto;
   width: 100%;
   z-index: 9999;
   & > div {
     height: 137px;
+    padding: 4.5vh 0;
   }
 }
 .container_page {
